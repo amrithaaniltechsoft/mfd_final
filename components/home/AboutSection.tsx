@@ -50,12 +50,12 @@ const CardBottomGradient = ({ isGreenBg = false }: { isGreenBg?: boolean }) => (
 
 export default function AboutSection() {
   const machineImages = [
-    "/machines/WhatsApp Image 2026-08-23 at 1.23.20 PM (1).jpeg",
-    "/machines/WhatsApp Image 2026-08-23 at 1.23.20 PM (2).jpeg",
-    "/machines/WhatsApp Image 2026-08-23 at 1.23.20 PM (3).jpeg",
-    "/machines/WhatsApp Image 2026-08-23 at 1.23.20 PM.jpeg",
-    "/machines/WhatsApp Image 2026-08-23 at 1.23.21 PM (1).jpeg",
-    "/machines/WhatsApp Image 2026-08-23 at 1.23.21 PM.jpeg",
+    "/machines/m1.jpg",
+    "/machines/m2.jpg",
+    "/machines/m3.jpg",
+    "/machines/m4.jpg",
+    "/machines/m5.jpg",
+    "/machines/m6.jpg",
   ];
 
   return (
