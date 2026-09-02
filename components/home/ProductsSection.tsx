@@ -1,15 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import SvgDice from "../global/SvgDice";
 import Button from "../ui/Button";
-import { ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from "lucide-react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import type { Swiper as SwiperClass } from "swiper";
-
-import "swiper/css";
+import { ArrowRight, Grid } from "lucide-react";
 
 // Full-Width Organic Vector Wave Background Component (Light Theme Version)
 const WaveCardPattern = () => (
@@ -40,14 +35,10 @@ const WaveCardPattern = () => (
 
 // Green Bottom Ambient Gradient Overlay (Seamless Full Card Coverage)
 const CardBottomGradient = () => (
-  <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#526E07]/25 via-transparent to-transparent pointer-events-none rounded-2xl group-hover:from-[#526E07]/40 transition-all duration-500" />
+  <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#526E07]/15 via-transparent to-transparent pointer-events-none rounded-2xl group-hover:from-[#526E07]/40 transition-all duration-500" />
 );
 
 export default function ProductsSection() {
-  const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
-
   const scrollToQuote = () => {
     const el = document.getElementById("quote-section");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -120,22 +111,17 @@ export default function ProductsSection() {
       title: "Custom Form Mould Core",
       desc: "Tailored industrial mould core produced according to exact client CAD specifications.",
     },
+    {
+      image: "/products/p9.jpg",
+      tag: "ASSEMBLY TOOLING",
+      title: "Precision Tool Assembly Component",
+      desc: "Custom fitted die tooling component with micro-finished surfaces for tight tolerances.",
+    },
   ];
-
-  const toggleAutoplay = () => {
-    if (!swiperRef || !swiperRef.autoplay) return;
-    if (isPlaying) {
-      swiperRef.autoplay.stop();
-      setIsPlaying(false);
-    } else {
-      swiperRef.autoplay.start();
-      setIsPlaying(true);
-    }
-  };
 
   return (
     <section id="products" className="w-full bg-[#f3f4f6] text-black py-20 lg:py-24 relative overflow-hidden">
-      
+
       {/* 3D Rotating Dice Slot in Background of Products Section */}
       <div
         id="products-dice-slot"
@@ -143,7 +129,7 @@ export default function ProductsSection() {
       />
 
       <div className="max-w-7xl mx-auto px-6 space-y-14 relative z-10">
-        
+
         {/* Section Header */}
         <div className="space-y-4 max-w-3xl mx-auto text-center flex flex-col items-center">
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white rounded-full border border-zinc-300 shadow-xs">
@@ -156,160 +142,85 @@ export default function ProductsSection() {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-black leading-[1.15]">
             Precision Tooling <span className="text-[#526E07]">& Die Mould Showcase</span>
           </h2>
-          <p className="text-base sm:text-lg text-zinc-900 font-medium max-w-xl mx-auto">
-            Custom engineered moulds, stamping dies, and industrial tool assemblies fabricated to rigid tolerances.
-          </p>
         </div>
 
-        {/* Apple-Style Horizontal Carousel Display (Showing 4 Cards at a time) */}
-        <div className="relative w-full overflow-hidden">
-          
-          <Swiper
-            modules={[Autoplay]}
-            onSwiper={setSwiperRef}
-            onSlideChange={(s) => setActiveIndex(s.realIndex)}
-            slidesPerView={1.15}
-            spaceBetween={20}
-            loop={true}
-            speed={700}
-            autoplay={{
-              delay: 3500,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            grabCursor={true}
-            breakpoints={{
-              640: {
-                slidesPerView: 2.2,
-                spaceBetween: 24,
-              },
-              1024: {
-                slidesPerView: 4,
-                spaceBetween: 24,
-              },
-            }}
-            className="w-full products-swiper py-3"
-          >
-            {products.map((item, idx) => (
-              <SwiperSlide key={idx} className="!h-auto">
-                
-                {/* Product Card */}
-                <div className="group relative bg-white rounded-2xl overflow-hidden flex flex-col justify-between h-full border border-zinc-200/90 hover:border-zinc-300 transition-all duration-500 shadow-md hover:shadow-xl text-black">
-                  
-                  {/* Card Background Wave & Green Ambient Overlay */}
-                  <WaveCardPattern />
-                  <CardBottomGradient />
+        {/* Product Cards Grid (3 Columns) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {products.map((item, idx) => (
+            <div key={idx} className="group relative bg-white rounded-2xl overflow-hidden flex flex-col justify-between h-full border border-zinc-200/90 hover:border-zinc-300 transition-all duration-500 shadow-md hover:shadow-xl text-black">
 
-                  <div className="space-y-4">
-                    
-                    {/* Top Image Container */}
-                    <div className="relative aspect-[16/11] w-full overflow-hidden bg-zinc-100">
-                      
-                      {/* Product Image with Vintage Filter */}
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-cover sepia-[0.35] contrast-[1.2] brightness-[0.9] saturate-[0.85] group-hover:sepia-0 group-hover:brightness-100 group-hover:saturate-100 group-hover:scale-105 transition-all duration-700"
-                      />
+              {/* Card Background Wave & Green Ambient Overlay */}
+              <WaveCardPattern />
+              <CardBottomGradient />
 
-                      {/* Vintage Film Grain Overlay */}
-                      <div
-                        className="absolute inset-0 opacity-25 mix-blend-overlay pointer-events-none z-10"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                        }}
-                      />
+              <div className="space-y-4">
 
-                      {/* Category Tag Badge */}
-                      <div className="absolute top-3 left-3 px-2.5 py-0.5 bg-white/95 backdrop-blur-md rounded-md text-[11px] font-bold text-[#526E07] tracking-wider z-20 border border-zinc-200 shadow-xs">
-                        {item.tag}
-                      </div>
+                {/* Top Image Container */}
+                <div className="relative aspect-[16/11] w-full overflow-hidden bg-zinc-100">
 
-                    </div>
+                  {/* Product Image with Vintage Filter */}
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover sepia-[0.35] contrast-[1.2] brightness-[0.9] saturate-[0.85] group-hover:sepia-0 group-hover:brightness-100 group-hover:saturate-100 group-hover:scale-105 transition-all duration-700"
+                  />
 
-                    {/* Card Content Details */}
-                    <div className="p-5 space-y-2.5 relative z-20 text-left">
-                      <h3 className="text-lg font-bold text-black tracking-tight leading-snug group-hover:text-[#526E07] transition-colors line-clamp-2">
-                        {item.title}
-                      </h3>
+                  {/* Vintage Film Grain Overlay */}
+                  <div
+                    className="absolute inset-0 opacity-25 mix-blend-overlay pointer-events-none z-10"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                    }}
+                  />
 
-                      <p className="text-xs sm:text-sm text-zinc-900 font-medium leading-relaxed line-clamp-2">
-                        {item.desc}
-                      </p>
-                    </div>
-
-                  </div>
-
-                  {/* Card Bottom: "Know More" Tertiary Link Button (No Box Around) */}
-                  <div className="p-5 pt-0 relative z-20">
-                    <button
-                      onClick={scrollToQuote}
-                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#526E07] hover:text-[#3f5505] transition-colors cursor-pointer group/btn focus:outline-none"
-                    >
-                      <span>Know More</span>
-                      <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                    </button>
+                  {/* Category Tag Badge */}
+                  <div className="absolute top-3 left-3 px-2.5 py-0.5 bg-white/95 backdrop-blur-md rounded-md text-[11px] font-bold text-[#526E07] tracking-wider z-20 border border-zinc-200 shadow-xs">
+                    {item.tag}
                   </div>
 
                 </div>
 
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                {/* Card Content Details */}
+                <div className="p-5 space-y-2.5 relative z-20 text-left">
+                  <h3 className="text-lg font-bold tracking-tight leading-snug group-hover:text-[#526E07] transition-colors line-clamp-2">
+                    {item.title}
+                  </h3>
 
-          {/* Apple-Style Carousel Controls Below Cards */}
-          <div className="flex items-center justify-center gap-4 sm:gap-6 pt-6">
-            
-            {/* Play/Pause Button */}
-            <button
-              onClick={toggleAutoplay}
-              className="p-3 bg-white hover:bg-zinc-100 text-black rounded-full border border-zinc-300 shadow-xs transition-colors focus:outline-none cursor-pointer"
-              title={isPlaying ? "Pause Autoplay" : "Start Autoplay"}
-              aria-label={isPlaying ? "Pause Autoplay" : "Start Autoplay"}
-            >
-              {isPlaying ? <Pause className="w-4 h-4 text-black" /> : <Play className="w-4 h-4 text-black" />}
-            </button>
+                  <p className="text-xs sm:text-sm text-zinc-900 font-medium leading-relaxed line-clamp-2">
+                    {item.desc}
+                  </p>
+                </div>
 
-            {/* Apple Pill Page Indicator Dots */}
-            <div className="flex items-center gap-2 px-4 py-2.5 bg-white backdrop-blur-md rounded-full border border-zinc-300 shadow-xs">
-              {products.map((_, i) => (
+              </div>
+
+              {/* Card Bottom: "Know More" Tertiary Link Button (No Box Around) */}
+              <div className="p-5 pt-0 relative z-20">
                 <button
-                  key={i}
-                  onClick={() => swiperRef?.slideToLoop(i)}
-                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    activeIndex === i
-                      ? "w-7 bg-[#526E07]"
-                      : "w-2.5 bg-zinc-300 hover:bg-zinc-400"
-                  }`}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
-              ))}
+                  onClick={scrollToQuote}
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#526E07] hover:text-[#3f5505] transition-colors cursor-pointer group/btn focus:outline-none"
+                >
+                  <span>Know More</span>
+                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                </button>
+              </div>
+
             </div>
+          ))}
+        </div>
 
-            {/* Prev / Next Navigation Arrow Buttons */}
-            <div className="flex items-center gap-2">
-              <Button
-                onClick={() => swiperRef?.slidePrev()}
-                variant="ghost"
-                aria-label="Previous product"
-                className="!bg-white !text-black !border-zinc-300 hover:!bg-zinc-100"
-              >
-                <ChevronLeft className="w-4.5 h-4.5" />
-              </Button>
-              <Button
-                onClick={() => swiperRef?.slideNext()}
-                variant="ghost"
-                aria-label="Next product"
-                className="!bg-white !text-black !border-zinc-300 hover:!bg-zinc-100"
-              >
-                <ChevronRight className="w-4.5 h-4.5" />
-              </Button>
-            </div>
-
-          </div>
-
+        {/* View All Button */}
+        <div className="flex items-center justify-center pt-8">
+          <Button
+            onClick={scrollToQuote}
+            variant="primary"
+            size="lg"
+            icon={<ArrowRight className="w-4 h-4" />}
+            iconPosition="right"
+          >
+            View All Products
+          </Button>
         </div>
 
       </div>

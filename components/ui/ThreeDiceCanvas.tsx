@@ -236,7 +236,7 @@ export default function ThreeDiceCanvas() {
     // Die 1 Mesh (Foreground - Front Right)
     const geometry1 = new RoundedBoxGeometry(3.1, 3.1, 3.1, 7, 0.38);
     const dice1 = new THREE.Mesh(geometry1, materials1);
-    dice1.position.set(0.75, -0.1, 0.8);
+    dice1.position.set(0.9, -0.2, 1.4);
     dice1.rotation.x = Math.PI / 6;
     dice1.rotation.y = Math.PI / 4;
     dice1.castShadow = true;
@@ -246,7 +246,7 @@ export default function ThreeDiceCanvas() {
     // Die 2 Mesh (Background - Top Left Behind Die 1)
     const geometry2 = new RoundedBoxGeometry(2.8, 2.8, 2.8, 7, 0.35);
     const dice2 = new THREE.Mesh(geometry2, materials2);
-    dice2.position.set(-1.15, 1.25, -0.2);
+    dice2.position.set(-1.1, 1.3, -1.8);
     dice2.rotation.x = Math.PI / 4.5;
     dice2.rotation.y = -Math.PI / 5;
     dice2.castShadow = true;
@@ -357,7 +357,7 @@ export default function ThreeDiceCanvas() {
     <div
       ref={containerRef}
       style={transformStyle}
-      className="w-full max-w-[700px] h-[440px] sm:h-[520px] lg:h-[580px] flex items-center justify-center relative cursor-grab active:cursor-grabbing"
+      className="w-full max-w-[900px] h-[440px] sm:h-[520px] lg:h-[580px] flex items-center justify-center relative cursor-grab active:cursor-grabbing"
     />
   );
 }
