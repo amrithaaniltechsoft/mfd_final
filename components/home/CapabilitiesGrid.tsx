@@ -110,7 +110,7 @@ export default function CapabilitiesGrid() {
           {capabilities.map((item, idx) => (
             <div
               key={idx}
-              className="group relative bg-[#f3f4f6] rounded-xl p-7 sm:p-8 flex flex-col justify-between min-h-[340px] sm:min-h-[380px] hover:bg-[#e5e7eb] transition-all space-y-6 text-black shadow-sm border border-zinc-200/90 overflow-hidden"
+              className="group relative bg-[#f3f4f6] rounded-xl p-6 sm:p-7 flex flex-col justify-between min-h-[320px] hover:bg-[#e5e7eb] transition-all space-y-5 text-black shadow-sm border border-zinc-200/90 overflow-hidden"
             >
               {/* Full-Width Organic Wave Background Pattern */}
               <WaveCardPattern />
@@ -118,29 +118,29 @@ export default function CapabilitiesGrid() {
               {/* Bottom Green Ambient Gradient Overlay */}
               <CardBottomGradient />
 
-              <div className="space-y-5 z-10">
+              <div className="space-y-4 z-10">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800">
+                  <span className="text-[11px] font-bold tracking-wider text-zinc-700">
                     {item.tag}
                   </span>
                   {item.icon}
                 </div>
 
-                <div className="space-y-3">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-black tracking-tight leading-tight">
+                <div className="space-y-2.5">
+                  <h3 className="text-xl sm:text-2xl font-bold text-black tracking-tight leading-tight">
                     {item.title}
                   </h3>
-                  <p className="text-base text-zinc-900 font-medium leading-relaxed">
+                  <p className="text-xs sm:text-sm text-zinc-900 font-medium leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
               </div>
 
               {/* Bullet Points */}
-              <div className="space-y-2.5 pt-3 border-t border-zinc-300 z-10">
+              <div className="space-y-2 pt-3 border-t border-zinc-300 z-10">
                 {item.bullets.map((bullet, i) => (
-                  <div key={i} className="flex items-center gap-2.5 text-sm sm:text-base font-semibold text-black">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#526E07]" />
+                  <div key={i} className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-black">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#526E07] shrink-0" />
                     <span>{bullet}</span>
                   </div>
                 ))}
@@ -148,6 +148,7 @@ export default function CapabilitiesGrid() {
             </div>
           ))}
         </div>
+
 
       </div>
     </section>

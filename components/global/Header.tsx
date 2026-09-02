@@ -2,27 +2,46 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import SvgDice from "./SvgDice";
 import Button from "../ui/Button";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
+    if (id === "hero") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
+  const productDropdownItems = [
+    "Stamping Die Blocks",
+    "Progressive Moulds",
+    "Carbide Insert Tooling",
+    "Injection Mould Cores",
+    "Profile Extrusion Dies",
+    "Hot Forging Dies",
+  ];
+
   return (
     <header className="sticky top-0 z-50 w-full bg-black/95 backdrop-blur-md border-b border-[#222222]">
       <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
         
         {/* Left: Official Company Logo PNG */}
-        <a href="#" className="flex items-center gap-3 group focus:outline-none">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToSection("hero");
+          }}
+          className="flex items-center gap-3 group focus:outline-none"
+        >
           <div className="relative flex items-center">
             <Image
               src="/logo/logo2.png"
@@ -35,37 +54,63 @@ export default function Header() {
           </div>
         </a>
 
-        {/* Center Navigation Links (Matching Clean Title Case Style) */}
-        <nav className="hidden md:flex items-center gap-7">
+        {/* Center Navigation Links: Home, About Us, Products (Dropdown), Contact Us */}
+        <nav className="hidden md:flex items-center gap-8">
+          <button
+            onClick={() => scrollToSection("hero")}
+            className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
+          >
+            Home
+          </button>
+          
           <button
             onClick={() => scrollToSection("about-us")}
             className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
           >
             About Us
           </button>
-          <button
-            onClick={() => scrollToSection("capabilities")}
-            className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
-          >
-            Core Expertise
-          </button>
-          <button
-            onClick={() => scrollToSection("trust-bar")}
-            className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
-          >
-            Why Choose Us
-          </button>
-          <button
-            onClick={() => scrollToSection("trust-bar")}
-            className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
-          >
-            Testimonials
-          </button>
+
+          {/* Products Dropdown Menu Container */}
+          <div className="relative group">
+            <button
+              onClick={() => scrollToSection("products")}
+              className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer py-2"
+            >
+              <span>Products</span>
+              <ChevronDown className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:rotate-180 transition-transform duration-300" />
+            </button>
+
+            {/* Dropdown Menu Popup Box (Clean Names + Box-less View All Products button) */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-56 bg-[#0d0d0d] border border-zinc-800 rounded-xl p-2 shadow-2xl backdrop-blur-md opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 z-50">
+              <div className="space-y-0.5">
+                {productDropdownItems.map((name, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => scrollToSection("products")}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-[#1a1a1a] text-xs font-semibold text-zinc-200 hover:text-[#A3E635] transition-colors focus:outline-none cursor-pointer"
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+
+              <div className="pt-2 border-t border-zinc-800/80 mt-1">
+                <button
+                  onClick={() => scrollToSection("products")}
+                  className="w-full py-1.5 px-3 text-left text-xs font-bold text-[#A3E635] hover:text-white transition-colors cursor-pointer focus:outline-none"
+                >
+                  View All Products &rarr;
+                </button>
+              </div>
+            </div>
+
+          </div>
+
           <button
             onClick={() => scrollToSection("quote-section")}
             className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
           >
-            Contact Info
+            Contact Us
           </button>
         </nav>
 
@@ -98,34 +143,44 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-black/95 border-b border-[#222222] px-6 py-6 space-y-4">
           <button
+            onClick={() => scrollToSection("hero")}
+            className="block w-full text-left text-sm font-semibold tracking-wide text-zinc-100 hover:text-white py-3 border-b border-[#1a1a1a]"
+          >
+            Home
+          </button>
+          <button
             onClick={() => scrollToSection("about-us")}
             className="block w-full text-left text-sm font-semibold tracking-wide text-zinc-100 hover:text-white py-3 border-b border-[#1a1a1a]"
           >
             About Us
           </button>
-          <button
-            onClick={() => scrollToSection("capabilities")}
-            className="block w-full text-left text-sm font-semibold tracking-wide text-zinc-100 hover:text-white py-3 border-b border-[#1a1a1a]"
-          >
-            Core Expertise
-          </button>
-          <button
-            onClick={() => scrollToSection("trust-bar")}
-            className="block w-full text-left text-sm font-semibold tracking-wide text-zinc-100 hover:text-white py-3 border-b border-[#1a1a1a]"
-          >
-            Why Choose Us
-          </button>
-          <button
-            onClick={() => scrollToSection("trust-bar")}
-            className="block w-full text-left text-sm font-semibold tracking-wide text-zinc-100 hover:text-white py-3 border-b border-[#1a1a1a]"
-          >
-            Testimonials
-          </button>
+          
+          {/* Mobile Products Sub-menu */}
+          <div className="py-2 border-b border-[#1a1a1a] space-y-2">
+            <button
+              onClick={() => scrollToSection("products")}
+              className="block w-full text-left text-sm font-semibold tracking-wide text-zinc-100 hover:text-white"
+            >
+              Products
+            </button>
+            <div className="pl-4 space-y-1.5">
+              {productDropdownItems.map((name, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => scrollToSection("products")}
+                  className="block text-xs text-zinc-400 hover:text-[#A3E635]"
+                >
+                  • {name}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <button
             onClick={() => scrollToSection("quote-section")}
             className="block w-full text-left text-sm font-semibold tracking-wide text-zinc-100 hover:text-white py-3 border-b border-[#1a1a1a]"
           >
-            Contact Info
+            Contact Us
           </button>
 
           <Button

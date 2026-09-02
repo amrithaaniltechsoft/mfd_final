@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import SvgDice from "./SvgDice";
 import Button from "../ui/Button";
 import { MapPin, ChevronRight, ArrowUp } from "lucide-react";
 
@@ -13,32 +12,38 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const scrollToQuote = () => {
-    const el = document.getElementById("quote-section");
+  const scrollToSection = (id: string) => {
+    if (id === "hero") {
+      scrollToTop();
+      return;
+    }
+    const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <footer className="w-full bg-black text-white relative overflow-hidden border-t border-[#222222]">
-      
+    <footer className="w-full bg-black text-white relative overflow-hidden">
+
       {/* 1. TOP HERO CTA BLOCK */}
       <div className="relative w-full py-20 sm:py-28 px-6 text-center bg-gradient-to-b from-black via-[#0a1204] to-black">
-        
+
         {/* Ambient Top Light Beam Effect */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-64 bg-[#526E07]/20 blur-[100px] pointer-events-none rounded-full" />
 
         <div className="max-w-3xl mx-auto space-y-6 relative z-10 flex flex-col items-center">
-          
+
           {/* Top Center Hero Visual Logo Image */}
           <div className="relative w-80 sm:w-[420px] lg:w-[480px] h-28 sm:h-36 lg:h-40 transition-transform duration-300 hover:scale-105">
             <Image
               src="/logo/logo2.png"
               alt="Master Form Dies Hero Logo Visual"
               fill
+              sizes="(max-width: 640px) 320px, (max-width: 1024px) 420px, 480px"
               className="object-contain object-center brightness-110"
               priority
             />
           </div>
+
 
           {/* Headline & Inquiries Subtitle */}
           <div className="space-y-3">
@@ -52,7 +57,7 @@ export default function Footer() {
 
           {/* Secondary White Variant Reusable Button */}
           <Button
-            onClick={scrollToQuote}
+            onClick={() => scrollToSection("quote-section")}
             variant="secondary"
             size="md"
             icon={<ChevronRight className="w-4 h-4 text-black" />}
@@ -66,14 +71,14 @@ export default function Footer() {
 
       {/* 2. MIDDLE FOOTER NAVIGATION GRID */}
       <div className="max-w-7xl mx-auto px-6 py-16">
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#1f1f1f]">
-          
+
           {/* Column 1: Exact Official Address */}
           <div className="space-y-4">
             <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
               <MapPin className="w-4 h-4 text-[#A3E635]" />
-              <span>Contact Information</span>
+              <span>Contact Us</span>
             </h4>
 
             <div className="text-xs sm:text-sm text-zinc-100 space-y-1 leading-relaxed font-mono">
@@ -90,30 +95,33 @@ export default function Footer() {
             <p className="text-xs sm:text-sm text-zinc-200 font-normal leading-relaxed">
               Specializing in delivering high-precision engineering solutions, high-grade die manufacturing, and custom tooling designed to meet the rigorous demands of modern manufacturing.
             </p>
-            <a href="#about-us" className="inline-block text-xs sm:text-sm font-semibold text-white hover:text-[#A3E635] transition-colors pt-1">
+            <button
+              onClick={() => scrollToSection("about-us")}
+              className="inline-block text-xs sm:text-sm font-semibold text-white hover:text-[#A3E635] transition-colors pt-1 cursor-pointer"
+            >
               Read About Us &rarr;
-            </a>
+            </button>
           </div>
 
-          {/* Column 3: Core Expertise */}
+          {/* Column 3: Products */}
           <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white">Core Expertise</h4>
+            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white">Products</h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
-              <li><a href="#capabilities" className="hover:text-white transition-colors">Precision Die Manufacturing</a></li>
-              <li><a href="#capabilities" className="hover:text-white transition-colors">Tooling & Mold Design</a></li>
-              <li><a href="#capabilities" className="hover:text-white transition-colors">Custom Metal Working & Machining</a></li>
-              <li><a href="#capabilities" className="hover:text-white transition-colors">Component Prototyping</a></li>
+              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Stamping Die Blocks</button></li>
+              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Progressive Moulds</button></li>
+              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Tungsten Carbide Tools</button></li>
+              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Injection Mould Cores</button></li>
             </ul>
           </div>
 
-          {/* Column 4: Why Choose Us & Testimonials */}
+          {/* Column 4: Quick Navigation & Location */}
           <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white">Why Choose Us</h4>
+            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white">Quick Links</h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
-              <li><a href="#trust-bar" className="hover:text-white transition-colors">Uncompromised Quality</a></li>
-              <li><a href="#trust-bar" className="hover:text-white transition-colors">Technical Proficiency</a></li>
-              <li><a href="#trust-bar" className="hover:text-white transition-colors">Client Testimonials & Feedback</a></li>
-              <li><a href="#trust-bar" className="hover:text-white transition-colors">Strategic Location</a></li>
+              <li><button onClick={() => scrollToSection("hero")} className="hover:text-white transition-colors cursor-pointer">Home</button></li>
+              <li><button onClick={() => scrollToSection("about-us")} className="hover:text-white transition-colors cursor-pointer">About Us</button></li>
+              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Products</button></li>
+              <li><button onClick={() => scrollToSection("quote-section")} className="hover:text-white transition-colors cursor-pointer">Contact Us</button></li>
               <li><button onClick={() => setMapModalOpen(true)} className="hover:text-[#A3E635] transition-colors text-left font-semibold text-white cursor-pointer">View Ernakulam Facility Map</button></li>
             </ul>
           </div>
@@ -127,12 +135,11 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center gap-6">
-            <a href="#about-us" className="hover:text-white transition-colors">About Us</a>
-            <a href="#capabilities" className="hover:text-white transition-colors">Core Expertise</a>
-            <a href="#trust-bar" className="hover:text-white transition-colors">Why Choose Us</a>
-            <a href="#trust-bar" className="hover:text-white transition-colors">Testimonials</a>
-            <a href="#quote-section" className="hover:text-white transition-colors">Contact Information</a>
-            
+            <button onClick={() => scrollToSection("hero")} className="hover:text-white transition-colors cursor-pointer">Home</button>
+            <button onClick={() => scrollToSection("about-us")} className="hover:text-white transition-colors cursor-pointer">About Us</button>
+            <button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Products</button>
+            <button onClick={() => scrollToSection("quote-section")} className="hover:text-white transition-colors cursor-pointer">Contact Us</button>
+
             <Button
               onClick={scrollToTop}
               variant="iconOnly"

@@ -13,9 +13,8 @@ import "swiper/css/free-mode";
 // Full-Width Organic Vector Wave Background Component for Bento Cards
 const WaveCardPattern = ({ isGreenBg = false }: { isGreenBg?: boolean }) => (
   <svg
-    className={`absolute inset-0 w-full h-full pointer-events-none ${
-      isGreenBg ? "text-white opacity-[0.14] group-hover:opacity-25" : "text-[#526E07] opacity-[0.10] group-hover:opacity-20"
-    } transition-opacity duration-500 overflow-hidden`}
+    className={`absolute inset-0 w-full h-full pointer-events-none ${isGreenBg ? "text-white opacity-[0.14] group-hover:opacity-25" : "text-[#526E07] opacity-[0.10] group-hover:opacity-20"
+      } transition-opacity duration-500 overflow-hidden`}
     viewBox="0 0 600 300"
     preserveAspectRatio="none"
     fill="none"
@@ -42,11 +41,10 @@ const WaveCardPattern = ({ isGreenBg = false }: { isGreenBg?: boolean }) => (
 // Green Bottom Ambient Gradient Overlay (Seamless Full Card Coverage)
 const CardBottomGradient = ({ isGreenBg = false }: { isGreenBg?: boolean }) => (
   <div
-    className={`absolute inset-0 w-full h-full pointer-events-none rounded-xl transition-all duration-500 ${
-      isGreenBg
-        ? "bg-gradient-to-t from-black/40 via-transparent to-transparent"
-        : "bg-gradient-to-t from-[#526E07]/30 via-transparent to-transparent group-hover:from-[#526E07]/45"
-    }`}
+    className={`absolute inset-0 w-full h-full pointer-events-none rounded-xl transition-all duration-500 ${isGreenBg
+      ? "bg-gradient-to-t from-black/40 via-transparent to-transparent"
+      : "bg-gradient-to-t from-[#526E07]/30 via-transparent to-transparent group-hover:from-[#526E07]/45"
+      }`}
   />
 );
 
@@ -81,11 +79,28 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
 
           {/* Card 1: Primary Specialization */}
-          <div className="group md:col-span-8 bg-[#526E07] rounded-xl p-6 sm:p-8 flex flex-col justify-between hover:bg-[#3f5505] transition-all space-y-6 text-white shadow-md relative overflow-hidden">
-            <WaveCardPattern isGreenBg={true} />
-            <CardBottomGradient isGreenBg={true} />
+          <div className="group md:col-span-8 rounded-xl p-6 sm:p-8 flex flex-col justify-between transition-all space-y-6 text-white shadow-md relative overflow-hidden min-h-[300px]">
+            {/* Background Image */}
+            <Image
+              src="/about-home/card-bg2.png"
+              alt="Master Form Dies Specialization Background"
+              fill
+              sizes="(max-width: 768px) 100vw, 66vw"
+              className="object-cover object-center z-0 group-hover:scale-105 transition-transform duration-700"
+              priority
+            />
+            {/* Brand Green Overlay Anchored Solidly at Bottom Edge (0%-65% Solid #526E07) */}
+            <div
+              className="absolute inset-0 w-full h-full pointer-events-none z-[1] rounded-xl"
+              style={{
+                background:
+                  "linear-gradient(to top, #010200ce 0%, #0a0e00b7 65%, rgba(9, 12, 0, 0.29) 85%, rgba(0, 0, 0, 0.3) 100%)",
+              }}
+            />
 
-            <div className="space-y-4 z-10">
+
+
+            <div className="space-y-4 z-10 relative">
               <div className="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-white">
                 <Sparkles className="w-4.5 h-4.5 text-white" />
                 SPECIALIZATION OVERVIEW
@@ -95,7 +110,7 @@ export default function AboutSection() {
               </p>
             </div>
 
-            <div className="text-xs sm:text-sm font-semibold text-white pt-2 z-10">
+            <div className="text-xs sm:text-sm font-semibold text-white/90 pt-2 z-10 relative">
               Mannathoor, Ernakulam, Kerala • Industrial Tooling & Die Manufacturing
             </div>
           </div>
@@ -185,7 +200,7 @@ export default function AboutSection() {
 
         {/* Continuous 3D Draggable Machine Carousel */}
         <div className="pt-8 relative w-full overflow-hidden">
-          
+
           <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-12 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
@@ -218,7 +233,7 @@ export default function AboutSection() {
             {machineImages.map((src, idx) => (
               <SwiperSlide key={idx} className="!h-auto">
                 <div className="group relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-zinc-100 shadow-xl transform-gpu hover:-translate-y-2 transition-all duration-500 cursor-grab active:cursor-grabbing">
-                  
+
                   {/* Vintage Image Filter */}
                   <Image
                     src={src}

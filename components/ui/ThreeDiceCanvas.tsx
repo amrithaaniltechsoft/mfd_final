@@ -25,6 +25,7 @@ export default function ThreeDiceCanvas() {
 
     const waypointIds = [
       "hero-dice-slot",
+      "products-dice-slot",
       "dice-target-slot",
       "capabilities-dice-slot",
       "trust-dice-slot",
@@ -33,103 +34,113 @@ export default function ThreeDiceCanvas() {
       "cta-dice-slot",
     ];
 
+    let scrollTicking = false;
+
     const handleScroll = () => {
-      const scrollY = window.scrollY || window.pageYOffset;
-      const scrollDelta = scrollY - lastScrollY;
-      lastScrollY = scrollY;
+      if (!scrollTicking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY || window.pageYOffset;
+          const scrollDelta = scrollY - lastScrollY;
+          lastScrollY = scrollY;
 
-      // Add dynamic rolling rotational speed based on scroll velocity
-      rotationOffsetRef.current.x += scrollDelta * 0.008;
-      rotationOffsetRef.current.y += scrollDelta * 0.008;
+          // Add dynamic rolling rotational speed based on scroll velocity
+          rotationOffsetRef.current.x += scrollDelta * 0.008;
+          rotationOffsetRef.current.y += scrollDelta * 0.008;
 
-      const heroSlot = document.getElementById("hero-dice-slot");
-      if (!heroSlot) return;
+          const heroSlot = document.getElementById("hero-dice-slot");
+          if (!heroSlot) {
+            scrollTicking = false;
+            return;
+          }
 
-      const heroRect = heroSlot.getBoundingClientRect();
-      const heroCenterX = heroRect.left + heroRect.width / 2;
-      const heroCenterY = heroRect.top + heroRect.height / 2;
+          const heroRect = heroSlot.getBoundingClientRect();
+          const heroCenterX = heroRect.left + heroRect.width / 2;
+          const heroCenterY = heroRect.top + heroRect.height / 2;
 
-      // Calculate absolute document positions for all active waypoints
-      const points: { x: number; y: number; scale: number; scrollPos: number }[] = [];
+          // Calculate absolute document positions for all active waypoints
+          const points: { x: number; y: number; scale: number; scrollPos: number }[] = [];
 
-      waypointIds.forEach((id, index) => {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          const absoluteTop = scrollY + rect.top;
+          waypointIds.forEach((id, index) => {
+            const el = document.getElementById(id);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              const absoluteTop = scrollY + rect.top;
 
-          // Relative translation offset to heroSlot center
-          const centerX = rect.left + rect.width / 2 - heroCenterX;
-          const centerY = rect.top + rect.height / 2 - heroCenterY;
+              // Relative translation offset to heroSlot center
+              const centerX = rect.left + rect.width / 2 - heroCenterX;
+              const centerY = rect.top + rect.height / 2 - heroCenterY;
 
-          let scale = 1;
-          if (index === 1) scale = 0.42; // AboutSection Card 5
-          if (index === 2) scale = 0.85; // CapabilitiesGrid (Left)
-          if (index === 3) scale = 0.85; // TrustBar (Right)
-          if (index === 4) scale = 0.85; // FacilitySection (Left)
-          if (index === 5) scale = 0.85; // AdvantagesGrid (Right)
-          if (index === 6) scale = 1.15; // CtaForm (Left Column - Bigger Dice)
+              let scale = 1;
+              if (index === 1) scale = 0.85; // ProductsSection
+              if (index === 2) scale = 0.42; // AboutSection Card 5
+              if (index === 3) scale = 0.85; // CapabilitiesGrid (Left)
+              if (index === 4) scale = 0.85; // TrustBar (Right)
+              if (index === 5) scale = 0.85; // FacilitySection (Left)
+              if (index === 6) scale = 0.85; // AdvantagesGrid (Right)
+              if (index === 7) scale = 1.15; // CtaForm (Left Column - Bigger Dice)
 
-
-
-
-          points.push({
-            x: centerX,
-            y: centerY,
-            scale,
-            scrollPos: absoluteTop,
+              points.push({
+                x: centerX,
+                y: centerY,
+                scale,
+                scrollPos: absoluteTop,
+              });
+            }
           });
-        }
-      });
 
-      if (points.length < 2) return;
+          if (points.length >= 2) {
+            // Find active waypoint segment based on current scroll position
+            const viewportTrigger = scrollY + window.innerHeight * 0.45;
 
-      // Find active waypoint segment based on current scroll position
-      const viewportTrigger = scrollY + window.innerHeight * 0.45;
+            let segmentIndex = 0;
+            for (let i = 0; i < points.length - 1; i++) {
+              if (viewportTrigger >= points[i].scrollPos) {
+                segmentIndex = i;
+              }
+            }
 
-      let segmentIndex = 0;
-      for (let i = 0; i < points.length - 1; i++) {
-        if (viewportTrigger >= points[i].scrollPos) {
-          segmentIndex = i;
-        }
+            if (segmentIndex >= points.length - 1) {
+              segmentIndex = points.length - 2;
+            }
+
+            const p1 = points[segmentIndex];
+            const p2 = points[segmentIndex + 1];
+
+            const range = p2.scrollPos - p1.scrollPos;
+            let t = range > 0 ? (viewportTrigger - p1.scrollPos) / range : 0;
+            t = Math.min(1, Math.max(0, t));
+
+            // Organic smooth easing for fluid curved zig-zag motion
+            const easeT = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+            targetX = p1.x + (p2.x - p1.x) * easeT;
+            targetY = p1.y + (p2.y - p1.y) * easeT;
+            targetScale = p1.scale + (p2.scale - p1.scale) * easeT;
+          }
+
+          scrollTicking = false;
+        });
+        scrollTicking = true;
       }
-
-      if (segmentIndex >= points.length - 1) {
-        segmentIndex = points.length - 2;
-      }
-
-      const p1 = points[segmentIndex];
-      const p2 = points[segmentIndex + 1];
-
-      const range = p2.scrollPos - p1.scrollPos;
-      let t = range > 0 ? (viewportTrigger - p1.scrollPos) / range : 0;
-      t = Math.min(1, Math.max(0, t));
-
-      // Organic smooth easing for fluid curved zig-zag motion
-      const easeT = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-
-      targetX = p1.x + (p2.x - p1.x) * easeT;
-      targetY = p1.y + (p2.y - p1.y) * easeT;
-      targetScale = p1.scale + (p2.scale - p1.scale) * easeT;
     };
 
     const updateLoop = () => {
       animationId = requestAnimationFrame(updateLoop);
 
-      // Fast, responsive 0.18 lerp for smooth fluid motion
+      // Fast, responsive lerp for smooth fluid motion
       currentX += (targetX - currentX) * 0.18;
       currentY += (targetY - currentY) * 0.18;
       currentScale += (targetScale - currentScale) * 0.18;
 
       setTransformStyle({
-        transform: `translate3d(${currentX}px, ${currentY}px, 0) scale(${currentScale})`,
+        transform: `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0) scale(${currentScale.toFixed(3)})`,
         transformOrigin: "center center",
         willChange: "transform",
       });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
+    window.addEventListener("resize", handleScroll, { passive: true });
     handleScroll();
     updateLoop();
 
@@ -152,11 +163,15 @@ export default function ThreeDiceCanvas() {
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
     camera.position.set(0, 0.4, 8.5);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance",
+    });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
 
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
@@ -274,14 +289,15 @@ export default function ThreeDiceCanvas() {
       mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
     };
 
-    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
 
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    const startTime = performance.now();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      const elapsedTime = clock.getElapsedTime();
+      const elapsedTime = (performance.now() - startTime) * 0.001;
+
 
       // Continuous Idle Rotation + Dynamic Scroll Rolling Offset
       const rotOffset = rotationOffsetRef.current;
@@ -315,15 +331,27 @@ export default function ThreeDiceCanvas() {
       renderer.setSize(w, h);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
+      geometry1.dispose();
+      geometry2.dispose();
+      shadowGeo.dispose();
+      materials1.forEach((m) => m.dispose());
+      materials2.forEach((m) => m.dispose());
+      face1.dispose();
+      face2.dispose();
+      face3.dispose();
+      face4.dispose();
+      face5.dispose();
+      face6.dispose();
       renderer.dispose();
     };
   }, []);
+
 
   return (
     <div

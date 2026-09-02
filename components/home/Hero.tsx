@@ -1,10 +1,15 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import SvgDice from "../global/SvgDice";
-import ThreeDiceCanvas from "../ui/ThreeDiceCanvas";
 import Button from "../ui/Button";
 import { ArrowUpRight } from "lucide-react";
+
+const ThreeDiceCanvas = dynamic(() => import("../ui/ThreeDiceCanvas"), {
+  ssr: false,
+});
+
 
 export default function Hero() {
   const scrollToSection = (id: string) => {

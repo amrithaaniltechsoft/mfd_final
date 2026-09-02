@@ -59,15 +59,15 @@ export default function CtaForm() {
 
   return (
     <section id="quote-section" className="w-full bg-white text-black py-20 lg:py-24 relative overflow-hidden">
-      
+
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
+
         {/* 2-Column Grid: Header & 3D Dice on Left, Unified Form Card on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-          
+
           {/* Left Column: Header, Description, and 3D Dice Slot */}
           <div className="lg:col-span-6 space-y-6 flex flex-col justify-start text-left">
-            
+
             {/* Header Badge */}
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#f3f4f6] rounded-full border border-zinc-300 w-fit">
               <SvgDice size="sm" interactive={false} />
@@ -97,8 +97,8 @@ export default function CtaForm() {
           </div>
 
           {/* Right Column: Unified Form Card (Matching Light Mode Cards) */}
-          <div className="group relative lg:col-span-6 bg-[#f3f4f6] rounded-xl p-7 sm:p-9 space-y-6 text-black shadow-sm overflow-hidden border border-zinc-300 transition-all hover:bg-[#e5e7eb]">
-            
+          <div className="group relative lg:col-span-6 bg-[#f3f4f6] rounded-xl p-7 sm:p-9 space-y-6 text-black shadow-sm overflow-hidden border border-zinc-200 transition-all hover:bg-[#e5e7eb]">
+
             {/* Full-Width Organic Wave Background Pattern */}
             <WaveCardPattern />
 
@@ -122,7 +122,7 @@ export default function CtaForm() {
 
               {/* Inputs Grid: Full Name & Contact Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
+
                 <div className="space-y-1.5">
                   <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-black block pl-1">
                     Full Name *
@@ -212,7 +212,7 @@ export default function CtaForm() {
             <div className="w-12 h-12 mx-auto bg-[#f3f4f6] rounded-full flex items-center justify-center text-[#526E07]">
               <CheckCircle2 className="w-6 h-6" />
             </div>
-            
+
             <div className="space-y-2">
               <h3 className="text-xl font-bold text-black tracking-tight">
                 Inquiry Submitted
