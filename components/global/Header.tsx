@@ -44,7 +44,7 @@ export default function Header() {
         >
           <div className="relative flex items-center">
             <Image
-              src="/logo/logo2.png"
+              src="/logo/logo3.png"
               alt="Master Form Dies Manufacturing Company Pvt Ltd"
               width={180}
               height={45}

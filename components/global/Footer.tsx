@@ -35,7 +35,7 @@ export default function Footer() {
           {/* Top Center Hero Visual Logo Image */}
           <div className="relative w-80 sm:w-[420px] lg:w-[480px] h-28 sm:h-36 lg:h-40 transition-transform duration-300 hover:scale-105">
             <Image
-              src="/logo/logo2.png"
+              src="/logo/logo3.png"
               alt="Master Form Dies Hero Logo Visual"
               fill
               sizes="(max-width: 640px) 320px, (max-width: 1024px) 420px, 480px"

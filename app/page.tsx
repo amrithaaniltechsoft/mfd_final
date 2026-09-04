@@ -4,7 +4,6 @@ import ProductsSection from "@/components/home/ProductsSection";
 import AboutSection from "@/components/home/AboutSection";
 import CapabilitiesGrid from "@/components/home/CapabilitiesGrid";
 import TrustBar from "@/components/home/TrustBar";
-// import FacilitySection from "@/components/home/FacilitySection";
 import AdvantagesGrid from "@/components/home/AdvantagesGrid";
 import CtaForm from "@/components/global/CtaForm";
 import Footer from "@/components/global/Footer";
@@ -19,7 +18,6 @@ export default function Home() {
         <AboutSection />
         <CapabilitiesGrid />
         <TrustBar />
-        {/* <FacilitySection /> */}
         <AdvantagesGrid />
         <CtaForm />
       </main>
