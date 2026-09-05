@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import InnerHero from "@/components/global/InnerHero";
-import SearchModal from "@/components/global/SearchModal";
 import Button from "@/components/ui/Button";
 import { ArrowRight, Search, X } from "lucide-react";
 import { products, Product } from "@/data/products";
@@ -45,7 +44,6 @@ export default function ProductCatalogSection() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("search") || "";
   const [searchQuery, setSearchQuery] = useState(initialQuery);
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   // Animated Placeholder Typewriter Effect
   const placeholderPhrases = React.useMemo(
@@ -106,7 +104,7 @@ export default function ProductCatalogSection() {
 
   return (
     <>
-      {/* Inner Hero with Embedded Search Bar Trigger Replacing Button */}
+      {/* Inner Hero */}
       <InnerHero
         badgeText="Product Catalog"
         title={
@@ -114,55 +112,51 @@ export default function ProductCatalogSection() {
             Precision Tooling<br /> <span className="text-[#A3E635]">& Die Moulds</span>
           </>
         }
-        bgImage="/about-page/hero.png"
-        customAction={
-          <>
-            <div
-              onClick={() => setIsSearchModalOpen(true)}
-              className="max-w-md w-full mx-auto relative z-30 cursor-pointer group/search"
-            >
-              <div className="flex items-center gap-1.5 bg-white p-1.5 rounded-xl border-2 border-zinc-400 shadow-2xl group-hover/search:border-[#6B910C] transition-all">
-                <div className="relative flex-1 flex items-center pl-2">
-                  <Search className="w-4 h-4 text-zinc-500 mr-2 shrink-0" />
-                  <span className="text-xs sm:text-sm font-bold text-zinc-900 truncate text-left flex-1">
-                    {searchQuery || animatedPlaceholder || "Search products..."}
-                  </span>
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSearchQuery("");
-                      }}
-                      className="p-1 text-zinc-500 hover:text-black mr-1"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
+        bgImage="/contact-page/hero3.png"
+      />
 
-                <Button
-                  type="button"
-                  variant="primary"
-                  size="sm"
-                  icon={<Search className="w-3.5 h-3.5" />}
-                  iconPosition="left"
-                  className="shrink-0 text-xs px-4 py-2 pointer-events-none"
-                >
-                  Search
-                </Button>
+      {/* Single Search Bar (Inside Hero at top, Sticky below Header on Scroll) */}
+      <div className="sticky top-24 z-40 -mt-10 sm:-mt-12 py-3 px-6 transition-all">
+        <div className="max-w-xl w-full mx-auto">
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="relative group/search"
+          >
+            <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border-2 border-zinc-400 shadow-2xl group-hover/search:border-[#6B910C] focus-within:border-[#6B910C] focus-within:ring-4 focus-within:ring-[#6B910C]/20 transition-all">
+              <div className="relative flex-1 flex items-center pl-2.5">
+                <Search className="w-4.5 h-4.5 text-zinc-500 mr-2.5 shrink-0" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={animatedPlaceholder || "Search products..."}
+                  className="w-full text-sm sm:text-base font-bold text-zinc-900 placeholder:text-zinc-400 bg-transparent outline-none border-none py-1"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="p-1 text-zinc-500 hover:text-black mr-1 cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
               </div>
-            </div>
-          </>
-        }
-      />
 
-      {/* Product Search Modal */}
-      <SearchModal
-        isOpen={isSearchModalOpen}
-        onClose={() => setIsSearchModalOpen(false)}
-        initialQuery={searchQuery}
-      />
+              <Button
+                type="submit"
+                variant="primary"
+                size="sm"
+                icon={<Search className="w-4 h-4" />}
+                iconPosition="left"
+                className="shrink-0 text-xs sm:text-sm px-5 py-2.5 rounded-xl cursor-pointer"
+              >
+                Search
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
 
       {/* Product Catalog Grid Section */}
       <section id="product-catalog-grid" className="py-16 sm:py-20 max-w-7xl mx-auto px-6">

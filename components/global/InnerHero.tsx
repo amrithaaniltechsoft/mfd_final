@@ -32,7 +32,7 @@ export default function InnerHero({
   };
 
   return (
-    <section className="relative w-full h-[70vh] sm:h-[80vh] min-h-[500px] flex flex-col justify-end pb-16 bg-black z-20">
+    <section className="relative w-full h-[50vh] md:h-[55vh] lg:h-[60vh] min-h-[380px] flex flex-col justify-end pb-12 sm:pb-14 bg-black z-20">
       {/* Background Image Container */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {bgImage && (

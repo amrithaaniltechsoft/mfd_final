@@ -11,9 +11,7 @@ export default function AboutHero() {
           <span className="text-[#A3E635]">& Custom Manufacturing</span>
         </>
       }
-      bgImage="/about-page/hero.png"
-      targetId="about-overview"
-      buttonText="Explore Overview"
+      bgImage="/contact-page/hero4.png"
     />
   );
 }

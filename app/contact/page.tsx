@@ -51,9 +51,7 @@ export default function ContactPage() {
               Contact Our <br /><span className="text-[#A3E635]">Engineering Team</span>
             </>
           }
-          bgImage="/about-page/hero.png"
-          targetId="contact-details-grid"
-          buttonText="View Contact Details"
+          bgImage="/contact-page/hero.png"
         />
 
         {/* Contact Details Grid Section (Dark Mode with Wave BG) */}
