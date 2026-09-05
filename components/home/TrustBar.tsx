@@ -118,7 +118,7 @@ export default function TrustBar() {
             </div>
 
             {/* 3D Stacked Container Deck (Full-Width Matching Bar) */}
-            <div className="relative min-h-[340px] sm:min-h-[320px] w-full perspective-[1000px]">
+            <div className="relative min-h-[380px] xs:min-h-[340px] sm:min-h-[320px] w-full perspective-[1000px]">
               {trustItems.map((item, idx) => {
                 const isSelected = activeCard === idx;
                 const offset = idx - activeCard;

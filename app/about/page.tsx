@@ -18,7 +18,7 @@ export default function AboutPage() {
         <CoreExpertise />
 
         {/* Full-Width Banner Image */}
-        <section className="w-full relative h-[320px] sm:h-[420px] md:h-[520px] lg:h-[620px] overflow-hidden bg-black">
+        <section className="w-full relative h-[220px] sm:h-[360px] md:h-[480px] lg:h-[620px] overflow-hidden bg-black">
           <Image
             src="/about-page/banner.png"
             alt="Master Form Dies Banner"

@@ -206,8 +206,8 @@ export default function AboutSection() {
 
           <Swiper
             modules={[Autoplay, FreeMode]}
-            slidesPerView={1.4}
-            spaceBetween={16}
+            slidesPerView={1.2}
+            spaceBetween={12}
             loop={true}
             speed={5000}
             autoplay={{
@@ -218,9 +218,17 @@ export default function AboutSection() {
             freeMode={true}
             grabCursor={true}
             breakpoints={{
+              320: {
+                slidesPerView: 1.2,
+                spaceBetween: 12,
+              },
+              480: {
+                slidesPerView: 1.6,
+                spaceBetween: 16,
+              },
               640: {
-                slidesPerView: 2.5,
-                spaceBetween: 24,
+                slidesPerView: 2.2,
+                spaceBetween: 20,
               },
               1024: {
                 slidesPerView: 2.5,

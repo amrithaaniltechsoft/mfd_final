@@ -34,24 +34,24 @@ export default function ProductContentDetails({ product }: { product: Product })
   return (
     <div className="lg:col-span-6 space-y-8 text-left z-10">
       {/* Top Breadcrumb Navigation */}
-      <div className="flex items-center gap-2 text-zinc-800 text-sm font-bold">
+      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-zinc-800 text-xs sm:text-sm font-bold">
         <Link href="/" className="hover:text-[#526E07] transition-colors flex items-center gap-1">
-          <Home className="w-4 h-4 text-black" /> Home
+          <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black" /> Home
         </Link>
-        <ChevronRight className="w-4 h-4 text-zinc-600" />
+        <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-600 shrink-0" />
         <Link href="/products" className="hover:text-[#526E07] transition-colors">
           Products
         </Link>
-        <ChevronRight className="w-4 h-4 text-zinc-600" />
-        <span className="text-[#526E07] font-bold truncate max-w-[200px] sm:max-w-none">{product.title}</span>
+        <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-600 shrink-0" />
+        <span className="text-[#526E07] font-bold truncate max-w-[180px] sm:max-w-none">{product.title}</span>
       </div>
 
       {/* Header Info */}
-      <div className="space-y-4">
-        <div className="inline-block px-3 py-1 bg-[#526E07]/15 text-[#526E07] text-xs font-extrabold tracking-wider rounded-md border border-[#526E07]/30">
+      <div className="space-y-3 sm:space-y-4">
+        <div className="inline-block px-3 py-1 bg-[#526E07]/15 text-[#526E07] text-[11px] sm:text-xs font-extrabold tracking-wider rounded-md border border-[#526E07]/30">
           {product.tag}
         </div>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-black leading-[1.15]">
+        <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-black leading-[1.15]">
           {product.title}
         </h1>
       </div>
@@ -73,7 +73,7 @@ export default function ProductContentDetails({ product }: { product: Product })
             <h3 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight">Key Specifications & Highlights</h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 pt-2">
             {product.features.map((feature, idx) => (
               <div
                 key={idx}

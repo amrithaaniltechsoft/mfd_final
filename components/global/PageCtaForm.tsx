@@ -59,14 +59,14 @@ export default function InnerCtaForm() {
   };
 
   return (
-    <section id="quote-section" className="w-full bg-[#6B910C] text-white py-20 lg:py-24 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <section id="quote-section" className="w-full bg-[#6B910C] text-white py-12 sm:py-20 lg:py-24 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
 
         {/* Card Container */}
-        <div className="relative bg-[#0d0d0d] rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-stretch">
+        <div className="relative bg-[#0d0d0d] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-stretch">
 
           {/* Left Column: Image Container with overlay content */}
-          <div className="relative lg:col-span-5 min-h-[380px] sm:min-h-[460px] lg:min-h-[auto] flex flex-col justify-between p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-zinc-800">
+          <div className="relative lg:col-span-5 min-h-[300px] sm:min-h-[460px] lg:min-h-[auto] flex flex-col justify-between p-6 sm:p-10 border-b lg:border-b-0 lg:border-r border-zinc-800">
             {/* Background Image */}
             <Image
               src="/cta/bg.png"
@@ -83,27 +83,27 @@ export default function InnerCtaForm() {
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-zinc-700/60 w-fit">
                 <SvgDice size="sm" interactive={false} />
-                <span className="text-sm sm:text-base font-semibold text-zinc-200 tracking-wide">
+                <span className="text-xs sm:text-base font-semibold text-zinc-200 tracking-wide">
                   Contact Information
                 </span>
               </div>
             </div>
 
             {/* Bottom Content / Headline & Subtitle */}
-            <div className="relative z-10 space-y-4 text-left">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+            <div className="relative z-10 space-y-3 sm:space-y-4 text-left pt-8 sm:pt-0">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
                 Inquiries & <br />
                 <span className="text-[#A3E635]">Design Consultations</span>
               </h2>
 
-              <p className="text-base sm:text-lg text-zinc-300 font-normal leading-relaxed">
+              <p className="text-sm sm:text-lg text-zinc-300 font-normal leading-relaxed">
                 Contact our technical team for custom project quotes, design consultations, or site visits.
               </p>
             </div>
           </div>
 
           {/* Right Column: White Form Section */}
-          <div className="relative lg:col-span-7 bg-white p-7 sm:p-9 space-y-6 text-black flex flex-col justify-between">
+          <div className="relative lg:col-span-7 bg-white p-5 sm:p-9 space-y-5 sm:space-y-6 text-black flex flex-col justify-between">
 
             {/* Full-Width Organic Wave Background Pattern */}
             <WaveCardPattern />
@@ -112,19 +112,19 @@ export default function InnerCtaForm() {
             <CardBottomGradient />
 
             {/* Exact Official Registered Address & Contact Details Box */}
-            <div className="relative z-10 bg-zinc-50 rounded-xl p-4 sm:p-5 border border-zinc-200/90 space-y-2 shadow-xs">
-              <div className="flex items-center gap-2 text-black font-bold text-xs sm:text-sm uppercase tracking-wider">
+            {/* <div className="relative z-10 bg-zinc-50 rounded-xl p-3.5 sm:p-5 border border-zinc-200/90 space-y-2 shadow-xs">
+              <div className="flex items-center gap-2 text-black font-bold text-[11px] sm:text-sm uppercase tracking-wider">
                 <MapPin className="w-4 h-4 text-[#526E07] shrink-0" />
                 MASTER FORM DIES MANUFACTURING COMPANY PVT LTD
               </div>
-              <div className="text-xs text-zinc-700 font-mono leading-relaxed space-y-1 pl-6 font-medium">
+              <div className="text-[11px] sm:text-xs text-zinc-700 font-mono leading-relaxed space-y-1 pl-6 font-medium">
                 <div>2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA</div>
                 <div className="pt-1 flex flex-wrap gap-x-4 gap-y-1 font-sans text-xs">
                   <span><strong>Email:</strong> <a href="mailto:info@masterformdies.com" className="text-[#526E07] hover:underline">info@masterformdies.com</a></span>
                   <span><strong>Mob:</strong> <a href="tel:+917025839776" className="text-black hover:underline">+917025839776</a>, <a href="tel:+966536897613" className="text-black hover:underline">+966536897613</a></span>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <form onSubmit={handleSubmit} className="relative z-10 space-y-4 text-left">
 

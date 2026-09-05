@@ -33,9 +33,9 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       <Header />
       <ProductIntroOverlay product={product} />
 
-      <main className="flex-1 w-full bg-[#f8f9fa] relative pt-8 lg:pt-10 pb-20 px-6 sm:px-12 lg:px-16 xl:px-24">
+      <main className="flex-1 w-full bg-[#f8f9fa] relative pt-6 sm:pt-8 lg:pt-10 pb-24 lg:pb-20 px-4 sm:px-8 lg:px-16 xl:px-24">
         <div className="max-w-[1600px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start relative min-h-[650px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start relative min-h-[600px]">
             <ProductStickyImage product={product} />
             <ProductContentDetails product={product} />
           </div>

@@ -34,20 +34,20 @@ export default function Hero() {
           <div className="lg:col-span-6 space-y-5">
             
             {/* Top Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#111111] border border-zinc-800 rounded-full text-xs sm:text-sm font-semibold text-white">
+            <div className="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-[#111111] border border-zinc-800 rounded-full text-[11px] sm:text-sm font-semibold text-white max-w-full">
               <SvgDice size="sm" interactive={false} />
               <span className="tracking-wider text-white font-semibold">Master Form Dies Manufacturing Company Pvt Ltd</span>
-              <span className="w-1.5 h-1.5 bg-[#A3E635] rounded-full" />
+              <span className="w-1.5 h-1.5 bg-[#A3E635] rounded-full shrink-0" />
               <span className="text-white font-medium">Ernakulam, Kerala</span>
             </div>
 
             {/* MASSIVE HEADLINE */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-6xl font-black uppercase tracking-tight leading-[0.95] text-white">
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl xl:text-6xl font-black uppercase tracking-tight leading-[0.95] text-white">
               HIGH-PRECISION <span className="text-[#A3E635]">DIE MANUFACTURING</span> & CUSTOM TOOLING.
             </h1>
 
             {/* Description Paragraph placed directly beneath headline */}
-            <p className="text-base sm:text-lg text-zinc-100 font-normal leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-lg text-zinc-100 font-normal leading-relaxed max-w-xl">
               Master Form Dies Manufacturing Company Pvt Ltd is a precision engineering enterprise located in Mannathoor, Ernakulam, Kerala — dedicated to high-standard tool design, die making, and custom manufacturing.
             </p>
 
@@ -66,7 +66,7 @@ export default function Hero() {
 
             {/* Quality Control Audit Badge */}
             <div className="pt-1 flex items-center gap-3 text-xs sm:text-sm font-mono text-zinc-200">
-              <span className="w-3 h-3 rounded-full bg-[#A3E635] animate-pulse" />
+              <span className="w-3 h-3 rounded-full bg-[#A3E635] animate-pulse shrink-0" />
               <div className="space-y-0.5">
                 <div className="text-white font-bold uppercase tracking-wider">Strict Quality Control</div>
                 <div className="text-zinc-200 font-medium">100% CMM Accuracy Audit</div>
@@ -78,7 +78,7 @@ export default function Hero() {
           {/* Right Column: Grand 3D Rotating Dice Canvas */}
           <div
             id="hero-dice-slot"
-            className="lg:col-span-6 flex items-center justify-center lg:justify-end relative z-40"
+            className="lg:col-span-6 flex items-center justify-center lg:justify-end relative z-40 min-h-[280px] sm:min-h-[380px] lg:min-h-[460px] w-full"
           >
             <ThreeDiceCanvas />
           </div>

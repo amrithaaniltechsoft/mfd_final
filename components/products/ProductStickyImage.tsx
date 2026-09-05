@@ -5,14 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { Product } from "@/data/products";
-import { ArrowUpRight, Maximize2 } from "lucide-react";
+import { ArrowUpRight, Maximize2, Phone } from "lucide-react";
 
 export default function ProductStickyImage({ product }: { product: Product }) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   return (
     <>
-      <div className="lg:col-span-6 sticky top-28 self-start space-y-4 pt-0">
+      <div className="lg:col-span-6 static lg:sticky lg:top-28 self-start space-y-4 pt-0">
         {/* Image Box */}
         <div
           onClick={() => setIsLightboxOpen(true)}
@@ -42,26 +42,53 @@ export default function ProductStickyImage({ product }: { product: Product }) {
         </div>
 
         {/* Action Buttons directly below image */}
-        <div className="w-full pt-1 flex flex-col sm:flex-row items-center gap-3">
-          <Link href={`/enquire?product=${product.slug}`} className="w-full sm:flex-1">
+        <div className="w-full pt-1 flex flex-row items-center gap-2.5 sm:gap-3">
+          <Link href={`/enquire?product=${product.slug}`} className="flex-1">
             <Button
               variant="primary"
-              size="lg"
+              size="md"
               fullWidth
-              icon={<ArrowUpRight className="w-4.5 h-4.5" />}
+              icon={<ArrowUpRight className="w-4 h-4" />}
               iconPosition="right"
+              className="text-xs sm:text-base px-3 sm:px-6"
             >
               Enquire Now
             </Button>
           </Link>
-          <Link href="/products" className="w-full sm:flex-1">
+          <Link href="/products" className="flex-1">
             <Button
               variant="outline"
-              size="lg"
+              size="md"
               fullWidth
-              className="!border-zinc-300 !bg-white hover:!bg-zinc-100 !text-black font-bold shadow-xs"
+              className="!border-zinc-300 !bg-white hover:!bg-zinc-100 !text-black font-bold shadow-xs text-xs sm:text-base px-3 sm:px-6"
             >
               Explore Products
+            </Button>
+          </Link>
+        </div>
+      </div>
+
+      {/* Mobile Fixed Bottom CTA Bar (Mobile View Only) */}
+      <div className="fixed bottom-0 inset-x-0 z-50 bg-[#0d0d0d] border-t border-zinc-800 p-3 sm:p-4 shadow-2xl flex items-center justify-between gap-3 lg:hidden backdrop-blur-md">
+        <div className="flex-1 min-w-0 text-left">
+          <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#A3E635] truncate">
+            {product.tag}
+          </div>
+          <div className="text-xs sm:text-sm font-bold text-white truncate">
+            {product.title}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <Link href={`/enquire?product=${product.slug}`}>
+            <Button
+              variant="primary"
+              size="sm"
+              icon={<ArrowUpRight className="w-4 h-4" />}
+              iconPosition="right"
+              className="px-4 py-2.5 text-xs font-bold shadow-lg shadow-[#526E07]/30 cursor-pointer"
+            >
+              Enquire Now
             </Button>
           </Link>
         </div>

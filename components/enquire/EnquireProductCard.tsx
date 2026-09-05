@@ -4,8 +4,8 @@ import { Product } from "@/data/products";
 
 export default function EnquireProductCard({ selectedProduct }: { selectedProduct: Product }) {
   return (
-    <div className="lg:col-span-5 space-y-6 sticky top-20 self-start">
-      <div className="bg-white rounded-2xl p-6 border border-zinc-300 shadow-md space-y-5 overflow-hidden relative">
+    <div className="w-full lg:col-span-5 space-y-6 lg:sticky lg:top-20 self-start">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 border border-zinc-300 shadow-md space-y-4 sm:space-y-5 overflow-hidden relative">
         {/* Full-Width Organic Wave Background Component */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none text-[#526E07] opacity-[0.10] group-hover:opacity-20 transition-opacity duration-500 overflow-hidden"
@@ -51,10 +51,10 @@ export default function EnquireProductCard({ selectedProduct }: { selectedProduc
             </span>
           </div>
 
-          <h2 className="text-2xl font-extrabold text-black tracking-tight leading-snug pt-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight leading-snug pt-1">
             {selectedProduct.title}
           </h2>
-          <p className="text-sm font-medium text-zinc-800 leading-relaxed">
+          <p className="text-xs sm:text-sm font-medium text-zinc-800 leading-relaxed">
             {selectedProduct.desc}
           </p>
         </div>

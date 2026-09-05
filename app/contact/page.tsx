@@ -55,65 +55,65 @@ export default function ContactPage() {
         />
 
         {/* Contact Details Grid Section (Dark Mode with Wave BG) */}
-        <section id="contact-details-grid" className="py-16 sm:py-20 max-w-7xl mx-auto px-6">
-          <div className="space-y-4 max-w-3xl mx-auto text-center flex flex-col items-center mb-16 sm:mb-20">
+        <section id="contact-details-grid" className="py-12 sm:py-16 lg:py-20 max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="space-y-4 max-w-3xl mx-auto text-center flex flex-col items-center mb-10 sm:mb-16 lg:mb-20">
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#111111] rounded-full border border-zinc-800">
               <SvgDice size="sm" interactive={false} />
-              <span className="text-sm sm:text-base font-semibold text-white tracking-wide">
+              <span className="text-xs sm:text-base font-semibold text-white tracking-wide">
                 Reach Us Directly
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
               Facility Address <br /><span className="text-[#A3E635]">& Support Lines</span>
             </h2>
           </div>
 
           {/* Clean 3-Column Equal Grid Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-8 items-stretch">
             {/* Card 1: Registered Company Address */}
-            <div className="group relative bg-[#0d0d0d] rounded-2xl p-7 sm:p-9 min-h-[300px] flex flex-col justify-between border border-zinc-800 hover:border-zinc-600 shadow-2xl text-left overflow-hidden hover:bg-[#121212] transition-all duration-500">
+            <div className="group relative bg-[#0d0d0d] rounded-2xl p-5 sm:p-7 lg:p-9 min-h-[260px] sm:min-h-[300px] flex flex-col justify-between border border-zinc-800 hover:border-zinc-600 shadow-2xl text-left overflow-hidden hover:bg-[#121212] transition-all duration-500">
               <WaveCardPattern />
               <CardBottomGradient />
 
               {/* Header Row: Title on Left, Icon Box on Right */}
               <div className="flex items-start justify-between gap-4 relative z-10">
-                <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-white transition-colors uppercase tracking-wide">
+                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white group-hover:text-white transition-colors uppercase tracking-wide">
                   Registered <br />Address
                 </h3>
-                <div className="p-3.5 bg-[#161616] text-[#A3E635] rounded-xl border border-zinc-800 shrink-0">
-                  <MapPin className="w-6 h-6" />
+                <div className="p-3 sm:p-3.5 bg-[#161616] text-[#A3E635] rounded-xl border border-zinc-800 shrink-0">
+                  <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
               </div>
 
               {/* Card Body Details */}
-              <div className="space-y-2.5 relative z-10 pt-6">
-                <p className="text-xs sm:text-sm text-zinc-200 font-semibold leading-relaxed uppercase">
+              <div className="space-y-2.5 relative z-10 pt-4 sm:pt-6">
+                <p className="text-[11px] sm:text-xs lg:text-sm text-zinc-200 font-semibold leading-relaxed uppercase">
                   MASTER FORM DIES MANUFACTURING COMPANY PVT LTD
                 </p>
-                <p className="text-xs sm:text-sm text-zinc-300 font-semibold leading-relaxed uppercase">
+                <p className="text-[11px] sm:text-xs lg:text-sm text-zinc-300 font-semibold leading-relaxed uppercase">
                   2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA
                 </p>
               </div>
             </div>
 
             {/* Card 2: Mobile & Phone Support Lines */}
-            <div className="group relative bg-[#0d0d0d] rounded-2xl p-7 sm:p-9 min-h-[300px] flex flex-col justify-between border border-zinc-800 hover:border-zinc-600 shadow-2xl text-left overflow-hidden hover:bg-[#121212] transition-all duration-500">
+            <div className="group relative bg-[#0d0d0d] rounded-2xl p-5 sm:p-7 lg:p-9 min-h-[260px] sm:min-h-[300px] flex flex-col justify-between border border-zinc-800 hover:border-zinc-600 shadow-2xl text-left overflow-hidden hover:bg-[#121212] transition-all duration-500">
               <WaveCardPattern />
               <CardBottomGradient />
 
               {/* Header Row: Title on Left, Icon Box on Right */}
               <div className="flex items-start justify-between gap-4 relative z-10">
-                <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-white transition-colors uppercase tracking-wide">
+                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white group-hover:text-white transition-colors uppercase tracking-wide">
                   Mobile <br />& Phone Lines
                 </h3>
-                <div className="p-3.5 bg-[#161616] text-[#A3E635] rounded-xl border border-zinc-800 shrink-0">
-                  <Phone className="w-6 h-6" />
+                <div className="p-3 sm:p-3.5 bg-[#161616] text-[#A3E635] rounded-xl border border-zinc-800 shrink-0">
+                  <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
               </div>
 
               {/* Card Body Details */}
-              <div className="space-y-3 relative z-10 pt-6">
+              <div className="space-y-3 relative z-10 pt-4 sm:pt-6">
                 <div className="text-sm sm:text-base text-zinc-100 font-sans font-semibold tracking-wide leading-relaxed space-y-2">
                   <a href="tel:+917025839776" className="block text-zinc-100 hover:text-white transition-colors">
                     +91 7025839776
@@ -126,16 +126,16 @@ export default function ContactPage() {
             </div>
 
             {/* Card 3: Email Inquiries & Operating Hours */}
-            <div className="group relative bg-[#0d0d0d] rounded-2xl p-7 sm:p-9 min-h-[300px] flex flex-col justify-between border border-zinc-800 hover:border-zinc-600 shadow-2xl text-left overflow-hidden hover:bg-[#121212] transition-all duration-500">
+            <div className="group relative bg-[#0d0d0d] rounded-2xl p-5 sm:p-7 lg:p-9 min-h-[260px] sm:min-h-[300px] flex flex-col justify-between border border-zinc-800 hover:border-zinc-600 shadow-2xl text-left overflow-hidden hover:bg-[#121212] transition-all duration-500">
               <WaveCardPattern />
               <CardBottomGradient />
 
               {/* Header Row: Title on Left, Icon Box on Right */}
               <div className="flex items-start justify-between gap-4 relative z-10">
-                <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-white transition-colors uppercase tracking-wide">
+                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white group-hover:text-white transition-colors uppercase tracking-wide">
                   Email <br /> Inquiries
                 </h3>
-                <div className="p-3.5 bg-[#161616] text-[#A3E635] rounded-xl border border-zinc-800 shrink-0">
+                <div className="p-3 sm:p-3.5 bg-[#161616] text-[#A3E635] rounded-xl border border-zinc-800 shrink-0">
                   <Mail className="w-6 h-6" />
                 </div>
               </div>
@@ -145,7 +145,7 @@ export default function ContactPage() {
                 <div>
                   <a
                     href="mailto:info@masterformdies.com"
-                    className="text-xs sm:text-sm text-zinc-100 hover:text-white font-sans font-semibold tracking-normal leading-normal block transition-colors"
+                    className="text-xs sm:text-sm text-zinc-100 hover:text-white font-sans font-semibold tracking-normal leading-normal block transition-colors break-all sm:break-normal"
                   >
                     info@masterformdies.com
                   </a>
@@ -166,22 +166,22 @@ export default function ContactPage() {
         <InnerCtaForm />
 
         {/* Boxed Google Map Section (Dark Mode) */}
-        <section className="w-full space-y-12 sm:space-y-16 bg-[#050505] border-t border-zinc-900 py-20 sm:py-24">
+        <section className="w-full space-y-8 sm:space-y-12 lg:space-y-16 bg-[#050505] border-t border-zinc-900 py-12 sm:py-20 lg:py-24">
           <div className="space-y-4 max-w-3xl mx-auto text-center flex flex-col items-center">
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#111111] rounded-full border border-zinc-800">
               <SvgDice size="sm" interactive={false} />
-              <span className="text-sm sm:text-base font-semibold text-white tracking-wide">
+              <span className="text-xs sm:text-base font-semibold text-white tracking-wide">
                 Facility Map
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
               Locate Our <br /><span className="text-[#A3E635]">Manufacturing Plant</span>
             </h2>
           </div>
 
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="w-full h-[450px] sm:h-[520px] relative border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl bg-[#0a0a0a]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="w-full h-[320px] sm:h-[450px] lg:h-[520px] relative border border-zinc-800 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-[#0a0a0a]">
               <iframe
                 title="Master Form Dies Location Map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.803732641042!2d76.5412!3d9.9482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwNTYnNTMuNSJOIDc2wrAzMicyNC4zIkU!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"

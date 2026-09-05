@@ -54,12 +54,12 @@ export default function Footer() {
         <div className="max-w-3xl mx-auto space-y-6 relative z-10 flex flex-col items-center">
 
           {/* Top Center Hero Visual Logo Image */}
-          <div className="relative w-80 sm:w-[420px] lg:w-[480px] h-28 sm:h-36 lg:h-40 transition-transform duration-300 hover:scale-105">
+          <div className="relative w-64 sm:w-[420px] lg:w-[480px] h-24 sm:h-36 lg:h-40 transition-transform duration-300 hover:scale-105">
             <Image
               src="/logo/logo4.png"
               alt="Master Form Dies Hero Logo Visual"
               fill
-              sizes="(max-width: 640px) 320px, (max-width: 1024px) 420px, 480px"
+              sizes="(max-width: 640px) 256px, (max-width: 1024px) 420px, 480px"
               className="object-contain object-center brightness-110"
               priority
             />
@@ -126,33 +126,36 @@ export default function Footer() {
             </button>
           </div>
 
-          {/* Column 3: Products */}
-          <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Products</h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
-              <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Stamping Die Blocks</button></li>
-              <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Progressive Moulds</button></li>
-              <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Tungsten Carbide Tools</button></li>
-              <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Injection Mould Cores</button></li>
-            </ul>
-            <button
-              onClick={() => router.push("/products")}
-              className="inline-block text-xs sm:text-sm font-semibold text-[#A3E635] hover:text-white transition-colors pt-2 cursor-pointer"
-            >
-              View All Products &rarr;
-            </button>
-          </div>
+          {/* 2-Column Row on Mobile View for Products & Quick Links */}
+          <div className="grid grid-cols-2 gap-6 sm:gap-10 col-span-1 md:col-span-2 lg:col-span-2">
+            {/* Column 3: Products */}
+            <div className="space-y-3">
+              <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Products</h4>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
+                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Stamping Die Blocks</button></li>
+                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Progressive Moulds</button></li>
+                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Tungsten Carbide Tools</button></li>
+                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Injection Mould Cores</button></li>
+              </ul>
+              <button
+                onClick={() => router.push("/products")}
+                className="inline-block text-xs sm:text-sm font-semibold text-[#A3E635] hover:text-white transition-colors pt-2 cursor-pointer"
+              >
+                View All Products &rarr;
+              </button>
+            </div>
 
-          {/* Column 4: Quick Navigation & Location */}
-          <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Quick Links</h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
-              <li><button onClick={() => scrollToSection("hero")} className="hover:text-white transition-colors cursor-pointer">Home</button></li>
-              <li><button onClick={() => scrollToSection("about-us")} className="hover:text-white transition-colors cursor-pointer">About Us</button></li>
-              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Products</button></li>
-              <li><button onClick={() => scrollToSection("quote-section")} className="hover:text-white transition-colors cursor-pointer">Contact Us</button></li>
-              <li><button onClick={() => setMapModalOpen(true)} className="hover:text-[#A3E635] transition-colors text-left font-semibold text-white cursor-pointer">View Ernakulam Facility Map</button></li>
-            </ul>
+            {/* Column 4: Quick Navigation & Location */}
+            <div className="space-y-3">
+              <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Quick Links</h4>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
+                <li><button onClick={() => scrollToSection("hero")} className="hover:text-white transition-colors cursor-pointer">Home</button></li>
+                <li><button onClick={() => scrollToSection("about-us")} className="hover:text-white transition-colors cursor-pointer">About Us</button></li>
+                <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Products</button></li>
+                <li><button onClick={() => scrollToSection("quote-section")} className="hover:text-white transition-colors cursor-pointer">Contact Us</button></li>
+                <li><button onClick={() => setMapModalOpen(true)} className="hover:text-[#A3E635] transition-colors text-left font-semibold text-white cursor-pointer">View Ernakulam Facility Map</button></li>
+              </ul>
+            </div>
           </div>
 
         </div>

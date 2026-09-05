@@ -72,15 +72,15 @@ export default function Button({
       ) : (
         <>
           {icon && iconPosition === "left" && (
-            <span className="inline-flex transition-transform duration-300 group-hover:-translate-x-0.5">
+            <span className="inline-flex shrink-0 transition-transform duration-300 group-hover:-translate-x-0.5">
               {icon}
             </span>
           )}
 
-          {children && <span>{children}</span>}
+          {children && <span className="text-center">{children}</span>}
 
           {icon && iconPosition === "right" && (
-            <span className="inline-flex transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">
+            <span className="inline-flex shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">
               {icon}
             </span>
           )}

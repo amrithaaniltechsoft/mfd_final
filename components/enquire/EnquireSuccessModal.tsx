@@ -43,8 +43,8 @@ export default function EnquireSuccessModal({
   onClose,
 }: EnquireSuccessModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-2xl w-full max-w-lg p-8 space-y-6 text-center relative text-black shadow-2xl border border-zinc-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-white rounded-2xl w-full max-w-lg p-5 sm:p-8 space-y-5 sm:space-y-6 text-center relative text-black shadow-2xl border border-zinc-200 max-h-[90vh] overflow-y-auto">
         {/* Top Right Close Button */}
         <button
           onClick={onClose}
@@ -58,20 +58,20 @@ export default function EnquireSuccessModal({
         <AnimatedSuccessCheckmark />
 
         <div className="space-y-2">
-          <h3 className="text-2xl font-extrabold text-black tracking-tight">
+          <h3 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight">
             Request Successfully Submitted!
           </h3>
-          <p className="text-sm text-zinc-600 font-medium leading-relaxed">
+          <p className="text-xs sm:text-sm text-zinc-600 font-medium leading-relaxed">
             Thank you <span className="text-black font-extrabold">{formData.fullName}</span>. Our technical engineering team has received your enquiry for <span className="text-[#526E07] font-bold">{formData.serviceType}</span>.
           </p>
         </div>
 
         {/* Filled Form Details Summary */}
-        <div className="bg-[#f8f9fa] rounded-xl p-4 border border-zinc-200 text-left space-y-2 text-xs sm:text-sm">
-          <div className="font-bold text-black border-b border-zinc-200 pb-2 uppercase tracking-wider">
+        <div className="bg-[#f8f9fa] rounded-xl p-3.5 sm:p-4 border border-zinc-200 text-left space-y-2 text-xs sm:text-sm">
+          <div className="font-bold text-black border-b border-zinc-200 pb-2 uppercase tracking-wider text-[11px] sm:text-xs">
             Submission Summary
           </div>
-          <div className="grid grid-cols-2 gap-2 text-zinc-800 font-medium">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-zinc-800 font-medium">
             <div><span className="font-bold text-black">Contact:</span> {formData.contactInfo}</div>
             <div><span className="font-bold text-black">Company:</span> {formData.companyName || "N/A"}</div>
             <div><span className="font-bold text-black">Batch:</span> {formData.quantity}</div>

@@ -21,7 +21,7 @@ async function EnquirePageContent({
   const selectedProduct = products.find((p) => p.slug === productSlug) || products[0];
 
   return (
-    <main className="flex-1 w-full bg-[#f8f9fa] pt-6 lg:pt-8 pb-16 px-6 sm:px-12 lg:px-16 xl:px-24">
+    <main className="flex-1 w-full bg-[#f8f9fa] pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16 px-4 sm:px-8 lg:px-16 xl:px-24">
       <div className="max-w-[1600px] mx-auto space-y-5">
         {/* Back Link */}
         <div>

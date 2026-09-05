@@ -41,7 +41,7 @@ export default function EnquireFormCard({
   };
 
   return (
-    <div className="group relative lg:col-span-7 bg-[#f3f4f6] rounded-2xl p-7 sm:p-10 space-y-6 text-black shadow-sm overflow-hidden border border-zinc-300">
+    <div className="group relative w-full lg:col-span-7 bg-[#f3f4f6] rounded-2xl p-5 sm:p-8 md:p-10 space-y-5 sm:space-y-6 text-black shadow-sm overflow-hidden border border-zinc-300">
       {/* Wave pattern */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none text-[#526E07] opacity-[0.10] group-hover:opacity-20 transition-opacity duration-500 overflow-hidden"
@@ -71,7 +71,7 @@ export default function EnquireFormCard({
 
       <div className="space-y-2 relative z-10">
         <span className="text-xs font-bold uppercase tracking-wider text-[#526E07]">TECHNICAL INQUIRY</span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-black tracking-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black tracking-tight">
           Request a Custom Quote
         </h1>
         <p className="text-sm sm:text-base font-medium text-zinc-700">
@@ -175,9 +175,9 @@ export default function EnquireFormCard({
           size="lg"
           fullWidth
           isLoading={isSubmitting}
-          icon={<ArrowRight className="w-4.5 h-4.5" />}
+          icon={<ArrowRight className="w-4 h-4 sm:w-4.5 sm:h-4.5" />}
           iconPosition="right"
-          className="mt-2"
+          className="mt-2 text-xs sm:text-sm md:text-base px-3 sm:px-6"
         >
           Submit Inquiry to Engineering Team
         </Button>

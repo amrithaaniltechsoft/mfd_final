@@ -91,7 +91,7 @@ export default function CtaForm() {
             {/* 3D Dice Landing Slot directly below header copy */}
             <div
               id="cta-dice-slot"
-              className="w-full h-[340px] sm:h-[400px] relative flex justify-center items-center pointer-events-none"
+              className="w-full h-[200px] sm:h-[320px] lg:h-[400px] relative flex justify-center items-center pointer-events-none"
             />
 
           </div>

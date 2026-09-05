@@ -43,14 +43,14 @@ const CardBottomGradient = () => (
 
 export default function ProductsSection() {
   const router = useRouter();
-  
+
   const scrollToQuote = () => {
     const el = document.getElementById("quote-section");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section id="products" className="w-full bg-[#f3f4f6] text-black py-20 lg:py-24 relative overflow-hidden">
+    <section id="products" className="w-full bg-[#f3f4f6] text-black py-12 sm:py-20 lg:py-24 relative overflow-hidden">
 
       {/* 3D Rotating Dice Slot in Background of Products Section */}
       <div
@@ -58,24 +58,24 @@ export default function ProductsSection() {
         className="absolute top-1/2 right-6 sm:right-16 -translate-y-1/2 w-32 h-32 pointer-events-none opacity-0 z-0"
       />
 
-      <div className="max-w-7xl mx-auto px-6 space-y-14 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10 sm:space-y-14 relative z-10">
 
         {/* Section Header */}
         <div className="space-y-4 max-w-3xl mx-auto text-center flex flex-col items-center">
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white rounded-full border border-zinc-300 shadow-xs">
             <SvgDice size="sm" interactive={false} />
-            <span className="text-sm sm:text-base font-semibold text-black tracking-wide">
+            <span className="text-xs sm:text-base font-semibold text-black tracking-wide">
               Die & Mould Products
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-black leading-[1.15]">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-black leading-[1.15]">
             Precision Tooling <span className="text-[#526E07]">& Die Mould Showcase</span>
           </h2>
         </div>
 
-        {/* Product Cards Grid (3 Columns) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {/* Product Cards Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {products.map((item, idx) => (
             <div key={idx} className="group relative bg-white rounded-2xl overflow-hidden flex flex-col justify-between h-full border border-zinc-200/90 hover:border-zinc-300 transition-all duration-500 shadow-md hover:shadow-xl text-black">
 
@@ -83,7 +83,7 @@ export default function ProductsSection() {
               <WaveCardPattern />
               <CardBottomGradient />
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
 
                 {/* Top Image Container */}
                 <div className="relative aspect-[16/11] w-full overflow-hidden bg-zinc-100">
@@ -93,7 +93,7 @@ export default function ProductsSection() {
                     src={item.image}
                     alt={item.title}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover sepia-[0.35] contrast-[1.2] brightness-[0.9] saturate-[0.85] group-hover:sepia-0 group-hover:brightness-100 group-hover:saturate-100 group-hover:scale-105 transition-all duration-700"
                   />
 
@@ -106,15 +106,15 @@ export default function ProductsSection() {
                   />
 
                   {/* Category Tag Badge */}
-                  <div className="absolute top-3 left-3 px-2.5 py-0.5 bg-white/95 backdrop-blur-md rounded-md text-[11px] font-bold text-[#526E07] tracking-wider z-20 border border-zinc-200 shadow-xs">
+                  <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 px-2 py-0.5 sm:px-2.5 sm:py-0.5 bg-white/95 backdrop-blur-md rounded-md text-[10px] sm:text-[11px] font-bold text-[#526E07] tracking-wider z-20 border border-zinc-200 shadow-xs">
                     {item.tag}
                   </div>
 
                 </div>
 
                 {/* Card Content Details */}
-                <div className="p-5 space-y-2.5 relative z-20 text-left">
-                  <h3 className="text-lg font-bold tracking-tight leading-snug group-hover:text-[#526E07] transition-colors line-clamp-2">
+                <div className="p-4 sm:p-5 space-y-2 sm:space-y-2.5 relative z-20 text-left">
+                  <h3 className="text-base sm:text-lg font-bold tracking-tight leading-snug group-hover:text-[#526E07] transition-colors line-clamp-2">
                     {item.title}
                   </h3>
 
@@ -125,14 +125,14 @@ export default function ProductsSection() {
 
               </div>
 
-              {/* Card Bottom: "Know More" Tertiary Link Button (No Box Around) */}
-              <div className="p-5 pt-0 relative z-20">
+              {/* Card Bottom: "Know More" Tertiary Link Button */}
+              <div className="p-4 sm:p-5 pt-0 relative z-20">
                 <Link
                   href={`/products/${item.slug}`}
                   className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#526E07] hover:text-[#3f5505] transition-colors cursor-pointer group/btn focus:outline-none"
                 >
                   <span>Know More</span>
-                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
               </div>
 

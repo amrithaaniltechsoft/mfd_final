@@ -64,7 +64,7 @@ export default function RelatedProducts({ currentSlug, products }: { currentSlug
         </div>
 
         {/* 4 Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
           {related.map((item, idx) => (
             <div
               key={idx}
@@ -73,42 +73,42 @@ export default function RelatedProducts({ currentSlug, products }: { currentSlug
               <WaveCardPattern />
               <CardBottomGradient />
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {/* Top Image Container */}
                 <div className="relative aspect-[16/11] w-full overflow-hidden bg-zinc-100">
                   <Image
                     src={item.image}
                     alt={item.title}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover group-hover:scale-105 transition-all duration-700"
                   />
 
                   {/* Tag Badge */}
-                  <div className="absolute top-3 left-3 px-2.5 py-0.5 bg-white/95 backdrop-blur-md rounded-md text-[11px] font-bold text-[#526E07] tracking-wider z-20 border border-zinc-200 shadow-xs">
+                  <div className="absolute top-2 left-2 sm:top-3 sm:left-3 px-2 py-0.5 sm:px-2.5 bg-white/95 backdrop-blur-md rounded-md text-[10px] sm:text-[11px] font-bold text-[#526E07] tracking-wider z-20 border border-zinc-200 shadow-xs">
                     {item.tag}
                   </div>
                 </div>
 
                 {/* Details */}
-                <div className="p-5 space-y-2.5 relative z-20 text-left flex-1">
-                  <h3 className="text-lg font-bold tracking-tight leading-snug group-hover:text-[#526E07] transition-colors line-clamp-2">
+                <div className="p-3.5 sm:p-5 space-y-2 relative z-20 text-left flex-1">
+                  <h3 className="text-sm sm:text-lg font-bold tracking-tight leading-snug group-hover:text-[#526E07] transition-colors line-clamp-2">
                     {item.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-zinc-700 font-medium leading-relaxed line-clamp-3">
+                  <p className="text-xs sm:text-sm text-zinc-700 font-medium leading-relaxed line-clamp-2 sm:line-clamp-3">
                     {item.desc}
                   </p>
                 </div>
               </div>
 
               {/* Bottom Action */}
-              <div className="p-5 pt-0 relative z-20">
+              <div className="p-3.5 sm:p-5 pt-0 relative z-20">
                 <Link
                   href={`/products/${item.slug}`}
-                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#526E07] hover:text-[#3f5505] transition-colors cursor-pointer group/btn focus:outline-none"
+                  className="inline-flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-bold text-[#526E07] hover:text-[#3f5505] transition-colors cursor-pointer group/btn focus:outline-none"
                 >
                   <span>View Details</span>
-                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
               </div>
 
