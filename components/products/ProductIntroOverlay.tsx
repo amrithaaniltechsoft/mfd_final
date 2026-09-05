@@ -37,6 +37,7 @@ export default function ProductIntroOverlay({ product }: { product: Product }) {
           alt={product.title}
           fill
           priority
+          sizes="100vw"
           className="object-cover brightness-[0.45]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/70 pointer-events-none" />
@@ -53,6 +54,7 @@ export default function ProductIntroOverlay({ product }: { product: Product }) {
             alt="Master Form Dies Logo"
             fill
             priority
+            sizes="(max-width: 640px) 256px, 320px"
             className="object-contain brightness-120 drop-shadow-2xl"
           />
         </div>

@@ -1,31 +1,24 @@
-"use client";
-
-import React, { useState, Suspense } from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import Header from "@/components/global/Header";
 import Footer from "@/components/global/Footer";
 import EnquireProductCard from "@/components/enquire/EnquireProductCard";
-import EnquireFormCard, { FormDataState } from "@/components/enquire/EnquireFormCard";
-import EnquireSuccessModal from "@/components/enquire/EnquireSuccessModal";
+import EnquireFormCard from "@/components/enquire/EnquireFormCard";
 import { products } from "@/data/products";
 import { ArrowLeft } from "lucide-react";
 
-function EnquirePageContent() {
-  const searchParams = useSearchParams();
-  const productSlug = searchParams.get("product");
+interface EnquirePageProps {
+  searchParams: Promise<{ product?: string }>;
+}
 
+async function EnquirePageContent({
+  searchParamsPromise,
+}: {
+  searchParamsPromise: Promise<{ product?: string }>;
+}) {
+  const searchParams = await searchParamsPromise;
+  const productSlug = searchParams.product;
   const selectedProduct = products.find((p) => p.slug === productSlug) || products[0];
-
-  const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState<FormDataState>({
-    fullName: "",
-    contactInfo: "",
-    companyName: "",
-    serviceType: selectedProduct ? selectedProduct.title : "Precision Die Manufacturing",
-    quantity: "1 Unit",
-    message: "",
-  });
 
   return (
     <main className="flex-1 w-full bg-[#f8f9fa] pt-6 lg:pt-8 pb-16 px-6 sm:px-12 lg:px-16 xl:px-24">
@@ -43,32 +36,19 @@ function EnquirePageContent() {
         {/* 2-Column Main Layout: Left = Product Card; Right = Enquiry Form */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <EnquireProductCard selectedProduct={selectedProduct} />
-          <EnquireFormCard
-            selectedProduct={selectedProduct}
-            formData={formData}
-            setFormData={setFormData}
-            onSuccess={() => setSubmitted(true)}
-          />
+          <EnquireFormCard selectedProduct={selectedProduct} />
         </div>
       </div>
-
-      {/* SUCCESS CONFIRMATION MODAL */}
-      {submitted && (
-        <EnquireSuccessModal
-          formData={formData}
-          onClose={() => setSubmitted(false)}
-        />
-      )}
     </main>
   );
 }
 
-export default function EnquirePage() {
+export default function EnquirePage({ searchParams }: EnquirePageProps) {
   return (
     <div className="min-h-screen flex flex-col bg-white text-black selection:bg-[#526E07] selection:text-white">
       <Header />
       <Suspense fallback={<div className="min-h-[500px] flex items-center justify-center">Loading...</div>}>
-        <EnquirePageContent />
+        <EnquirePageContent searchParamsPromise={searchParams} />
       </Suspense>
       <Footer />
     </div>

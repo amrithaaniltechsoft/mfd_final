@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Button from "@/components/ui/Button";
+import EnquireSuccessModal from "./EnquireSuccessModal";
 import { Product } from "@/data/products";
 import { ArrowRight } from "lucide-react";
 
@@ -14,26 +15,28 @@ export interface FormDataState {
   message: string;
 }
 
-interface EnquireFormCardProps {
-  selectedProduct: Product;
-  formData: FormDataState;
-  setFormData: React.Dispatch<React.SetStateAction<FormDataState>>;
-  onSuccess: () => void;
-}
-
 export default function EnquireFormCard({
-  formData,
-  setFormData,
-  onSuccess,
-}: EnquireFormCardProps) {
+  selectedProduct,
+}: {
+  selectedProduct: Product;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState<FormDataState>({
+    fullName: "",
+    contactInfo: "",
+    companyName: "",
+    serviceType: selectedProduct ? selectedProduct.title : "Precision Die Manufacturing",
+    quantity: "1 Unit",
+    message: "",
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-      onSuccess();
+      setSubmitted(true);
     }, 1000);
   };
 
@@ -179,6 +182,14 @@ export default function EnquireFormCard({
           Submit Inquiry to Engineering Team
         </Button>
       </form>
+
+      {/* SUCCESS CONFIRMATION MODAL */}
+      {submitted && (
+        <EnquireSuccessModal
+          formData={formData}
+          onClose={() => setSubmitted(false)}
+        />
+      )}
     </div>
   );
 }

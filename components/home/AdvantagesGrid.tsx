@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import SvgDice from "../global/SvgDice";
 import { CheckCircle2, Cpu, ShieldCheck, MapPin } from "lucide-react";

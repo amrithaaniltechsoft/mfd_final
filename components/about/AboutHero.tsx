@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import InnerHero from "@/components/global/InnerHero";
 
