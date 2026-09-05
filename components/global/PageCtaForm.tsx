@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import SvgDice from "./SvgDice";
 import Button from "../ui/Button";
-import { Send, CheckCircle2, ArrowRight, MapPin } from "lucide-react";
+import { CheckCircle2, ArrowRight, MapPin } from "lucide-react";
 
-// Full-Width Organic Vector Wave Background Component (Light Theme Version)
+// Full-Width Organic Vector Wave Background Component (Dark Theme Version)
 const WaveCardPattern = () => (
   <svg
-    className="absolute inset-0 w-full h-full pointer-events-none text-[#526E07] opacity-[0.10] group-hover:opacity-20 transition-opacity duration-500 overflow-hidden"
+    className="absolute inset-0 w-full h-full pointer-events-none text-[#6B910C] opacity-[0.04] group-hover:opacity-10 transition-opacity duration-500 overflow-hidden"
     viewBox="0 0 600 300"
     preserveAspectRatio="none"
     fill="none"
@@ -32,12 +33,12 @@ const WaveCardPattern = () => (
   </svg>
 );
 
-// Green Bottom Ambient Gradient Overlay (Seamless Full Card Coverage)
+// Green Bottom Ambient Gradient Overlay (Dark Theme Version)
 const CardBottomGradient = () => (
-  <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#526E07]/30 via-transparent to-transparent pointer-events-none rounded-xl group-hover:from-[#526E07]/45 transition-all duration-500" />
+  <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#6B910C]/25 via-transparent to-transparent pointer-events-none rounded-xl group-hover:from-[#6B910C]/40 transition-all duration-500" />
 );
 
-export default function CtaForm() {
+export default function InnerCtaForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -58,46 +59,51 @@ export default function CtaForm() {
   };
 
   return (
-    <section id="quote-section" className="w-full bg-white text-black py-20 lg:py-24 relative overflow-hidden">
-
+    <section id="quote-section" className="w-full bg-[#6B910C] text-white py-20 lg:py-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* 2-Column Grid: Header & 3D Dice on Left, Unified Form Card on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        {/* Card Container */}
+        <div className="relative bg-[#0d0d0d] rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-stretch">
 
-          {/* Left Column: Header, Description, and 3D Dice Slot */}
-          <div className="lg:col-span-6 space-y-6 flex flex-col justify-start text-left">
+          {/* Left Column: Image Container with overlay content */}
+          <div className="relative lg:col-span-5 min-h-[380px] sm:min-h-[460px] lg:min-h-[auto] flex flex-col justify-between p-8 sm:p-10 border-b lg:border-b-0 lg:border-r border-zinc-800">
+            {/* Background Image */}
+            <Image
+              src="/cta/bg.png"
+              alt="CTA Background"
+              fill
+              priority
+              className="object-cover object-center brightness-[0.4]"
+            />
 
-            {/* Header Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#f3f4f6] rounded-full border border-zinc-300 w-fit">
-              <SvgDice size="sm" interactive={false} />
-              <span className="text-sm sm:text-base font-semibold text-black tracking-wide">
-                Contact Information
-              </span>
+            {/* Dark overlay gradients for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/70 pointer-events-none" />
+
+            {/* Top Badge */}
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-zinc-700/60 w-fit">
+                <SvgDice size="sm" interactive={false} />
+                <span className="text-sm sm:text-base font-semibold text-zinc-200 tracking-wide">
+                  Contact Information
+                </span>
+              </div>
             </div>
 
-            {/* Headline */}
-            <div className="space-y-3">
-              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-black leading-[1.1]">
+            {/* Bottom Content / Headline & Subtitle */}
+            <div className="relative z-10 space-y-4 text-left">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
                 Inquiries & <br />
-                <span className="text-[#526E07]">Design Consultations</span>
+                <span className="text-[#A3E635]">Design Consultations</span>
               </h2>
 
-              <p className="text-base sm:text-lg text-zinc-900 font-medium leading-relaxed max-w-lg">
+              <p className="text-base sm:text-lg text-zinc-300 font-normal leading-relaxed">
                 Contact our technical team for custom project quotes, design consultations, or site visits.
               </p>
             </div>
-
-            {/* 3D Dice Landing Slot directly below header copy */}
-            <div
-              id="cta-dice-slot"
-              className="w-full h-[340px] sm:h-[400px] relative flex justify-center items-center pointer-events-none"
-            />
-
           </div>
 
-          {/* Right Column: Unified Form Card (Matching Light Mode Cards) */}
-          <div className="group relative lg:col-span-6 bg-[#f3f4f6] rounded-xl p-7 sm:p-9 space-y-6 text-black shadow-sm overflow-hidden border border-zinc-200 transition-all hover:bg-[#e5e7eb]">
+          {/* Right Column: White Form Section */}
+          <div className="relative lg:col-span-7 bg-white p-7 sm:p-9 space-y-6 text-black flex flex-col justify-between">
 
             {/* Full-Width Organic Wave Background Pattern */}
             <WaveCardPattern />
@@ -126,7 +132,7 @@ export default function CtaForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                 <div className="space-y-1.5">
-                  <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-black block pl-1">
+                  <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800 block pl-1">
                     Full Name *
                   </label>
                   <input
@@ -135,12 +141,12 @@ export default function CtaForm() {
                     placeholder="e.g. Alex Rivera"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-500 px-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all text-left"
+                    className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-400 px-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all text-left"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-black block pl-1">
+                  <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800 block pl-1">
                     Email or Phone *
                   </label>
                   <input
@@ -149,7 +155,7 @@ export default function CtaForm() {
                     placeholder="alex@company.com"
                     value={formData.contactInfo}
                     onChange={(e) => setFormData({ ...formData, contactInfo: e.target.value })}
-                    className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-500 px-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all text-left"
+                    className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-400 px-4 py-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all text-left"
                   />
                 </div>
 
@@ -157,7 +163,7 @@ export default function CtaForm() {
 
               {/* Service Dropdown */}
               <div className="space-y-1.5">
-                <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-black block pl-1">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800 block pl-1">
                   Required Core Expertise *
                 </label>
                 <select
@@ -174,7 +180,7 @@ export default function CtaForm() {
 
               {/* Project Notes Textarea */}
               <div className="space-y-1.5">
-                <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-black block pl-1">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800 block pl-1">
                   Project Notes & Drawing Details
                 </label>
                 <textarea
@@ -182,7 +188,7 @@ export default function CtaForm() {
                   placeholder="Component design details, tolerances, or site visit request..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-500 p-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all resize-none text-left"
+                  className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-400 p-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all resize-none text-left"
                 />
               </div>
 
@@ -210,17 +216,17 @@ export default function CtaForm() {
       {/* Confirmation Modal */}
       {submitted && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90">
-          <div className="bg-white rounded-2xl w-full max-w-md p-8 space-y-6 text-center relative text-black shadow-2xl border border-zinc-200">
-            <div className="w-12 h-12 mx-auto bg-[#f3f4f6] rounded-full flex items-center justify-center text-[#526E07]">
+          <div className="bg-[#0d0d0d] rounded-2xl w-full max-w-md p-8 space-y-6 text-center relative text-white shadow-2xl border border-zinc-800">
+            <div className="w-12 h-12 mx-auto bg-[#111111] rounded-full flex items-center justify-center text-[#A3E635]">
               <CheckCircle2 className="w-6 h-6" />
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-black tracking-tight">
+              <h3 className="text-xl font-bold text-white tracking-tight">
                 Inquiry Submitted
               </h3>
-              <p className="text-sm text-zinc-900 font-medium leading-relaxed">
-                Thank you <span className="text-black font-bold">{formData.fullName}</span>. Our technical team at Master Form Dies is reviewing your request.
+              <p className="text-sm text-zinc-300 font-medium leading-relaxed">
+                Thank you <span className="text-white font-bold">{formData.fullName}</span>. Our technical team at Master Form Dies is reviewing your request.
               </p>
             </div>
 
@@ -235,7 +241,6 @@ export default function CtaForm() {
           </div>
         </div>
       )}
-
     </section>
   );
 }

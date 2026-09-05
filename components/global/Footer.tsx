@@ -2,23 +2,44 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import { MapPin, ChevronRight, ArrowUp } from "lucide-react";
 
 export default function Footer() {
   const [mapModalOpen, setMapModalOpen] = useState(false);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const pathname = usePathname();
+  const router = useRouter();
 
   const scrollToSection = (id: string) => {
-    if (id === "hero") {
-      scrollToTop();
+    if (id === "about-us") {
+      router.push("/about");
       return;
     }
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+
+    if (id === "quote-section") {
+      if (pathname === "/contact") {
+        const el = document.getElementById("quote-section");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      } else {
+        router.push("/contact#quote-section");
+      }
+      return;
+    }
+
+    if (pathname !== "/") {
+      router.push(`/#${id}`);
+      return;
+    }
+
+    if (id === "hero") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -72,26 +93,28 @@ export default function Footer() {
       {/* 2. MIDDLE FOOTER NAVIGATION GRID */}
       <div className="max-w-7xl mx-auto px-6 py-16">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#1f1f1f]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 items-start pb-12 border-b border-[#1f1f1f]">
 
-          {/* Column 1: Exact Official Address */}
-          <div className="space-y-4">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
+          {/* Column 1: Exact Registered Address & Contact Info */}
+          <div className="space-y-3">
+            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2 h-6">
               <MapPin className="w-4 h-4 text-[#A3E635]" />
-              <span>Contact Us</span>
+              <span>Registered Address</span>
             </h4>
 
-            <div className="text-xs sm:text-sm text-zinc-100 space-y-1 leading-relaxed font-mono">
-              <div className="font-bold text-white">Master Form Dies Manufacturing Company Pvt Ltd</div>
-              <div>Ward No. 2, Room No. 284</div>
-              <div>Mannathoor North P.O., Near Government Ayurveda Hospital</div>
-              <div className="text-white font-bold">Ernakulam - 686667, Kerala, India</div>
+            <div className="text-xs text-zinc-300 space-y-2 leading-relaxed font-mono">
+              <div className="font-bold text-white uppercase">MASTER FORM DIES MANUFACTURING COMPANY PVT LTD</div>
+              <div>2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA</div>
+              <div className="pt-1 font-sans space-y-1 text-xs">
+                <div><strong>Email:</strong> <a href="mailto:info@masterformdies.com" className="text-[#A3E635] hover:underline">info@masterformdies.com</a></div>
+                <div><strong>Mob:</strong> <a href="tel:+917025839776" className="hover:text-white transition-colors">+91 7025839776</a>, <a href="tel:+966536897613" className="hover:text-white transition-colors">+966 536897613</a></div>
+              </div>
             </div>
           </div>
 
           {/* Column 2: About Us Summary */}
           <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white">About Us</h4>
+            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">About Us</h4>
             <p className="text-xs sm:text-sm text-zinc-200 font-normal leading-relaxed">
               Specializing in delivering high-precision engineering solutions, high-grade die manufacturing, and custom tooling designed to meet the rigorous demands of modern manufacturing.
             </p>
@@ -105,18 +128,24 @@ export default function Footer() {
 
           {/* Column 3: Products */}
           <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white">Products</h4>
+            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Products</h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
-              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Stamping Die Blocks</button></li>
-              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Progressive Moulds</button></li>
-              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Tungsten Carbide Tools</button></li>
-              <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Injection Mould Cores</button></li>
+              <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Stamping Die Blocks</button></li>
+              <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Progressive Moulds</button></li>
+              <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Tungsten Carbide Tools</button></li>
+              <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Injection Mould Cores</button></li>
             </ul>
+            <button
+              onClick={() => router.push("/products")}
+              className="inline-block text-xs sm:text-sm font-semibold text-[#A3E635] hover:text-white transition-colors pt-2 cursor-pointer"
+            >
+              View All Products &rarr;
+            </button>
           </div>
 
           {/* Column 4: Quick Navigation & Location */}
           <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white">Quick Links</h4>
+            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Quick Links</h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
               <li><button onClick={() => scrollToSection("hero")} className="hover:text-white transition-colors cursor-pointer">Home</button></li>
               <li><button onClick={() => scrollToSection("about-us")} className="hover:text-white transition-colors cursor-pointer">About Us</button></li>
@@ -129,24 +158,32 @@ export default function Footer() {
         </div>
 
         {/* 3. BOTTOM LEGAL & COPYRIGHT BAR */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-zinc-300 font-medium">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-zinc-300 font-medium">
           <div>
             Copyright &copy; {new Date().getFullYear()} Master Form Dies Manufacturing Company Pvt Ltd. All Rights Reserved.
           </div>
 
-          <div className="flex items-center gap-6">
-            <button onClick={() => scrollToSection("hero")} className="hover:text-white transition-colors cursor-pointer">Home</button>
-            <button onClick={() => scrollToSection("about-us")} className="hover:text-white transition-colors cursor-pointer">About Us</button>
-            <button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Products</button>
-            <button onClick={() => scrollToSection("quote-section")} className="hover:text-white transition-colors cursor-pointer">Contact Us</button>
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-5">
 
-            <Button
-              onClick={scrollToTop}
+            <span>
+              Web Designed By{" "}
+              <a
+                href="https://www.techsoftweb.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#A3E635] hover:text-white font-semibold underline underline-offset-4 transition-colors"
+              >
+                Techsoft
+              </a>
+            </span>
+
+            {/* <Button
+              onClick={() => scrollToSection("hero")}
               variant="iconOnly"
               title="Scroll to Top"
             >
               <ArrowUp className="w-4 h-4 text-white" />
-            </Button>
+            </Button> */}
           </div>
         </div>
 

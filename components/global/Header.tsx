@@ -2,14 +2,27 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import Button from "../ui/Button";
-import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
+import SearchModal from "./SearchModal";
+import { Menu, X, ArrowUpRight, ChevronDown, Search } from "lucide-react";
+import { products } from "@/data/products";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
+    
+    if (pathname !== "/") {
+      router.push(`/#${id}`);
+      return;
+    }
+
     if (id === "hero") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
@@ -20,14 +33,7 @@ export default function Header() {
     }
   };
 
-  const productDropdownItems = [
-    "Stamping Die Blocks",
-    "Progressive Moulds",
-    "Carbide Insert Tooling",
-    "Injection Mould Cores",
-    "Profile Extrusion Dies",
-    "Hot Forging Dies",
-  ];
+  const productDropdownItems = products.slice(0, 6);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-black/95 backdrop-blur-md border-b border-[#222222]">
@@ -63,9 +69,13 @@ export default function Header() {
             Home
           </button>
           
+          {/* About Us -> Links directly to /about page route */}
           <button
-            onClick={() => scrollToSection("about-us")}
-            className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              router.push("/about");
+            }}
+            className="text-sm font-semibold text-zinc-300 hover:text-white transition-colors cursor-pointer focus:outline-none"
           >
             About Us
           </button>
@@ -73,30 +83,39 @@ export default function Header() {
           {/* Products Dropdown Menu Container */}
           <div className="relative group">
             <button
-              onClick={() => scrollToSection("products")}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                router.push("/products");
+              }}
               className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer py-2"
             >
               <span>Products</span>
               <ChevronDown className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:rotate-180 transition-transform duration-300" />
             </button>
 
-            {/* Dropdown Menu Popup Box (Clean Names + Box-less View All Products button) */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-56 bg-[#0d0d0d] border border-zinc-800 rounded-xl p-2 shadow-2xl backdrop-blur-md opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 z-50">
-              <div className="space-y-0.5">
-                {productDropdownItems.map((name, idx) => (
+            {/* Dropdown Menu Popup Box */}
+            <div className="absolute top-full left-0 mt-1 w-64 bg-[#0d0d0d] border border-zinc-800 rounded-xl p-2 shadow-2xl backdrop-blur-md opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 z-50">
+              <div className="space-y-0.5 max-h-[300px] overflow-y-auto custom-scrollbar">
+                {productDropdownItems.map((item, idx) => (
                   <button
                     key={idx}
-                    onClick={() => scrollToSection("products")}
-                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-[#1a1a1a] text-xs font-semibold text-zinc-200 hover:text-[#A3E635] transition-colors focus:outline-none cursor-pointer"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      router.push(`/products/${item.slug}`);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-[#1a1a1a] text-xs font-semibold text-zinc-200 hover:text-[#A3E635] transition-colors focus:outline-none cursor-pointer line-clamp-1"
                   >
-                    {name}
+                    {item.title}
                   </button>
                 ))}
               </div>
 
               <div className="pt-2 border-t border-zinc-800/80 mt-1">
                 <button
-                  onClick={() => scrollToSection("products")}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    router.push("/products");
+                  }}
                   className="w-full py-1.5 px-3 text-left text-xs font-bold text-[#A3E635] hover:text-white transition-colors cursor-pointer focus:outline-none"
                 >
                   View All Products &rarr;
@@ -107,24 +126,41 @@ export default function Header() {
           </div>
 
           <button
-            onClick={() => scrollToSection("quote-section")}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              router.push("/contact");
+            }}
             className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
           >
             Contact Us
           </button>
         </nav>
 
-        {/* Right: Primary CTA - Contact Technical Team Reusable Button */}
-        <div className="hidden md:flex items-center gap-4">
-          <Button
-            onClick={() => scrollToSection("quote-section")}
-            variant="primary"
-            size="sm"
-            icon={<ArrowUpRight className="w-4 h-4" />}
-            iconPosition="right"
+        {/* Right: Search Modal Trigger & Primary CTA Button */}
+        <div className="hidden md:flex items-center gap-3">
+          {/* Header Compact Search Modal Trigger */}
+          <div
+            onClick={() => setIsSearchModalOpen(true)}
+            className="relative w-44 lg:w-56 cursor-pointer group"
           >
-            Contact Technical Team
-          </Button>
+            <div className="relative flex items-center bg-[#1a1a1a] hover:bg-[#282828] border border-zinc-700 hover:border-white rounded-lg pl-9 pr-3 py-2 transition-all shadow-sm">
+              <Search className="absolute left-3 w-4 h-4 text-zinc-300 group-hover:text-white pointer-events-none transition-colors" />
+              <span className="text-xs font-bold text-zinc-200 group-hover:text-white select-none transition-colors">
+                Search products...
+              </span>
+            </div>
+          </div>
+
+          <a href="tel:+966536897613">
+            <Button
+              variant="primary"
+              size="sm"
+              icon={<ArrowUpRight className="w-4 h-4" />}
+              iconPosition="right"
+            >
+              Contact Technical Team
+            </Button>
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
@@ -164,13 +200,13 @@ export default function Header() {
               Products
             </button>
             <div className="pl-4 space-y-1.5">
-              {productDropdownItems.map((name, idx) => (
+              {productDropdownItems.map((product, idx) => (
                 <button
                   key={idx}
                   onClick={() => scrollToSection("products")}
                   className="block text-xs text-zinc-400 hover:text-[#A3E635]"
                 >
-                  • {name}
+                  • {product.title}
                 </button>
               ))}
             </div>
@@ -183,17 +219,24 @@ export default function Header() {
             Contact Us
           </button>
 
-          <Button
-            onClick={() => scrollToSection("quote-section")}
-            variant="primary"
-            size="md"
-            fullWidth
-            icon={<ArrowUpRight className="w-4 h-4" />}
-          >
-            Contact Technical Team
-          </Button>
+          <a href="tel:+966536897613" className="block w-full">
+            <Button
+              variant="primary"
+              size="md"
+              fullWidth
+              icon={<ArrowUpRight className="w-4 h-4" />}
+            >
+              Contact Technical Team
+            </Button>
+          </a>
         </div>
       )}
+
+      {/* Global Search Modal */}
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+      />
     </header>
   );
 }
