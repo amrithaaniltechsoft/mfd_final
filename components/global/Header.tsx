@@ -61,7 +61,7 @@ export default function Header() {
         </a>
 
         {/* Center Navigation Links: Home, About Us, Products (Dropdown), Contact Us */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-8">
           <button
             onClick={() => scrollToSection("hero")}
             className="text-sm font-semibold tracking-wide text-zinc-100 hover:text-white transition-colors focus:outline-none cursor-pointer"
@@ -137,7 +137,7 @@ export default function Header() {
         </nav>
 
         {/* Right: Search Modal Trigger & Primary CTA Button */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           {/* Header Compact Search Modal Trigger */}
           <div
             onClick={() => setIsSearchModalOpen(true)}
@@ -163,8 +163,8 @@ export default function Header() {
           </a>
         </div>
 
-        {/* Mobile Right Action Buttons (Search & Menu Trigger) */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile & Tablet Right Action Buttons (Search & Menu Trigger) */}
+        <div className="flex lg:hidden items-center gap-2">
           <Button
             onClick={() => setIsSearchModalOpen(true)}
             variant="iconOnly"
@@ -184,9 +184,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Slide-over Drawer & Overlay */}
+      {/* Mobile & Tablet Slide-over Drawer & Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[100] md:hidden flex justify-end">
+        <div className="fixed inset-0 z-[100] lg:hidden flex justify-end">
           {/* Dark Backdrop Overlay */}
           <div
             onClick={() => setMobileMenuOpen(false)}
