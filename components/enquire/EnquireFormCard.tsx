@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@/components/ui/Button";
 import EnquireSuccessModal from "./EnquireSuccessModal";
 import { Product } from "@/data/products";
+import { Service } from "@/data/services";
 import { ArrowRight } from "lucide-react";
 
 export interface FormDataState {
@@ -17,19 +18,36 @@ export interface FormDataState {
 
 export default function EnquireFormCard({
   selectedProduct,
+  selectedService,
 }: {
-  selectedProduct: Product;
+  selectedProduct?: Product;
+  selectedService?: Service;
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const initialServiceType = selectedService
+    ? selectedService.title
+    : selectedProduct
+    ? selectedProduct.title
+    : "Precision Die Manufacturing";
+
   const [formData, setFormData] = useState<FormDataState>({
     fullName: "",
     contactInfo: "",
     companyName: "",
-    serviceType: selectedProduct ? selectedProduct.title : "Precision Die Manufacturing",
+    serviceType: initialServiceType,
     quantity: "1 Unit",
     message: "",
   });
+
+  useEffect(() => {
+    if (selectedService) {
+      setFormData((prev) => ({ ...prev, serviceType: selectedService.title }));
+    } else if (selectedProduct) {
+      setFormData((prev) => ({ ...prev, serviceType: selectedProduct.title }));
+    }
+  }, [selectedProduct, selectedService]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -187,6 +205,7 @@ export default function EnquireFormCard({
       {submitted && (
         <EnquireSuccessModal
           formData={formData}
+          isService={Boolean(selectedService)}
           onClose={() => setSubmitted(false)}
         />
       )}

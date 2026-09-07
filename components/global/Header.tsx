@@ -125,6 +125,17 @@ export default function Header() {
 
           </div>
 
+          {/* Services -> Links directly to /services page route */}
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              router.push("/services");
+            }}
+            className="text-sm font-semibold text-zinc-300 hover:text-white transition-colors cursor-pointer focus:outline-none"
+          >
+            Services
+          </button>
+
           <button
             onClick={() => {
               setMobileMenuOpen(false);
@@ -284,6 +295,16 @@ export default function Header() {
                     </button>
                   </div>
                 </div>
+
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    router.push("/services");
+                  }}
+                  className="w-full text-left px-3 py-2.5 rounded-xl font-semibold text-sm text-zinc-100 hover:text-white hover:bg-zinc-800/50 transition-colors cursor-pointer"
+                >
+                  Services
+                </button>
 
                 <button
                   onClick={() => {

@@ -32,7 +32,7 @@ export default function Button({
     secondary:
       "bg-white hover:bg-zinc-200 text-black border border-white shadow-md focus:ring-white",
     outline:
-      "bg-transparent hover:bg-[#6B910C] text-white hover:text-white border border-[#6B910C] shadow-sm hover:shadow-[#6B910C]/35 focus:ring-[#6B910C]",
+      "bg-transparent hover:bg-[#6B910C] text-black hover:text-white border border-[#6B910C] shadow-sm hover:shadow-[#6B910C]/35 focus:ring-[#6B910C]",
     ghost:
       "bg-[#111111] hover:bg-[#1f1f1f] text-zinc-200 hover:text-white border border-zinc-800 focus:ring-zinc-700",
     iconOnly:

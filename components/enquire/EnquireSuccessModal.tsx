@@ -35,11 +35,13 @@ const AnimatedSuccessCheckmark = () => (
 
 interface EnquireSuccessModalProps {
   formData: FormDataState;
+  isService?: boolean;
   onClose: () => void;
 }
 
 export default function EnquireSuccessModal({
   formData,
+  isService = false,
   onClose,
 }: EnquireSuccessModalProps) {
   return (
@@ -75,7 +77,7 @@ export default function EnquireSuccessModal({
             <div><span className="font-bold text-black">Contact:</span> {formData.contactInfo}</div>
             <div><span className="font-bold text-black">Company:</span> {formData.companyName || "N/A"}</div>
             <div><span className="font-bold text-black">Batch:</span> {formData.quantity}</div>
-            <div><span className="font-bold text-black">Product:</span> {formData.serviceType}</div>
+            <div><span className="font-bold text-black">{isService ? "Service:" : "Product:"}</span> {formData.serviceType}</div>
           </div>
           {formData.message && (
             <div className="pt-1 text-zinc-700">
@@ -90,7 +92,7 @@ export default function EnquireSuccessModal({
           size="md"
           fullWidth
         >
-          Back to Product Specifications
+          {isService ? "Back to Services" : "Back to Product Specifications"}
         </Button>
       </div>
     </div>

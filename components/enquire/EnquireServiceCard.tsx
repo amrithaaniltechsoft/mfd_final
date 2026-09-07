@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import { Product } from "@/data/products";
+import { Service } from "@/data/services";
 
-export default function EnquireProductCard({ selectedProduct }: { selectedProduct: Product }) {
+export default function EnquireServiceCard({ selectedService }: { selectedService: Service }) {
   return (
     <div className="w-full lg:col-span-5 space-y-6 lg:sticky lg:top-20 self-start">
       <div className="bg-white rounded-2xl p-4 sm:p-6 border border-zinc-300 shadow-md space-y-4 sm:space-y-5 overflow-hidden relative">
@@ -31,11 +31,11 @@ export default function EnquireProductCard({ selectedProduct }: { selectedProduc
           />
         </svg>
 
-        {/* Product Image */}
+        {/* Service Image */}
         <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden shadow-lg border border-zinc-200 bg-zinc-100 z-10">
           <Image
-            src={selectedProduct.image}
-            alt={selectedProduct.title}
+            src={selectedService.image}
+            alt={selectedService.title}
             fill
             priority
             className="object-cover"
@@ -43,19 +43,13 @@ export default function EnquireProductCard({ selectedProduct }: { selectedProduc
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
         </div>
 
-        {/* Category Tag & Product Title */}
+        {/* Service Title & Description (No Category Tag) */}
         <div className="space-y-2 relative z-10 text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#526E07]/10 rounded-md border border-[#526E07]/20">
-            <span className="text-xs font-bold text-[#526E07] uppercase tracking-wider">
-              {selectedProduct.tag}
-            </span>
-          </div>
-
           <h2 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight leading-snug pt-1">
-            {selectedProduct.title}
+            {selectedService.title}
           </h2>
           <p className="text-xs sm:text-sm font-medium text-zinc-800 leading-relaxed">
-            {selectedProduct.desc}
+            {selectedService.desc}
           </p>
         </div>
       </div>

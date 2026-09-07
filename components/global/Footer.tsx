@@ -151,7 +151,8 @@ export default function Footer() {
               <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
                 <li><button onClick={() => scrollToSection("hero")} className="hover:text-white transition-colors cursor-pointer">Home</button></li>
                 <li><button onClick={() => scrollToSection("about-us")} className="hover:text-white transition-colors cursor-pointer">About Us</button></li>
-                <li><button onClick={() => scrollToSection("products")} className="hover:text-white transition-colors cursor-pointer">Products</button></li>
+                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer">Products</button></li>
+                <li><button onClick={() => router.push("/services")} className="hover:text-white transition-colors cursor-pointer">Services</button></li>
                 <li><button onClick={() => scrollToSection("quote-section")} className="hover:text-white transition-colors cursor-pointer">Contact Us</button></li>
                 <li><button onClick={() => setMapModalOpen(true)} className="hover:text-[#A3E635] transition-colors text-left font-semibold text-white cursor-pointer">View Ernakulam Facility Map</button></li>
               </ul>
