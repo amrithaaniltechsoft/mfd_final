@@ -45,12 +45,6 @@ export default function EnquireProductCard({ selectedProduct }: { selectedProduc
 
         {/* Category Tag & Product Title */}
         <div className="space-y-2 relative z-10 text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#526E07]/10 rounded-md border border-[#526E07]/20">
-            <span className="text-xs font-bold text-[#526E07] uppercase tracking-wider">
-              {selectedProduct.tag}
-            </span>
-          </div>
-
           <h2 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight leading-snug pt-1">
             {selectedProduct.title}
           </h2>
