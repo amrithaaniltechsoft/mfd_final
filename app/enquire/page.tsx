@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import Header from "@/components/global/Header";
 import Footer from "@/components/global/Footer";
 import EnquireProductCard from "@/components/enquire/EnquireProductCard";
@@ -10,6 +11,32 @@ import { ArrowLeft } from "lucide-react";
 
 interface EnquirePageProps {
   searchParams: Promise<{ product?: string; service?: string }>;
+}
+
+const DEFAULT_TITLE = "Enquire Now | Master Form Dies";
+const DEFAULT_DESCRIPTION =
+  "Request a custom quote for precision dies, molds, and tooling. Share your project details and our technical team will get back to you.";
+const DEFAULT_KEYWORDS =
+  "enquire, request quote, custom die manufacturing, precision tooling, Master Form Dies";
+
+export async function generateMetadata({ searchParams }: EnquirePageProps): Promise<Metadata> {
+  const resolved = await searchParams;
+  const [service, product] = await Promise.all([
+    resolved.service ? getService(resolved.service, { fresh: true }) : undefined,
+    resolved.product ? getProduct(resolved.product, { fresh: true }) : undefined,
+  ]);
+
+  const subject = service ?? product;
+
+  return {
+    title: subject?.meta_title?.trim() || (subject ? `${subject.title} | Enquire | Master Form Dies` : DEFAULT_TITLE),
+    description:
+      subject?.meta_description?.trim() ||
+      (subject ? subject.desc || subject.fullDesc : DEFAULT_DESCRIPTION),
+    keywords:
+      subject?.meta_keywords?.trim() ||
+      (subject ? [subject.title, subject.desc, "enquiry", "precision tooling"].filter(Boolean).join(", ") : DEFAULT_KEYWORDS),
+  };
 }
 
 async function EnquirePageContent({

@@ -13,6 +13,9 @@ export interface Service {
   features: string[];
   benefits?: string[];
   faqs?: ServiceFaq[];
+  meta_title?: string | null;
+  meta_description?: string | null;
+  meta_keywords?: string | null;
 }
 
 export const services: Service[] = [
