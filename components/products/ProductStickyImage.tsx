@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { Product } from "@/data/products";
-import { ArrowUpRight, Maximize2 } from "lucide-react";
+import { ArrowUpRight, Maximize2, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ProductStickyImage({ product }: { product: Product }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -30,6 +30,28 @@ export default function ProductStickyImage({ product }: { product: Product }) {
 
     return () => clearInterval(timer);
   }, [allImages.length, isPaused]);
+
+  useEffect(() => {
+    if (!isLightboxOpen) {
+      return;
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsLightboxOpen(false);
+      } else if (e.key === "ArrowLeft") {
+        setActiveIndex((idx) => (idx - 1 + allImages.length) % allImages.length);
+      } else if (e.key === "ArrowRight") {
+        setActiveIndex((idx) => (idx + 1) % allImages.length);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isLightboxOpen, allImages.length]);
+
+  const prevImage = () => setActiveIndex((idx) => (idx - 1 + allImages.length) % allImages.length);
+  const nextImage = () => setActiveIndex((idx) => (idx + 1) % allImages.length);
 
   return (
     <>
@@ -203,6 +225,54 @@ export default function ProductStickyImage({ product }: { product: Product }) {
               className="object-contain"
             />
           </div>
+
+          {/* Close Button */}
+          <button
+            type="button"
+            aria-label="Close preview"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsLightboxOpen(false);
+            }}
+            className="absolute top-4 right-4 z-20 w-11 h-11 rounded-full bg-black/70 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-white hover:text-black transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          {/* Prev / Next Navigation */}
+          {allImages.length > 1 && (
+            <>
+              <button
+                type="button"
+                aria-label="Previous image"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevImage();
+                }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-white hover:text-black transition-colors"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next image"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextImage();
+                }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black/70 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-white hover:text-black transition-colors"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </>
+          )}
+
+          {/* Image Counter */}
+          {allImages.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 px-3 py-1.5 bg-black/70 backdrop-blur-md rounded-lg text-xs font-semibold text-white border border-white/20">
+              {activeIndex + 1} / {allImages.length}
+            </div>
+          )}
         </div>
       )}
     </>
