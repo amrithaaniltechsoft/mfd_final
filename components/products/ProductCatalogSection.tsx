@@ -7,7 +7,8 @@ import { useSearchParams } from "next/navigation";
 import InnerHero from "@/components/global/InnerHero";
 import Button from "@/components/ui/Button";
 import { ArrowRight, Search, X } from "lucide-react";
-import { products, Product } from "@/data/products";
+import { Product } from "@/data/products";
+import { getProducts } from "@/lib/api";
 
 // Reusable Background Pattern from Homepage
 const WaveCardPattern = () => (
@@ -44,6 +45,17 @@ export default function ProductCatalogSection() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("search") || "";
   const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [products, setProducts] = useState<Product[] | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    getProducts({ fresh: true }).then((data) => {
+      if (active) setProducts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Animated Placeholder Typewriter Effect
   const placeholderPhrases = React.useMemo(
@@ -92,13 +104,14 @@ export default function ProductCatalogSection() {
   }, [searchParams]);
 
   // Filtered products list
-  const filteredProducts = products.filter((item) => {
-    const q = searchQuery.toLowerCase().trim();
+  const q = searchQuery.toLowerCase().trim();
+  const isLoading = products === null;
+  const filteredProducts = (products ?? []).filter((item) => {
     if (!q) return true;
     return (
-      item.title.toLowerCase().includes(q) ||
-      item.tag.toLowerCase().includes(q) ||
-      item.desc.toLowerCase().includes(q)
+      (item.title ?? "").toLowerCase().includes(q) ||
+      (item.tag ?? "").toLowerCase().includes(q) ||
+      (item.desc ?? "").toLowerCase().includes(q)
     );
   });
 
@@ -160,8 +173,24 @@ export default function ProductCatalogSection() {
 
       {/* Product Catalog Grid Section */}
       <section id="product-catalog-grid" className="py-16 sm:py-20 max-w-7xl mx-auto px-6">
-        {/* Product Grid or No Results */}
-        {filteredProducts.length === 0 ? (
+        {/* Product Grid, Loading Skeleton, or No Results */}
+        {isLoading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="group relative bg-white rounded-2xl overflow-hidden flex flex-col justify-between h-full border border-zinc-200/90 shadow-md animate-pulse"
+              >
+                <div className="aspect-[16/11] w-full bg-zinc-200" />
+                <div className="p-3.5 sm:p-5 space-y-2 relative z-20">
+                  <div className="h-4 bg-zinc-200 rounded w-3/4" />
+                  <div className="h-3 bg-zinc-200 rounded w-full" />
+                  <div className="h-3 bg-zinc-200 rounded w-2/3" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filteredProducts.length === 0 ? (
           <div className="text-center py-16 px-4 bg-white rounded-2xl border border-zinc-200 shadow-sm max-w-md mx-auto space-y-4">
             <p className="text-base text-zinc-600 font-medium">
               No products found matching &ldquo;<span className="font-bold text-black">{searchQuery}</span>&rdquo;

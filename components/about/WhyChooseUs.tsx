@@ -2,7 +2,52 @@
 
 import React, { useState } from "react";
 import SvgDice from "@/components/global/SvgDice";
-import { ShieldCheck, Zap, Users, MapPin, ArrowRight } from "lucide-react";
+import { ShieldCheck, Zap, Users, MapPin, Cpu, Award, Wrench, Timer, ArrowRight } from "lucide-react";
+import type { WhyChoose } from "@/lib/api";
+
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  quality: ShieldCheck,
+  tech: Cpu,
+  award: Award,
+  map: MapPin,
+  zap: Zap,
+  users: Users,
+  tools: Wrench,
+  clock: Timer,
+};
+
+const DEFAULT_DATA: WhyChoose = {
+  badgeLabel: "Why Choose Us",
+  sectionTitle: "Why Choose",
+  sectionTitleAccent: "Master Form Dies?",
+  subtitle: "Built on a legacy of precision craftsmanship, cutting-edge technology, and unyielding quality assurance.",
+  cards: [
+    {
+      icon: "quality",
+      title: "Uncompromised Quality & Engineering Precision",
+      desc: "Every die and component undergoes thorough quality checks to ensure exact dimensional accuracy, tight tolerances, and long operational life.",
+      tag: "Quality Control",
+    },
+    {
+      icon: "zap",
+      title: "Technical Proficiency & Tooling Design",
+      desc: "Skilled engineering practices aligned with standard industrial specifications, advanced precision techniques, and specialized mold design.",
+      tag: "Technical Spec",
+    },
+    {
+      icon: "users",
+      title: "Client-Centric & Custom Manufacturing",
+      desc: "Flexible production runs, competitive lead times, and tailored component solutions designed to seamlessly fit specific manufacturing workflows.",
+      tag: "Client Focus",
+    },
+    {
+      icon: "map",
+      title: "Strategic Location in Ernakulam",
+      desc: "Conveniently accessible facility near Ernakulam, Kerala, strategically supporting local and regional industrial requirements with reliable delivery.",
+      tag: "Location",
+    },
+  ],
+};
 
 // Full-Width Organic Vector Wave Background Component (Dark Theme Version)
 const WaveCardPattern = () => (
@@ -36,35 +81,11 @@ const CardBottomGradient = () => (
   <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#6B910C]/15 via-transparent to-transparent pointer-events-none rounded-2xl group-hover:from-[#6B910C]/20 transition-all duration-500" />
 );
 
-export default function WhyChooseUs() {
+export default function WhyChooseUs({ data }: { data?: WhyChoose | null }) {
   const [activeCard, setActiveCard] = useState(0);
 
-  const whyChooseUs = [
-    {
-      icon: <ShieldCheck className="w-8 h-8 text-[#A3E635]" />,
-      title: "Uncompromised Quality & Engineering Precision",
-      desc: "Every die and component undergoes thorough quality checks to ensure exact dimensional accuracy, tight tolerances, and long operational life.",
-      tag: "Quality Control",
-    },
-    {
-      icon: <Zap className="w-8 h-8 text-[#A3E635]" />,
-      title: "Technical Proficiency & Tooling Design",
-      desc: "Skilled engineering practices aligned with standard industrial specifications, advanced precision techniques, and specialized mold design.",
-      tag: "Technical Spec",
-    },
-    {
-      icon: <Users className="w-8 h-8 text-[#A3E635]" />,
-      title: "Client-Centric & Custom Manufacturing",
-      desc: "Flexible production runs, competitive lead times, and tailored component solutions designed to seamlessly fit specific manufacturing workflows.",
-      tag: "Client Focus",
-    },
-    {
-      icon: <MapPin className="w-8 h-8 text-[#A3E635]" />,
-      title: "Strategic Location in Ernakulam",
-      desc: "Conveniently accessible facility near Ernakulam, Kerala, strategically supporting local and regional industrial requirements with reliable delivery.",
-      tag: "Location",
-    },
-  ];
+  const section = data ?? DEFAULT_DATA;
+  const whyChooseUs = section.cards ?? [];
 
   return (
     <section className="w-full py-12 sm:py-20 lg:py-24 bg-[#050505] text-white relative overflow-hidden border-b border-zinc-500">
@@ -75,15 +96,15 @@ export default function WhyChooseUs() {
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#111111] rounded-full border border-zinc-800">
             <SvgDice size="sm" interactive={false} />
             <span className="text-xs sm:text-base font-semibold text-white tracking-wide">
-              Why Choose Us
+              {section.badgeLabel}
             </span>
           </div>
 
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-            Why Choose <span className="text-[#A3E635]">Master Form Dies?</span>
+            {section.sectionTitle} <span className="text-[#A3E635]">{section.sectionTitleAccent}</span>
           </h2>
           <p className="text-sm sm:text-lg text-zinc-300 font-normal max-w-xl mx-auto">
-            Built on a legacy of precision craftsmanship, cutting-edge technology, and unyielding quality assurance.
+            {section.subtitle}
           </p>
         </div>
 
@@ -158,7 +179,10 @@ export default function WhyChooseUs() {
                   <div className="space-y-3 sm:space-y-4 relative z-10">
                     <div className="flex items-center justify-between">
                       <div className="p-2.5 sm:p-3 bg-[#111111] rounded-xl border border-zinc-800">
-                        {item.icon}
+                        {(() => {
+                          const Icon = ICON_MAP[item.icon] ?? ShieldCheck;
+                          return <Icon className="w-8 h-8 text-[#A3E635]" />;
+                        })()}
                       </div>
                       <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-[#A3E635] px-2.5 py-1 bg-black/60 rounded-md border border-zinc-800">
                         {item.tag}

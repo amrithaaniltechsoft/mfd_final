@@ -3,9 +3,21 @@
 import React from "react";
 import Image from "next/image";
 import SvgDice from "../global/SvgDice";
-import { ShieldCheck, Target, Factory, Sparkles } from "lucide-react";
+import {
+  BadgeCheck,
+  Cog,
+  Factory,
+  Layers,
+  MapPin,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, FreeMode } from "swiper/modules";
+import type { AboutSection as AboutSectionData } from "@/lib/api";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -48,15 +60,81 @@ const CardBottomGradient = ({ isGreenBg = false }: { isGreenBg?: boolean }) => (
   />
 );
 
-export default function AboutSection() {
-  const machineImages = [
-    "/machines/m1.jpg",
-    "/machines/m2.jpg",
-    "/machines/m3.jpg",
-    "/machines/m4.jpg",
-    "/machines/m5.jpg",
-    "/machines/m6.jpg",
-  ];
+const ICON_MAP: Record<string, LucideIcon> = {
+  shield: ShieldCheck,
+  target: Target,
+  factory: Factory,
+  sparkles: Sparkles,
+  tools: Wrench,
+  layers: Layers,
+  quality: BadgeCheck,
+  map: MapPin,
+  cog: Cog,
+};
+
+const DEFAULT_DATA: AboutSectionData = {
+  badgeLabel: "About Master Form Dies",
+  sectionTitle: "High-Precision Engineering &",
+  sectionTitleAccent: "Custom Tooling Solutions",
+  overviewLabel: "SPECIALIZATION OVERVIEW",
+  overviewText:
+    "At Master Form Dies Manufacturing Company Pvt Ltd, we specialize in delivering high-precision engineering solutions, high-grade die manufacturing, and custom tooling designed to meet the rigorous demands of modern manufacturing. Situated in Ernakulam, Kerala, our facility combines technical expertise, advanced fabrication practices, and quality craftsmanship to supply reliable components for industrial applications.",
+  overviewFooter: "Mannathoor, Ernakulam, Kerala • Industrial Tooling & Die Manufacturing",
+  overviewImage: null,
+  cards: [
+    {
+      icon: "shield",
+      title: "Strict Quality Control",
+      desc: "Total dimensional quality assurance and rigorous testing standards.",
+      footer: "QUALITY ASSURANCE PROTOCOL",
+    },
+    {
+      icon: "target",
+      title: "Robust Component Design",
+      desc: "Durable tooling engineered for high accuracy and long operational endurance.",
+      footer: "HIGH ACCURACY & ENDURANCE",
+    },
+    {
+      icon: null,
+      title: "CONCEPT TO PRODUCTION",
+      desc: "From initial concept and tool design to final production and quality assurance, we partner with clients across various sectors to provide durable, cost-effective, and dimensionally accurate manufacturing solutions.",
+      footer: "FULL LIFECYCLE TOOLING PARTNER",
+    },
+    {
+      icon: "factory",
+      title: "Ernakulam Facility",
+      desc: "Mannathoor North P.O., Near Government Ayurveda Hospital, Kerala, India.",
+      footer: null,
+    },
+  ],
+  carouselImages: [
+    { image: "/machines/m1.jpg", alt: "Master Form Dies Machinery 1" },
+    { image: "/machines/m2.jpg", alt: "Master Form Dies Machinery 2" },
+    { image: "/machines/m3.jpg", alt: "Master Form Dies Machinery 3" },
+    { image: "/machines/m4.jpg", alt: "Master Form Dies Machinery 4" },
+    { image: "/machines/m5.jpg", alt: "Master Form Dies Machinery 5" },
+    { image: "/machines/m6.jpg", alt: "Master Form Dies Machinery 6" },
+  ],
+};
+
+export default function AboutSection({ data }: { data?: AboutSectionData | null }) {
+  const content: AboutSectionData = {
+    badgeLabel: data?.badgeLabel ?? DEFAULT_DATA.badgeLabel,
+    sectionTitle: data?.sectionTitle ?? DEFAULT_DATA.sectionTitle,
+    sectionTitleAccent: data?.sectionTitleAccent ?? DEFAULT_DATA.sectionTitleAccent,
+    overviewLabel: data?.overviewLabel ?? DEFAULT_DATA.overviewLabel,
+    overviewText: data?.overviewText ?? DEFAULT_DATA.overviewText,
+    overviewFooter: data?.overviewFooter ?? DEFAULT_DATA.overviewFooter,
+    overviewImage: data?.overviewImage ?? DEFAULT_DATA.overviewImage,
+    cards: data?.cards?.length ? data.cards : DEFAULT_DATA.cards,
+    carouselImages: data?.carouselImages?.some((img) => img.image)
+      ? data.carouselImages.filter((img) => img.image)
+      : DEFAULT_DATA.carouselImages,
+  };
+
+  const cards = content.cards;
+  const overviewBg = content.overviewImage ?? "/about-home/card-bg2.png";
+  const machineImages = content.carouselImages;
 
   return (
     <section id="about-us" className="w-full bg-white text-black py-20 lg:py-24 relative">
@@ -67,11 +145,11 @@ export default function AboutSection() {
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#f3f4f6] rounded-full border border-zinc-300">
             <SvgDice size="sm" interactive={false} />
             <span className="text-sm sm:text-base font-semibold text-black tracking-wide">
-              About Master Form Dies
+              {content.badgeLabel}
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-black leading-[1.15]">
-            High-Precision Engineering & <span className="text-[#526E07]">Custom Tooling Solutions</span>
+            {content.sectionTitle} <span className="text-[#526E07]">{content.sectionTitleAccent}</span>
           </h2>
         </div>
 
@@ -82,7 +160,7 @@ export default function AboutSection() {
           <div className="group md:col-span-8 rounded-xl p-6 sm:p-8 flex flex-col justify-between transition-all space-y-6 text-white shadow-md relative overflow-hidden min-h-[300px]">
             {/* Background Image */}
             <Image
-              src="/about-home/card-bg2.png"
+              src={overviewBg}
               alt="Master Form Dies Specialization Background"
               fill
               sizes="(max-width: 768px) 100vw, 66vw"
@@ -98,103 +176,122 @@ export default function AboutSection() {
               }}
             />
 
-
-
             <div className="space-y-4 z-10 relative">
               <div className="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-white">
                 <Sparkles className="w-4.5 h-4.5 text-white" />
-                SPECIALIZATION OVERVIEW
+                {content.overviewLabel}
               </div>
               <p className="text-base sm:text-lg font-medium leading-relaxed text-white">
-                At Master Form Dies Manufacturing Company Pvt Ltd, we specialize in delivering high-precision engineering solutions, high-grade die manufacturing, and custom tooling designed to meet the rigorous demands of modern manufacturing. Situated in Ernakulam, Kerala, our facility combines technical expertise, advanced fabrication practices, and quality craftsmanship to supply reliable components for industrial applications.
+                {content.overviewText}
               </p>
             </div>
 
             <div className="text-xs sm:text-sm font-semibold text-white/90 pt-2 z-10 relative">
-              Mannathoor, Ernakulam, Kerala • Industrial Tooling & Die Manufacturing
+              {content.overviewFooter}
             </div>
           </div>
 
-          {/* Card 2: Strict Quality Control */}
-          <div className="group md:col-span-4 bg-[#f3f4f6] rounded-xl p-6 sm:p-8 flex flex-col justify-between hover:bg-[#e5e7eb] transition-all space-y-6 text-black shadow-sm border border-zinc-200/90 relative overflow-hidden">
-            <WaveCardPattern isGreenBg={false} />
-            <CardBottomGradient isGreenBg={false} />
+          {/* Cards 2-5: Dynamic Bento Cards (rendered per design slot) */}
+          {cards.map((card, idx) => {
+            const Icon = card.icon ? ICON_MAP[card.icon] ?? null : null;
 
-            <div className="space-y-4 z-10">
-              <ShieldCheck className="w-9 h-9 text-[#526E07]" />
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold text-black tracking-tight">Strict Quality Control</h3>
-                <p className="text-base text-zinc-900 font-medium leading-relaxed">
-                  Total dimensional quality assurance and rigorous testing standards.
-                </p>
+            /* Green accent card (slot index 1) */
+            if (idx === 1) {
+              return (
+                <div key={idx} className="group md:col-span-4 bg-[#526E07] rounded-xl p-6 sm:p-8 flex flex-col justify-between hover:bg-[#3f5505] transition-all space-y-6 text-white shadow-md relative overflow-hidden">
+                  <WaveCardPattern isGreenBg={true} />
+                  <CardBottomGradient isGreenBg={true} />
+
+                  <div className="space-y-4 z-10">
+                    {Icon && <Icon className="w-9 h-9 text-white" />}
+                    <div className="space-y-2">
+                      <h3 className="text-xl font-bold text-white tracking-tight">{card.title}</h3>
+                      <p className="text-base text-white font-medium leading-relaxed">{card.desc}</p>
+                    </div>
+                  </div>
+
+                  {card.footer && (
+                    <div className="text-xs sm:text-sm font-semibold text-white z-10">{card.footer}</div>
+                  )}
+                </div>
+              );
+            }
+
+            /* Tag-style card (slot index 2, title renders as uppercase label when no icon) */
+            if (idx === 2) {
+              return (
+                <div key={idx} className="group md:col-span-4 bg-[#f3f4f6] rounded-xl p-6 sm:p-8 flex flex-col justify-between hover:bg-[#e5e7eb] transition-all space-y-6 text-black shadow-sm border border-zinc-200/90 relative overflow-hidden">
+                  <WaveCardPattern isGreenBg={false} />
+                  <CardBottomGradient isGreenBg={false} />
+
+                  <div className="space-y-4 z-10">
+                    {Icon ? (
+                      <Icon className="w-9 h-9 text-[#526E07]" />
+                    ) : (
+                      <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800">{card.title}</div>
+                    )}
+                    <div className="space-y-2">
+                      {Icon && <h3 className="text-xl font-bold text-black tracking-tight">{card.title}</h3>}
+                      <p className="text-base text-zinc-900 font-medium leading-relaxed">{card.desc}</p>
+                    </div>
+                  </div>
+
+                  {card.footer && (
+                    <div className="text-xs sm:text-sm font-bold text-zinc-800 z-10">{card.footer}</div>
+                  )}
+                </div>
+              );
+            }
+
+            /* Facility / dice-slot card (slot index 3) */
+            if (idx === 3) {
+              return (
+                <div key={idx} className="group md:col-span-4 bg-[#f3f4f6] rounded-xl p-6 flex flex-col justify-end gap-2 hover:bg-[#e5e7eb] transition-all text-black shadow-sm border border-zinc-200/90 relative overflow-hidden">
+                  <WaveCardPattern isGreenBg={false} />
+                  <CardBottomGradient isGreenBg={false} />
+
+                  {/* Target Slot where 3D Dice stops on scroll */}
+                  <div
+                    id="dice-target-slot"
+                    className="w-full h-[150px] relative flex justify-center items-center"
+                  />
+
+                  {/* Address & Facility Info aligned snugly at Bottom of Card */}
+                  <div className="space-y-2.5 z-10 pt-1">
+                    {Icon && <Icon className="w-8 h-8 text-[#526E07]" />}
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-bold text-black tracking-tight">{card.title}</h3>
+                      <p className="text-base text-zinc-900 font-medium leading-relaxed">{card.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            /* Standard light card (slot index 0 & fallback) */
+            return (
+              <div key={idx} className="group md:col-span-4 bg-[#f3f4f6] rounded-xl p-6 sm:p-8 flex flex-col justify-between hover:bg-[#e5e7eb] transition-all space-y-6 text-black shadow-sm border border-zinc-200/90 relative overflow-hidden">
+                <WaveCardPattern isGreenBg={false} />
+                <CardBottomGradient isGreenBg={false} />
+
+                <div className="space-y-4 z-10">
+                  {Icon ? (
+                    <Icon className="w-9 h-9 text-[#526E07]" />
+                  ) : (
+                    <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800">{card.title}</div>
+                  )}
+                  <div className="space-y-2">
+                    {Icon && <h3 className="text-xl font-bold text-black tracking-tight">{card.title}</h3>}
+                    <p className="text-base text-zinc-900 font-medium leading-relaxed">{card.desc}</p>
+                  </div>
+                </div>
+
+                {card.footer && (
+                  <div className="text-xs sm:text-sm font-bold text-zinc-800 z-10">{card.footer}</div>
+                )}
               </div>
-            </div>
-
-            <div className="text-xs sm:text-sm font-bold text-zinc-800 z-10">
-              QUALITY ASSURANCE PROTOCOL
-            </div>
-          </div>
-
-          {/* Card 3: Robust Component Design */}
-          <div className="group md:col-span-4 bg-[#526E07] rounded-xl p-6 sm:p-8 flex flex-col justify-between hover:bg-[#3f5505] transition-all space-y-6 text-white shadow-md relative overflow-hidden">
-            <WaveCardPattern isGreenBg={true} />
-            <CardBottomGradient isGreenBg={true} />
-
-            <div className="space-y-4 z-10">
-              <Target className="w-9 h-9 text-white" />
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold text-white tracking-tight">Robust Component Design</h3>
-                <p className="text-base text-white font-medium leading-relaxed">
-                  Durable tooling engineered for high accuracy and long operational endurance.
-                </p>
-              </div>
-            </div>
-
-            <div className="text-xs sm:text-sm font-semibold text-white z-10">
-              HIGH ACCURACY & ENDURANCE
-            </div>
-          </div>
-
-          {/* Card 4: End-to-End Solutions */}
-          <div className="group md:col-span-4 bg-[#f3f4f6] rounded-xl p-6 sm:p-8 flex flex-col justify-between hover:bg-[#e5e7eb] transition-all space-y-6 text-black shadow-sm border border-zinc-200/90 relative overflow-hidden">
-            <WaveCardPattern isGreenBg={false} />
-            <CardBottomGradient isGreenBg={false} />
-
-            <div className="space-y-4 z-10">
-              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800">CONCEPT TO PRODUCTION</div>
-              <p className="text-base text-zinc-900 font-medium leading-relaxed">
-                From initial concept and tool design to final production and quality assurance, we partner with clients across various sectors to provide durable, cost-effective, and dimensionally accurate manufacturing solutions.
-              </p>
-            </div>
-
-            <div className="text-xs sm:text-sm font-bold text-zinc-800 z-10">
-              FULL LIFECYCLE TOOLING PARTNER
-            </div>
-          </div>
-
-          {/* Card 5: Ernakulam Facility & 3D Dice Destination Slot */}
-          <div className="group md:col-span-4 bg-[#f3f4f6] rounded-xl p-6 flex flex-col justify-end gap-2 hover:bg-[#e5e7eb] transition-all text-black shadow-sm border border-zinc-200/90 relative overflow-hidden">
-            <WaveCardPattern isGreenBg={false} />
-            <CardBottomGradient isGreenBg={false} />
-
-            {/* Target Slot where 3D Dice stops on scroll */}
-            <div
-              id="dice-target-slot"
-              className="w-full h-[150px] relative flex justify-center items-center"
-            />
-
-            {/* Address & Facility Info aligned snugly at Bottom of Card 5 */}
-            <div className="space-y-2.5 z-10 pt-1">
-              <Factory className="w-8 h-8 text-[#526E07]" />
-              <div className="space-y-1">
-                <h3 className="text-xl font-bold text-black tracking-tight">Ernakulam Facility</h3>
-                <p className="text-base text-zinc-900 font-medium leading-relaxed">
-                  Mannathoor North P.O., Near Government Ayurveda Hospital, Kerala, India.
-                </p>
-              </div>
-            </div>
-
-          </div>
+            );
+          })}
 
         </div>
 
@@ -238,14 +335,14 @@ export default function AboutSection() {
             className="w-full machine-swiper py-2"
           >
 
-            {machineImages.map((src, idx) => (
+            {machineImages.map((img, idx) => (
               <SwiperSlide key={idx} className="!h-auto">
                 <div className="group relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-zinc-100 shadow-xl transform-gpu hover:-translate-y-2 transition-all duration-500 cursor-grab active:cursor-grabbing">
 
                   {/* Vintage Image Filter */}
                   <Image
-                    src={src}
-                    alt={`Master Form Dies Machinery ${idx + 1}`}
+                    src={img.image ?? ""}
+                    alt={img.alt ?? `Master Form Dies Machinery ${idx + 1}`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover sepia-[0.35] contrast-[1.2] brightness-[0.9] saturate-[0.85] group-hover:sepia-0 group-hover:brightness-100 group-hover:saturate-100 group-hover:scale-105 transition-all duration-700"

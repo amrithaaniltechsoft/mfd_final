@@ -1,9 +1,12 @@
 import React from "react";
+import { Service } from "@/data/services";
 import InnerHero from "@/components/global/InnerHero";
 import ServiceCard from "./ServiceCard";
-import { services, Service } from "@/data/services";
+import { getServices } from "@/lib/api";
 
-export default function ServiceCatalogSection() {
+export default async function ServiceCatalogSection() {
+  const services = await getServices({ fresh: true });
+
   return (
     <>
       {/* Inner Hero */}

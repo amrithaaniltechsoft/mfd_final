@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/global/Header";
 import Footer from "@/components/global/Footer";
@@ -6,7 +7,7 @@ import ProductIntroOverlay from "@/components/products/ProductIntroOverlay";
 import ProductContentDetails from "@/components/products/ProductContentDetails";
 import ProductStickyImage from "@/components/products/ProductStickyImage";
 import RelatedProducts from "@/components/products/RelatedProducts";
-import { products } from "@/data/products";
+import { getProduct, getProducts } from "@/lib/api";
 
 interface ProductPageProps {
   params: Promise<{
@@ -15,14 +16,44 @@ interface ProductPageProps {
 }
 
 export async function generateStaticParams() {
+  const products = await getProducts({ fresh: true });
   return products.map((p) => ({
     slug: p.slug,
   }));
 }
 
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const product = await getProduct(resolvedParams.slug, { fresh: true });
+
+  if (!product) {
+    return {};
+  }
+
+  const title = product.meta_title?.trim() || `${product.title} | Master Form Dies`;
+  const description = product.meta_description?.trim() || product.desc || product.fullDesc || title;
+  const keywords =
+    product.meta_keywords?.trim() ||
+    [product.tag, product.title, "precision die", "mold", "tooling"].filter(Boolean).join(", ");
+
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      images: product.image ? [{ url: product.image }] : undefined,
+    },
+  };
+}
+
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const resolvedParams = await params;
-  const product = products.find((p) => p.slug === resolvedParams.slug);
+  const [product, allProducts] = await Promise.all([
+    getProduct(resolvedParams.slug, { fresh: true }),
+    getProducts({ fresh: true }),
+  ]);
 
   if (!product) {
     notFound();
@@ -42,7 +73,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         </div>
       </main>
 
-      <RelatedProducts currentSlug={product.slug} products={products} />
+      <RelatedProducts currentSlug={product.slug} products={allProducts} />
 
       <Footer />
     </div>

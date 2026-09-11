@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SvgDice from "../global/SvgDice";
 import Button from "../ui/Button";
 import { ArrowRight } from "lucide-react";
-import { products } from "@/data/products";
+import { products as staticProducts, Product } from "@/data/products";
+import { getProducts } from "@/lib/api";
 
 // Full-Width Organic Vector Wave Background Component (Light Theme Version)
 const WaveCardPattern = () => (
@@ -43,6 +44,17 @@ const CardBottomGradient = () => (
 
 export default function ProductsSection() {
   const router = useRouter();
+  const [products, setProducts] = useState<Product[]>(staticProducts);
+
+  useEffect(() => {
+    let active = true;
+    getProducts().then((data) => {
+      if (active && data.length > 0) setProducts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const scrollToQuote = () => {
     const el = document.getElementById("quote-section");

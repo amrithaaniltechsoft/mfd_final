@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Search, X, ArrowRight, Sparkles } from "lucide-react";
-import { products, Product } from "@/data/products";
+import { products as staticProducts, Product } from "@/data/products";
+import { getProducts } from "@/lib/api";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -14,8 +15,19 @@ interface SearchModalProps {
 
 export default function SearchModal({ isOpen, onClose, initialQuery = "" }: SearchModalProps) {
   const [query, setQuery] = useState(initialQuery);
+  const [products, setProducts] = useState<Product[]>(staticProducts);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    let active = true;
+    getProducts().then((data) => {
+      if (active && data.length > 0) setProducts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Animated Placeholder Phrases for Search Modal
   const placeholderPhrases = React.useMemo(
@@ -100,9 +112,9 @@ export default function SearchModal({ isOpen, onClose, initialQuery = "" }: Sear
     const q = query.toLowerCase().trim();
     if (!q) return true;
     return (
-      item.title.toLowerCase().includes(q) ||
-      item.tag.toLowerCase().includes(q) ||
-      item.desc.toLowerCase().includes(q)
+      (item.title ?? "").toLowerCase().includes(q) ||
+      (item.tag ?? "").toLowerCase().includes(q) ||
+      (item.desc ?? "").toLowerCase().includes(q)
     );
   });
 

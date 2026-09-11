@@ -1,31 +1,64 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { Product } from "@/data/products";
-import { ArrowUpRight, Maximize2, Phone } from "lucide-react";
+import { ArrowUpRight, Maximize2 } from "lucide-react";
 
 export default function ProductStickyImage({ product }: { product: Product }) {
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const allImages = useMemo(() => {
+    const sources = [product.image, ...(product.images ?? [])];
+    return sources.filter((src, idx) => Boolean(src) && sources.indexOf(src) === idx);
+  }, [product.image, product.images]);
+
+  const activeImage = allImages[activeIndex] ?? product.image;
+
+  useEffect(() => {
+    if (allImages.length <= 1 || isPaused) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setActiveIndex((idx) => (idx + 1) % allImages.length);
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, [allImages.length, isPaused]);
 
   return (
     <>
       <div className="lg:col-span-6 static lg:sticky lg:top-28 self-start space-y-4 pt-0">
-        {/* Image Box */}
+        {/* Image Box / Carousel */}
         <div
           onClick={() => setIsLightboxOpen(true)}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
           className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-zinc-900 border border-zinc-200 cursor-pointer group transition-all duration-700 ease-out z-20"
         >
-          <Image
-            src={product.image}
-            alt={product.title}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-700"
-          />
+          {/* Sliding Track */}
+          <div
+            className="flex h-full transition-transform duration-500 ease-out will-change-transform"
+            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+          >
+            {allImages.map((src) => (
+              <div key={src} className="relative w-full h-full shrink-0">
+                <Image
+                  src={src}
+                  alt={product.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+            ))}
+          </div>
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none" />
 
@@ -36,10 +69,71 @@ export default function ProductStickyImage({ product }: { product: Product }) {
             }}
           />
 
+          {/* Prev / Next Arrows */}
+          {allImages.length > 1 && (
+            <>
+              <button
+                type="button"
+                aria-label="Previous image"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveIndex((idx) => (idx - 1 + allImages.length) % allImages.length);
+                }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-black transition-colors"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M12.707 4.293a1 1 0 010 1.414L8.414 10l4.293 4.293a1 1 0 11-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                aria-label="Next image"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveIndex((idx) => (idx + 1) % allImages.length);
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-black transition-colors"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M7.293 15.707a1 1 0 010-1.414L11.586 10 7.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </>
+          )}
+
           <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/70 backdrop-blur-md rounded-lg text-xs font-semibold text-white flex items-center gap-1.5 border border-white/20 group-hover:bg-black transition-colors">
-            <Maximize2 className="w-3.5 h-3.5 text-[#A3E635]" /> Fullscreen Preview
+            <Maximize2 className="w-3.5 h-3.5 text-[#A3E635]" />{" "}
+            {allImages.length > 1 ? `${activeIndex + 1} / ${allImages.length} · ` : ""}
+            Fullscreen Preview
           </div>
         </div>
+
+        {/* Thumbnail Carousel Strip */}
+        {allImages.length > 1 && (
+          <div className="flex gap-2.5 sm:gap-3 pt-1 pb-1 overflow-x-auto">
+            {allImages.map((src, idx) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setActiveIndex(idx)}
+                aria-label={`View image ${idx + 1} of ${allImages.length}`}
+                className={`relative shrink-0 w-20 sm:w-24 aspect-[4/3] rounded-lg overflow-hidden cursor-pointer border transition-all duration-300 ${
+                  idx === activeIndex
+                    ? "border-[#526E07] ring-2 ring-[#526E07]/60 opacity-100"
+                    : "border-zinc-300 opacity-60 hover:opacity-100"
+                }`}
+              >
+                <Image
+                  src={src}
+                  alt={`${product.title} thumbnail ${idx + 1}`}
+                  fill
+                  sizes="96px"
+                  className="object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Action Buttons directly below image */}
         <div className="w-full pt-1 flex flex-row items-center gap-2.5 sm:gap-3">
@@ -102,7 +196,8 @@ export default function ProductStickyImage({ product }: { product: Product }) {
         >
           <div className="relative w-full max-w-6xl aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border border-zinc-800">
             <Image
-              src={product.image}
+              key={activeImage}
+              src={activeImage}
               alt={product.title}
               fill
               className="object-contain"

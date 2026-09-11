@@ -1,36 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { Product } from "@/data/products";
-import { ChevronRight, Home, CheckCircle2, Check, ChevronDown } from "lucide-react";
-
-const defaultBenefits = [
-  "High-grade hardened tool steel construction for extended die life",
-  "Precision micro-machined tolerances meeting strict standards",
-  "Custom surface finishes and anti-wear treatment options",
-  "Comprehensive dimensional inspection & quality assurance",
-  "Optimized geometry for high-speed continuous production",
-  "Full engineering support from initial CAD draft to site fitting"
-];
-
-const defaultFaqs = [
-  {
-    q: "What is the typical lead time for custom die manufacturing?",
-    a: "Standard lead times range from 2 to 4 weeks depending on tool complexity, steel hardening requirements, and CAD verification. Expedited fabrication options are available for priority projects."
-  },
-  {
-    q: "Can you manufacture dies according to custom technical drawings?",
-    a: "Yes. Our engineering team works directly with STEP, IGES, DXF, and DWG files to model, prototype, and precision-machine custom dies tailored to your production workflow."
-  },
-  {
-    q: "What quality assurance checks are performed before dispatch?",
-    a: "Every die block undergoes CMM dimensional inspection, hardness testing, surface roughness checks, and trial stamping runs to guarantee strict compliance with client specifications."
-  }
-];
+import { ChevronRight, Home, CheckCircle2, Check } from "lucide-react";
 
 export default function ProductContentDetails({ product }: { product: Product }) {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
   return (
     <div className="lg:col-span-6 space-y-8 text-left z-10">
       {/* Top Breadcrumb Navigation */}
@@ -125,49 +100,17 @@ export default function ProductContentDetails({ product }: { product: Product })
         </div>
       )}
 
-      {/* Additional Manufacturing Benefits (Dynamic) */}
-      {((product.benefits && product.benefits.length > 0) || defaultBenefits.length > 0) && (
+      {/* Manufacturing Benefits (Dynamic) */}
+      {product.benefits && product.benefits.length > 0 && (
         <div className="space-y-4 pt-6 border-t border-zinc-300">
-          <h3 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight">Additional Manufacturing Benefits</h3>
+          <h3 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight">Manufacturing Benefits</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {(product.benefits && product.benefits.length > 0 ? product.benefits : defaultBenefits).map((item, idx) => (
+            {product.benefits.map((item, idx) => (
               <div key={idx} className="flex items-start gap-2.5 bg-white p-3.5 rounded-lg border border-zinc-300 shadow-2xs">
                 <Check className="w-4 h-4 text-[#526E07] shrink-0 mt-0.5" />
                 <span className="text-xs sm:text-sm font-bold text-black">{item}</span>
               </div>
             ))}
-          </div>
-        </div>
-      )}
-
-      {/* Frequently Asked Questions Section (Dynamic) */}
-      {((product.faqs && product.faqs.length > 0) || defaultFaqs.length > 0) && (
-        <div className="space-y-6 pt-6 border-t border-zinc-300">
-          <div className="space-y-1">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#526E07]">GOT QUESTIONS?</span>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight">Frequently Asked Questions</h3>
-          </div>
-
-          <div className="space-y-3">
-            {(product.faqs && product.faqs.length > 0 ? product.faqs : defaultFaqs).map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div key={idx} className="bg-white rounded-xl border border-zinc-300 overflow-hidden shadow-2xs transition-all">
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-black hover:text-[#526E07] transition-colors focus:outline-none cursor-pointer"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-[#526E07] shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
-                  </button>
-                  {isOpen && (
-                    <div className="px-4 pb-5 sm:px-5 sm:pb-5 text-xs sm:text-sm text-black font-semibold leading-relaxed border-t border-zinc-200 pt-3">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
           </div>
         </div>
       )}

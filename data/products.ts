@@ -6,6 +6,7 @@ export interface ProductFaq {
 export interface Product {
   slug: string;
   image: string;
+  images?: string[];
   tag: string;
   title: string;
   desc: string;
@@ -13,6 +14,9 @@ export interface Product {
   features: string[];
   benefits?: string[];
   faqs?: ProductFaq[];
+  meta_title?: string | null;
+  meta_description?: string | null;
+  meta_keywords?: string | null;
 }
 
 export const products: Product[] = [

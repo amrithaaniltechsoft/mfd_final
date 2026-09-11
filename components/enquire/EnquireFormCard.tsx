@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import EnquireSuccessModal from "./EnquireSuccessModal";
 import { Product } from "@/data/products";
 import { Service } from "@/data/services";
+import { submitEnquiry } from "@/lib/api";
 import { ArrowRight } from "lucide-react";
 
 export interface FormDataState {
@@ -25,6 +26,7 @@ export default function EnquireFormCard({
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const initialServiceType = selectedService
     ? selectedService.title
@@ -49,13 +51,18 @@ export default function EnquireFormCard({
     }
   }, [selectedProduct, selectedService]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submitEnquiry(formData);
       setSubmitted(true);
-    }, 1000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -186,6 +193,12 @@ export default function EnquireFormCard({
             className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-400 p-4 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all resize-none"
           />
         </div>
+
+        {error && (
+          <p className="text-xs sm:text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            {error}
+          </p>
+        )}
 
         <Button
           type="submit"

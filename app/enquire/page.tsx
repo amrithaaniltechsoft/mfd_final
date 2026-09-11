@@ -5,8 +5,7 @@ import Footer from "@/components/global/Footer";
 import EnquireProductCard from "@/components/enquire/EnquireProductCard";
 import EnquireServiceCard from "@/components/enquire/EnquireServiceCard";
 import EnquireFormCard from "@/components/enquire/EnquireFormCard";
-import { products } from "@/data/products";
-import { services } from "@/data/services";
+import { getProduct, getService, getProducts } from "@/lib/api";
 import { ArrowLeft } from "lucide-react";
 
 interface EnquirePageProps {
@@ -22,17 +21,19 @@ async function EnquirePageContent({
   const productSlug = searchParams.product;
   const serviceSlug = searchParams.service;
 
-  const selectedService = serviceSlug ? services.find((s) => s.slug === serviceSlug) : undefined;
-  const selectedProduct = productSlug
-    ? products.find((p) => p.slug === productSlug)
-    : !selectedService
-    ? products[0]
-    : undefined;
+  const [selectedService, selectedProduct, fallbackProducts] = await Promise.all([
+    serviceSlug ? getService(serviceSlug, { fresh: true }).then((s) => s ?? undefined) : undefined,
+    productSlug ? getProduct(productSlug, { fresh: true }).then((p) => p ?? undefined) : undefined,
+    getProducts({ fresh: true }),
+  ]);
+
+  const resolvedProduct =
+    selectedProduct ?? (!selectedService ? fallbackProducts[0] : undefined);
 
   const backHref = selectedService
     ? "/services"
-    : selectedProduct
-    ? `/products/${selectedProduct.slug}`
+    : resolvedProduct
+    ? `/products/${resolvedProduct.slug}`
     : "/products";
 
   const backLabel = selectedService
@@ -56,12 +57,12 @@ async function EnquirePageContent({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           {selectedService ? (
             <EnquireServiceCard selectedService={selectedService} />
-          ) : selectedProduct ? (
-            <EnquireProductCard selectedProduct={selectedProduct} />
+          ) : resolvedProduct ? (
+            <EnquireProductCard selectedProduct={resolvedProduct} />
           ) : null}
 
           <EnquireFormCard
-            selectedProduct={selectedProduct}
+            selectedProduct={resolvedProduct}
             selectedService={selectedService}
           />
         </div>

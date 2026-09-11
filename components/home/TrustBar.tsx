@@ -2,7 +2,52 @@
 
 import React, { useState } from "react";
 import SvgDice from "../global/SvgDice";
-import { ShieldCheck, Cpu, Award, MapPin, ArrowRight } from "lucide-react";
+import { ShieldCheck, Cpu, Award, MapPin, Zap, Users, Wrench, Timer, ArrowRight } from "lucide-react";
+import type { WhyChoose } from "@/lib/api";
+
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  quality: ShieldCheck,
+  tech: Cpu,
+  award: Award,
+  map: MapPin,
+  zap: Zap,
+  users: Users,
+  tools: Wrench,
+  clock: Timer,
+};
+
+const DEFAULT_DATA: WhyChoose = {
+  badgeLabel: "Why Choose Us",
+  sectionTitle: "Why Choose",
+  sectionTitleAccent: "Master Form Dies?",
+  subtitle: "Built on a legacy of precision craftsmanship, cutting-edge technology, and unyielding quality assurance.",
+  cards: [
+    {
+      icon: "quality",
+      title: "Uncompromised Quality & Engineering Precision",
+      desc: "We adhere to rigorous quality standards, maintaining tight tolerances and utilizing high-grade tool steel to ensure optimal component performance.",
+      tag: "Quality Protocol",
+    },
+    {
+      icon: "tech",
+      title: "Advanced Manufacturing Technology",
+      desc: "Equipped with state-of-the-art multi-axis CNC milling machines, wire-cut EDM, and high-precision inspection tools for intricate fabrications.",
+      tag: "Infrastructure",
+    },
+    {
+      icon: "award",
+      title: "Technical Proficiency & Experienced Team",
+      desc: "Our skilled team of engineers and toolmakers bring years of industry expertise to every project, offering tailored tooling solutions.",
+      tag: "Expert Tooling",
+    },
+    {
+      icon: "map",
+      title: "Strategic Location & Reliable Delivery",
+      desc: "Based in Mannathoor, Ernakulam, Kerala, our facility is strategically positioned for efficient distribution and prompt customer support.",
+      tag: "Strategic Logistics",
+    },
+  ],
+};
 
 
 // Full-Width Organic Vector Wave Background Component for Bento Cards
@@ -37,35 +82,11 @@ const CardBottomGradient = () => (
   <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#6B910C]/40 via-transparent to-transparent pointer-events-none rounded-2xl group-hover:from-[#6B910C]/60 transition-all duration-500" />
 );
 
-export default function TrustBar() {
+export default function TrustBar({ data }: { data?: WhyChoose | null }) {
   const [activeCard, setActiveCard] = useState(0);
 
-  const trustItems = [
-    {
-      icon: <ShieldCheck className="w-8 h-8 text-[#A3E635]" />,
-      title: "Uncompromised Quality & Engineering Precision",
-      desc: "We adhere to rigorous quality standards, maintaining tight tolerances and utilizing high-grade tool steel to ensure optimal component performance.",
-      tag: "Quality Protocol",
-    },
-    {
-      icon: <Cpu className="w-8 h-8 text-[#A3E635]" />,
-      title: "Advanced Manufacturing Technology",
-      desc: "Equipped with state-of-the-art multi-axis CNC milling machines, wire-cut EDM, and high-precision inspection tools for intricate fabrications.",
-      tag: "Infrastructure",
-    },
-    {
-      icon: <Award className="w-8 h-8 text-[#A3E635]" />,
-      title: "Technical Proficiency & Experienced Team",
-      desc: "Our skilled team of engineers and toolmakers bring years of industry expertise to every project, offering tailored tooling solutions.",
-      tag: "Expert Tooling",
-    },
-    {
-      icon: <MapPin className="w-8 h-8 text-[#A3E635]" />,
-      title: "Strategic Location & Reliable Delivery",
-      desc: "Based in Mannathoor, Ernakulam, Kerala, our facility is strategically positioned for efficient distribution and prompt customer support.",
-      tag: "Strategic Logistics",
-    },
-  ];
+  const section = data ?? DEFAULT_DATA;
+  const trustItems = section.cards ?? [];
 
   return (
     <section id="trust-bar" className="w-full bg-[#050505] py-20 lg:py-28 relative overflow-hidden text-white">
@@ -77,15 +98,15 @@ export default function TrustBar() {
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#111111] rounded-full border border-zinc-800">
             <SvgDice size="sm" interactive={false} />
             <span className="text-sm sm:text-base font-semibold text-white tracking-wide">
-              Why Choose Us
+              {section.badgeLabel}
             </span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-            Why Choose <span className="text-[#A3E635]">Master Form Dies?</span>
+            {section.sectionTitle} <span className="text-[#A3E635]">{section.sectionTitleAccent}</span>
           </h2>
           <p className="text-base sm:text-lg text-zinc-300 font-normal max-w-xl mx-auto">
-            Built on a legacy of precision craftsmanship, cutting-edge technology, and unyielding quality assurance.
+            {section.subtitle}
           </p>
         </div>
 
@@ -169,7 +190,10 @@ export default function TrustBar() {
                       {/* Top Bar: Icon + Clean Tag */}
                       <div className="flex items-center justify-between">
                         <div className="p-3 bg-[#111111] rounded-xl border border-zinc-800">
-                          {item.icon}
+                          {(() => {
+                            const Icon = ICON_MAP[item.icon] ?? ShieldCheck;
+                            return <Icon className="w-8 h-8 text-[#A3E635]" />;
+                          })()}
                         </div>
                         <span className="text-xs font-semibold uppercase tracking-wider text-[#A3E635] px-3 py-1 bg-black/60 rounded-md border border-zinc-800">
                           {item.tag}

@@ -1,15 +1,68 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "../ui/Button";
-import { MapPin, ChevronRight, ArrowUp } from "lucide-react";
+import { getContact, getFooterAbout, getProducts, type Contact } from "@/lib/api";
+import type { Product } from "@/data/products";
+import { MapPin, ChevronRight } from "lucide-react";
+
+const DEFAULT_ABOUT =
+  "Specializing in delivering high-precision engineering solutions, high-grade die manufacturing, and custom tooling designed to meet the rigorous demands of modern manufacturing.";
+
+const DEFAULT_CONTACT: Contact = {
+  companyName: "MASTER FORM DIES MANUFACTURING COMPANY PVT LTD",
+  address: "2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA",
+  email: "info@masterformdies.com",
+  contact1: "+917025839776",
+  contact2: "+966536897613",
+  whatsapp: null,
+  hours: null,
+};
+
+const DEFAULT_PRODUCTS: { slug: string; label: string }[] = [
+  { slug: "multi-cavity-stamping-die-block", label: "Stamping Die Blocks" },
+  { slug: "high-tolerance-progressive-mould", label: "Progressive Moulds" },
+  { slug: "tungsten-carbide-insert-die", label: "Tungsten Carbide Tools" },
+  { slug: "precision-plastic-injection-mould", label: "Injection Mould Cores" },
+];
 
 export default function Footer() {
   const [mapModalOpen, setMapModalOpen] = useState(false);
+  const [contact, setContact] = useState<Contact | null>(null);
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [aboutText, setAboutText] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    let active = true;
+    getContact({ fresh: true }).then((data) => {
+      if (active && data) setContact(data);
+    });
+    getFooterAbout({ fresh: true }).then((data) => {
+      if (active && data?.description) setAboutText(data.description);
+    });
+    getProducts({ fresh: true }).then((data) => {
+      if (active) setProducts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const companyName = contact?.companyName ?? DEFAULT_CONTACT.companyName;
+  const address = contact?.address ?? DEFAULT_CONTACT.address;
+  const email = contact?.email ?? DEFAULT_CONTACT.email;
+  const phone1 = contact?.contact1 ?? DEFAULT_CONTACT.contact1;
+  const phone2 = contact?.contact2 ?? DEFAULT_CONTACT.contact2;
+  const about = aboutText ?? DEFAULT_ABOUT;
+
+  const footerProducts =
+    products && products.length > 0
+      ? products.slice(0, 4).map((p) => ({ slug: p.slug, label: p.title }))
+      : DEFAULT_PRODUCTS;
 
   const scrollToSection = (id: string) => {
     if (id === "about-us") {
@@ -103,11 +156,11 @@ export default function Footer() {
             </h4>
 
             <div className="text-xs text-zinc-300 space-y-2 leading-relaxed font-mono">
-              <div className="font-bold text-white uppercase">MASTER FORM DIES MANUFACTURING COMPANY PVT LTD</div>
-              <div>2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA</div>
+              <div className="font-bold text-white uppercase">{companyName}</div>
+              <div>{address}</div>
               <div className="pt-1 font-sans space-y-1 text-xs">
-                <div><strong>Email:</strong> <a href="mailto:info@masterformdies.com" className="text-[#A3E635] hover:underline">info@masterformdies.com</a></div>
-                <div><strong>Mob:</strong> <a href="tel:+917025839776" className="hover:text-white transition-colors">+91 7025839776</a>, <a href="tel:+966536897613" className="hover:text-white transition-colors">+966 536897613</a></div>
+                <div><strong>Email:</strong> <a href={`mailto:${email}`} className="text-[#A3E635] hover:underline">{email}</a></div>
+                <div><strong>Mob:</strong> <a href={`tel:${phone1}`} className="hover:text-white transition-colors">{phone1}</a>, <a href={`tel:${phone2}`} className="hover:text-white transition-colors">{phone2}</a></div>
               </div>
             </div>
           </div>
@@ -116,7 +169,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">About Us</h4>
             <p className="text-xs sm:text-sm text-zinc-200 font-normal leading-relaxed">
-              Specializing in delivering high-precision engineering solutions, high-grade die manufacturing, and custom tooling designed to meet the rigorous demands of modern manufacturing.
+              {about}
             </p>
             <button
               onClick={() => scrollToSection("about-us")}
@@ -132,10 +185,16 @@ export default function Footer() {
             <div className="space-y-3">
               <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Products</h4>
               <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
-                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Stamping Die Blocks</button></li>
-                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Progressive Moulds</button></li>
-                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Tungsten Carbide Tools</button></li>
-                <li><button onClick={() => router.push("/products")} className="hover:text-white transition-colors cursor-pointer text-left">Injection Mould Cores</button></li>
+                {footerProducts.map((p) => (
+                  <li key={p.slug}>
+                    <button
+                      onClick={() => router.push(`/products/${p.slug}`)}
+                      className="hover:text-white transition-colors cursor-pointer text-left"
+                    >
+                      {p.label}
+                    </button>
+                  </li>
+                ))}
               </ul>
               <button
                 onClick={() => router.push("/products")}

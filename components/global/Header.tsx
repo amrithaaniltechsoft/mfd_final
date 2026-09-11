@@ -1,16 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import SearchModal from "./SearchModal";
 import { Menu, X, ArrowUpRight, ChevronDown, Search, CornerDownRight } from "lucide-react";
-import { products } from "@/data/products";
+import { products as staticProducts } from "@/data/products";
+import { getProducts } from "@/lib/api";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [products, setProducts] = useState(staticProducts);
+
+  useEffect(() => {
+    let active = true;
+    getProducts().then((data) => {
+      if (active && data.length > 0) setProducts(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const pathname = usePathname();
   const router = useRouter();

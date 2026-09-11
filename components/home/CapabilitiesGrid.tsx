@@ -1,6 +1,53 @@
 import React from "react";
 import SvgDice from "../global/SvgDice";
-import { Wrench, Layers, Cpu, CheckCircle2 } from "lucide-react";
+import { Wrench, Layers, Cpu, CheckCircle2, ShieldCheck, MapPin, Cog } from "lucide-react";
+import type { HomeCapabilities } from "@/lib/api";
+
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  tools: Wrench,
+  layers: Layers,
+  tech: Cpu,
+  quality: CheckCircle2,
+  shield: ShieldCheck,
+  map: MapPin,
+  cog: Cog,
+};
+
+const DEFAULT_DATA: HomeCapabilities = {
+  badgeLabel: "Core Expertise",
+  sectionTitle: "Our Engineering",
+  sectionTitleAccent: "& Manufacturing Capabilities",
+  cards: [
+    {
+      icon: "tools",
+      tag: "CORE CAPABILITY 01",
+      title: "Precision Die Manufacturing",
+      desc: "Custom high-standard dies designed and built to withstand intense press operations and repetitive production cycles.",
+      bullets: ["High-Grade Die Steels", "Tolerances within ±0.005mm", "Custom Stamping & Form Dies"],
+    },
+    {
+      icon: "layers",
+      tag: "CORE CAPABILITY 02",
+      title: "Tooling & Mold Design",
+      desc: "Advanced tool paths, mold assemblies, and fixture designs developed for maximum efficiency and material longevity.",
+      bullets: ["3D Tool CAD Modeling", "Multi-Stage Progressive Dies", "Fixture & Gauge Assemblies"],
+    },
+    {
+      icon: "tech",
+      tag: "CORE CAPABILITY 03",
+      title: "Component Fabrication",
+      desc: "Comprehensive CNC machining, wire EDM, and grinding services tailored for industrial components.",
+      bullets: ["Precision Wire EDM", "High-Speed CNC Milling", "Surface & Profile Grinding"],
+    },
+    {
+      icon: "quality",
+      tag: "CORE CAPABILITY 04",
+      title: "Engineering & Quality Audit",
+      desc: "Thorough dimensional verification, CMM inspection, and engineering consultation for reliable production runs.",
+      bullets: ["100% CMM Inspection", "First-Article Inspection", "Quality Audit Certification"],
+    },
+  ],
+};
 
 // Full-Width Organic Vector Wave Background Component
 const WaveCardPattern = () => (
@@ -34,53 +81,9 @@ const CardBottomGradient = () => (
   <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#526E07]/30 via-transparent to-transparent pointer-events-none rounded-xl group-hover:from-[#526E07]/45 transition-all duration-500" />
 );
 
-export default function CapabilitiesGrid() {
-  const capabilities = [
-    {
-      icon: <Wrench className="w-9 h-9 text-[#526E07]" />,
-      tag: "CORE CAPABILITY 01",
-      title: "Precision Die Manufacturing",
-      desc: "Custom high-standard dies designed and built to withstand intense press operations and repetitive production cycles.",
-      bullets: [
-        "High-Grade Die Steels",
-        "Tolerances within ±0.005mm",
-        "Custom Stamping & Form Dies",
-      ],
-    },
-    {
-      icon: <Layers className="w-9 h-9 text-[#526E07]" />,
-      tag: "CORE CAPABILITY 02",
-      title: "Tooling & Mold Design",
-      desc: "Advanced tool paths, mold assemblies, and fixture designs developed for maximum efficiency and material longevity.",
-      bullets: [
-        "3D Tool CAD Modeling",
-        "Multi-Stage Progressive Dies",
-        "Fixture & Gauge Assemblies",
-      ],
-    },
-    {
-      icon: <Cpu className="w-9 h-9 text-[#526E07]" />,
-      tag: "CORE CAPABILITY 03",
-      title: "Component Fabrication",
-      desc: "Comprehensive CNC machining, wire EDM, and grinding services tailored for industrial components.",
-      bullets: [
-        "Precision Wire EDM",
-        "High-Speed CNC Milling",
-        "Surface & Profile Grinding",
-      ],
-    },
-    {
-      icon: <CheckCircle2 className="w-9 h-9 text-[#526E07]" />,
-      tag: "CORE CAPABILITY 04",
-      title: "Engineering & Quality Audit",
-      desc: "Thorough dimensional verification, CMM inspection, and engineering consultation for reliable production runs.",
-      bullets: [
-        "100% CMM Inspection",
-        "First-Article Inspection",
-        "Quality Audit Certification",
-      ],
-    },
-  ];
+export default function CapabilitiesGrid({ data }: { data?: HomeCapabilities | null }) {
+  const section = data ?? DEFAULT_DATA;
+  const capabilities = section.cards ?? [];
 
   return (
     <section id="capabilities" className="w-full bg-white text-black py-20 lg:py-24 relative overflow-hidden">
@@ -95,11 +98,11 @@ export default function CapabilitiesGrid() {
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#f3f4f6] rounded-full border border-zinc-300">
             <SvgDice size="sm" interactive={false} />
             <span className="text-sm sm:text-base font-semibold text-black tracking-wide">
-              Core Expertise
+              {section.badgeLabel}
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-black leading-[1.15]">
-            Our Engineering <span className="text-[#526E07]">& Manufacturing Capabilities</span>
+            {section.sectionTitle} <span className="text-[#526E07]">{section.sectionTitleAccent}</span>
           </h2>
         </div>
 
@@ -121,7 +124,10 @@ export default function CapabilitiesGrid() {
                   <span className="text-[11px] font-bold tracking-wider text-zinc-700">
                     {item.tag}
                   </span>
-                  {item.icon}
+                  {(() => {
+                    const Icon = ICON_MAP[item.icon] ?? Wrench;
+                    return <Icon className="w-9 h-9 text-[#526E07]" />;
+                  })()}
                 </div>
 
                 <div className="space-y-2.5">

@@ -1,10 +1,38 @@
 import React from "react";
+import type { Metadata } from "next";
 import Header from "@/components/global/Header";
 import Footer from "@/components/global/Footer";
 import InnerHero from "@/components/global/InnerHero";
 import InnerCtaForm from "@/components/global/PageCtaForm";
 import SvgDice from "@/components/global/SvgDice";
+import { getContact, getCtaContact, getSeo } from "@/lib/api";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+
+const DEFAULT_TITLE = "Contact Us | Master Form Dies";
+const DEFAULT_DESCRIPTION =
+  "Contact Master Form Dies for custom die and mold manufacturing enquiries. Reach our engineering team by phone, WhatsApp, email or visit our facility in Ernakulam, Kerala, India.";
+const DEFAULT_KEYWORDS =
+  "contact Master Form Dies, die manufacturing enquiry, mold manufacturing contact, die engineering team, sheet metal die maker contact, tool and die company Ernakulam";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeo("contact", { fresh: true });
+
+  return {
+    title: seo?.title || DEFAULT_TITLE,
+    description: seo?.description || DEFAULT_DESCRIPTION,
+    keywords: seo?.keywords || DEFAULT_KEYWORDS,
+  };
+}
+
+const FALLBACK = {
+  companyName: "MASTER FORM DIES MANUFACTURING COMPANY PVT LTD",
+  address:
+    "2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA",
+  contact1: "+91 7025839776",
+  contact2: "+966 536897613",
+  email: "info@masterformdies.com",
+  hours: "Mon - Sat: 8:30 AM - 6:00 PM",
+};
 
 // Full-Width Organic Vector Wave Background Component (Dark Theme Version)
 const WaveCardPattern = () => (
@@ -37,7 +65,16 @@ const CardBottomGradient = () => (
   <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#6B910C]/25 via-transparent to-transparent pointer-events-none rounded-2xl group-hover:from-[#6B910C]/40 transition-all duration-500" />
 );
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contact = await getContact({ fresh: true });
+  const ctaContact = await getCtaContact({ fresh: true });
+  const companyName = contact?.companyName || FALLBACK.companyName;
+  const address = contact?.address || FALLBACK.address;
+  const contact1 = contact?.contact1 || FALLBACK.contact1;
+  const contact2 = contact?.contact2 || FALLBACK.contact2;
+  const email = contact?.email || FALLBACK.email;
+  const hours = contact?.hours || FALLBACK.hours;
+
   return (
     <div className="min-h-screen flex flex-col bg-black text-white selection:bg-[#526E07] selection:text-white">
       <Header />
@@ -89,10 +126,10 @@ export default function ContactPage() {
               {/* Card Body Details */}
               <div className="space-y-2.5 relative z-10 pt-4 sm:pt-6">
                 <p className="text-[11px] sm:text-xs lg:text-sm text-zinc-200 font-semibold leading-relaxed uppercase">
-                  MASTER FORM DIES MANUFACTURING COMPANY PVT LTD
+                  {companyName}
                 </p>
                 <p className="text-[11px] sm:text-xs lg:text-sm text-zinc-300 font-semibold leading-relaxed uppercase">
-                  2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA
+                  {address}
                 </p>
               </div>
             </div>
@@ -115,11 +152,11 @@ export default function ContactPage() {
               {/* Card Body Details */}
               <div className="space-y-3 relative z-10 pt-4 sm:pt-6">
                 <div className="text-sm sm:text-base text-zinc-100 font-sans font-semibold tracking-wide leading-relaxed space-y-2">
-                  <a href="tel:+917025839776" className="block text-zinc-100 hover:text-white transition-colors">
-                    +91 7025839776
+                  <a href={`tel:${contact1.replace(/[^+\d]/g, "")}`} className="block text-zinc-100 hover:text-white transition-colors">
+                    {contact1}
                   </a>
-                  <a href="tel:+966536897613" className="block text-zinc-100 hover:text-white transition-colors">
-                    +966 536897613
+                  <a href={`tel:${contact2.replace(/[^+\d]/g, "")}`} className="block text-zinc-100 hover:text-white transition-colors">
+                    {contact2}
                   </a>
                 </div>
               </div>
@@ -144,17 +181,17 @@ export default function ContactPage() {
               <div className="space-y-4 relative z-10 pt-4">
                 <div>
                   <a
-                    href="mailto:info@masterformdies.com"
+                    href={`mailto:${email}`}
                     className="text-xs sm:text-sm text-zinc-100 hover:text-white font-sans font-semibold tracking-normal leading-normal block transition-colors break-all sm:break-normal"
                   >
-                    info@masterformdies.com
+                    {email}
                   </a>
                 </div>
 
                 <div className="pt-3 border-t border-zinc-800/80">
                   <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-300 font-semibold">
                     <Clock className="w-4 h-4 text-zinc-400 shrink-0" />
-                    <span>Mon - Sat: 8:30 AM - 6:00 PM</span>
+                    <span>{hours}</span>
                   </div>
                 </div>
               </div>
@@ -163,7 +200,7 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Form Section using PageCtaForm */}
-        <InnerCtaForm />
+        <InnerCtaForm data={ctaContact} />
 
         {/* Boxed Google Map Section (Dark Mode) */}
         <section className="w-full space-y-8 sm:space-y-12 lg:space-y-16 bg-[#050505] border-t border-zinc-900 py-12 sm:py-20 lg:py-24">

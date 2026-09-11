@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import SvgDice from "./SvgDice";
 import Button from "../ui/Button";
-import { Send, CheckCircle2, ArrowRight, MapPin } from "lucide-react";
+import { submitEnquiry, type Contact, type CtaContact } from "@/lib/api";
+import { CheckCircle2, ArrowRight, MapPin } from "lucide-react";
 
 // Full-Width Organic Vector Wave Background Component (Light Theme Version)
 const WaveCardPattern = () => (
@@ -37,9 +38,45 @@ const CardBottomGradient = () => (
   <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#526E07]/30 via-transparent to-transparent pointer-events-none rounded-xl group-hover:from-[#526E07]/45 transition-all duration-500" />
 );
 
-export default function CtaForm() {
+const DEFAULT_DATA: CtaContact = {
+  badgeLabel: "Contact Information",
+  sectionTitle: "Inquiries &",
+  sectionTitleAccent: "Design Consultations",
+  subtitle: "Contact our technical team for custom project quotes, design consultations, or site visits.",
+};
+
+const DEFAULT_CONTACT: Contact = {
+  companyName: "MASTER FORM DIES MANUFACTURING COMPANY PVT LTD",
+  address: "2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA",
+  email: "info@masterformdies.com",
+  contact1: "+917025839776",
+  contact2: "+966536897613",
+  whatsapp: null,
+  hours: null,
+};
+
+export default function CtaForm({
+  data,
+  contact,
+}: {
+  data?: CtaContact | null;
+  contact?: Contact | null;
+}) {
+  const content: CtaContact = {
+    badgeLabel: data?.badgeLabel ?? DEFAULT_DATA.badgeLabel,
+    sectionTitle: data?.sectionTitle ?? DEFAULT_DATA.sectionTitle,
+    sectionTitleAccent: data?.sectionTitleAccent ?? DEFAULT_DATA.sectionTitleAccent,
+    subtitle: data?.subtitle ?? DEFAULT_DATA.subtitle,
+  };
+
+  const companyName = contact?.companyName ?? DEFAULT_CONTACT.companyName;
+  const address = contact?.address ?? DEFAULT_CONTACT.address;
+  const email = contact?.email ?? DEFAULT_CONTACT.email;
+  const phone1 = contact?.contact1 ?? DEFAULT_CONTACT.contact1;
+  const phone2 = contact?.contact2 ?? DEFAULT_CONTACT.contact2;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -48,13 +85,18 @@ export default function CtaForm() {
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submitEnquiry(formData);
       setSubmitted(true);
-    }, 1000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -72,19 +114,19 @@ export default function CtaForm() {
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#f3f4f6] rounded-full border border-zinc-300 w-fit">
               <SvgDice size="sm" interactive={false} />
               <span className="text-sm sm:text-base font-semibold text-black tracking-wide">
-                Contact Information
+                {content.badgeLabel}
               </span>
             </div>
 
             {/* Headline */}
             <div className="space-y-3">
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-black leading-[1.1]">
-                Inquiries & <br />
-                <span className="text-[#526E07]">Design Consultations</span>
+                {content.sectionTitle} <br />
+                <span className="text-[#526E07]">{content.sectionTitleAccent}</span>
               </h2>
 
               <p className="text-base sm:text-lg text-zinc-900 font-medium leading-relaxed max-w-lg">
-                Contact our technical team for custom project quotes, design consultations, or site visits.
+                {content.subtitle}
               </p>
             </div>
 
@@ -109,13 +151,15 @@ export default function CtaForm() {
             <div className="relative z-10 bg-zinc-50 rounded-xl p-4 sm:p-5 border border-zinc-200/90 space-y-2 shadow-xs">
               <div className="flex items-center gap-2 text-black font-bold text-xs sm:text-sm uppercase tracking-wider">
                 <MapPin className="w-4 h-4 text-[#526E07] shrink-0" />
-                MASTER FORM DIES MANUFACTURING COMPANY PVT LTD
+                {companyName}
               </div>
               <div className="text-xs text-zinc-700 font-mono leading-relaxed space-y-1 pl-6 font-medium">
-                <div>2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA</div>
+                <div>{address}</div>
                 <div className="pt-1 flex flex-wrap gap-x-4 gap-y-1 font-sans text-xs">
-                  <span><strong>Email:</strong> <a href="mailto:info@masterformdies.com" className="text-[#526E07] hover:underline">info@masterformdies.com</a></span>
-                  <span><strong>Mob:</strong> <a href="tel:+917025839776" className="text-black hover:underline">+917025839776</a>, <a href="tel:+966536897613" className="text-black hover:underline">+966536897613</a></span>
+                  {email && (
+                    <span><strong>Email:</strong> <a href={`mailto:${email}`} className="text-[#526E07] hover:underline">{email}</a></span>
+                  )}
+                  <span><strong>Mob:</strong> <a href={`tel:${phone1}`} className="text-black hover:underline">{phone1}</a>, <a href={`tel:${phone2}`} className="text-black hover:underline">{phone2}</a></span>
                 </div>
               </div>
             </div>
@@ -185,6 +229,12 @@ export default function CtaForm() {
                   className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-500 p-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all resize-none text-left"
                 />
               </div>
+
+              {error && (
+                <p className="text-xs sm:text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                  {error}
+                </p>
+              )}
 
               {/* Primary Action Reusable Button */}
               <Button

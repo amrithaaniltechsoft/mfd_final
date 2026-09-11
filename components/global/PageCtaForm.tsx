@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import SvgDice from "./SvgDice";
 import Button from "../ui/Button";
-import { CheckCircle2, ArrowRight, MapPin } from "lucide-react";
+import { submitEnquiry, type CtaContact } from "@/lib/api";
+import { CheckCircle2, ArrowRight } from "lucide-react";
 
 // Full-Width Organic Vector Wave Background Component (Dark Theme Version)
 const WaveCardPattern = () => (
@@ -38,9 +39,23 @@ const CardBottomGradient = () => (
   <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#6B910C]/25 via-transparent to-transparent pointer-events-none rounded-xl group-hover:from-[#6B910C]/40 transition-all duration-500" />
 );
 
-export default function InnerCtaForm() {
+const DEFAULT_DATA: CtaContact = {
+  badgeLabel: "Contact Information",
+  sectionTitle: "Inquiries &",
+  sectionTitleAccent: "Design Consultations",
+  subtitle: "Contact our technical team for custom project quotes, design consultations, or site visits.",
+};
+
+export default function InnerCtaForm({ data }: { data?: CtaContact | null }) {
+  const content: CtaContact = {
+    badgeLabel: data?.badgeLabel ?? DEFAULT_DATA.badgeLabel,
+    sectionTitle: data?.sectionTitle ?? DEFAULT_DATA.sectionTitle,
+    sectionTitleAccent: data?.sectionTitleAccent ?? DEFAULT_DATA.sectionTitleAccent,
+    subtitle: data?.subtitle ?? DEFAULT_DATA.subtitle,
+  };
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -49,13 +64,18 @@ export default function InnerCtaForm() {
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await submitEnquiry(formData);
       setSubmitted(true);
-    }, 1000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -84,7 +104,7 @@ export default function InnerCtaForm() {
               <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-zinc-700/60 w-fit">
                 <SvgDice size="sm" interactive={false} />
                 <span className="text-xs sm:text-base font-semibold text-zinc-200 tracking-wide">
-                  Contact Information
+                  {content.badgeLabel}
                 </span>
               </div>
             </div>
@@ -92,12 +112,12 @@ export default function InnerCtaForm() {
             {/* Bottom Content / Headline & Subtitle */}
             <div className="relative z-10 space-y-3 sm:space-y-4 text-left pt-8 sm:pt-0">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-                Inquiries & <br />
-                <span className="text-[#A3E635]">Design Consultations</span>
+                {content.sectionTitle} <br />
+                <span className="text-[#A3E635]">{content.sectionTitleAccent}</span>
               </h2>
 
               <p className="text-sm sm:text-lg text-zinc-300 font-normal leading-relaxed">
-                Contact our technical team for custom project quotes, design consultations, or site visits.
+                {content.subtitle}
               </p>
             </div>
           </div>
@@ -191,6 +211,12 @@ export default function InnerCtaForm() {
                   className="w-full bg-white border border-zinc-300 rounded-lg text-black placeholder:text-zinc-400 p-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#526E07] transition-all resize-none text-left"
                 />
               </div>
+
+              {error && (
+                <p className="text-xs sm:text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                  {error}
+                </p>
+              )}
 
               {/* Primary Action Reusable Button */}
               <Button
