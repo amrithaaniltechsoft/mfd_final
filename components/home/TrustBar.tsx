@@ -16,40 +16,6 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   clock: Timer,
 };
 
-const DEFAULT_DATA: WhyChoose = {
-  badgeLabel: "Why Choose Us",
-  sectionTitle: "Why Choose",
-  sectionTitleAccent: "Master Form Dies?",
-  subtitle: "Built on a legacy of precision craftsmanship, cutting-edge technology, and unyielding quality assurance.",
-  cards: [
-    {
-      icon: "quality",
-      title: "Uncompromised Quality & Engineering Precision",
-      desc: "We adhere to rigorous quality standards, maintaining tight tolerances and utilizing high-grade tool steel to ensure optimal component performance.",
-      tag: "Quality Protocol",
-    },
-    {
-      icon: "tech",
-      title: "Advanced Manufacturing Technology",
-      desc: "Equipped with state-of-the-art multi-axis CNC milling machines, wire-cut EDM, and high-precision inspection tools for intricate fabrications.",
-      tag: "Infrastructure",
-    },
-    {
-      icon: "award",
-      title: "Technical Proficiency & Experienced Team",
-      desc: "Our skilled team of engineers and toolmakers bring years of industry expertise to every project, offering tailored tooling solutions.",
-      tag: "Expert Tooling",
-    },
-    {
-      icon: "map",
-      title: "Strategic Location & Reliable Delivery",
-      desc: "Based in Mannathoor, Ernakulam, Kerala, our facility is strategically positioned for efficient distribution and prompt customer support.",
-      tag: "Strategic Logistics",
-    },
-  ],
-};
-
-
 // Full-Width Organic Vector Wave Background Component for Bento Cards
 const WaveCardPattern = () => (
   <svg
@@ -85,7 +51,9 @@ const CardBottomGradient = () => (
 export default function TrustBar({ data }: { data?: WhyChoose | null }) {
   const [activeCard, setActiveCard] = useState(0);
 
-  const section = data ?? DEFAULT_DATA;
+  if (!data) return null;
+
+  const section = data;
   const trustItems = section.cards ?? [];
 
   return (
@@ -248,13 +216,6 @@ export default function TrustBar({ data }: { data?: WhyChoose | null }) {
               id="trust-dice-slot"
               className="w-64 h-64 sm:w-72 sm:h-72 relative flex items-center justify-center"
             />
-
-            <div
-              className="text-center text-xs sm:text-sm font-semibold tracking-wide mt-4 text-white select-none pointer-events-none relative z-20"
-              style={{ mixBlendMode: "difference" }}
-            >
-              Engineering Excellence • High-Tolerance Tooling Moulds
-            </div>
 
           </div>
 

@@ -12,39 +12,6 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   clock: Timer,
 };
 
-const DEFAULT_ADVANTAGES: HomeAdvantages = {
-  badgeLabel: "Industrial Advantages",
-  sectionTitle: "Built for High-Stakes",
-  sectionTitleAccent: "Manufacturing Demands",
-  footerLabel: "PRECISION SPECIFIED",
-  cards: [
-    {
-      icon: "quality",
-      tag: "INFRASTRUCTURE 01",
-      title: "Uncompromised Quality Assurance",
-      desc: "Every die and component undergoes thorough quality checks to ensure dimensional accuracy and long operational life.",
-    },
-    {
-      icon: "cpu",
-      tag: "INFRASTRUCTURE 02",
-      title: "Technical Proficiency",
-      desc: "Skilled engineering practices aligned with standard industrial specs and modern precision techniques.",
-    },
-    {
-      icon: "shield",
-      tag: "INFRASTRUCTURE 03",
-      title: "Client-Centric Approach",
-      desc: "Flexible production runs, competitive lead times, and tailored solutions to fit specific manufacturing workflows.",
-    },
-    {
-      icon: "map",
-      tag: "INFRASTRUCTURE 04",
-      title: "Strategic Location",
-      desc: "Conveniently accessible facility near Ernakulam to support local and regional industrial requirements efficiently.",
-    },
-  ],
-};
-
 // Full-Width Organic Vector Wave Background Component (Dark Theme Version)
 const WaveCardPattern = () => (
   <svg
@@ -78,7 +45,8 @@ const CardBottomGradient = () => (
 );
 
 export default function AdvantagesGrid({ advantages }: { advantages?: HomeAdvantages | null }) {
-  const data = advantages ?? DEFAULT_ADVANTAGES;
+  if (!advantages) return null;
+  const data = advantages;
 
   return (
     <section id="advantages" className="w-full bg-[#050505] py-20 lg:py-24 relative overflow-hidden">

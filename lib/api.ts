@@ -314,8 +314,7 @@ export async function getProducts(options?: { fresh?: boolean }): Promise<Produc
     const json = await cachedFetch<{ data: Product[] }>("products", `${API_URL}/products`, options);
     return json.data;
   } catch {
-    // Graceful fallback to the static catalog if the backend is unavailable.
-    return staticProducts;
+    return [];
   }
 }
 

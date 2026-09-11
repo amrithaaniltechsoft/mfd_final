@@ -38,23 +38,6 @@ const CardBottomGradient = () => (
   <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#526E07]/30 via-transparent to-transparent pointer-events-none rounded-xl group-hover:from-[#526E07]/45 transition-all duration-500" />
 );
 
-const DEFAULT_DATA: CtaContact = {
-  badgeLabel: "Contact Information",
-  sectionTitle: "Inquiries &",
-  sectionTitleAccent: "Design Consultations",
-  subtitle: "Contact our technical team for custom project quotes, design consultations, or site visits.",
-};
-
-const DEFAULT_CONTACT: Contact = {
-  companyName: "MASTER FORM DIES MANUFACTURING COMPANY PVT LTD",
-  address: "2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA",
-  email: "info@masterformdies.com",
-  contact1: "+917025839776",
-  contact2: "+966536897613",
-  whatsapp: null,
-  hours: null,
-};
-
 export default function CtaForm({
   data,
   contact,
@@ -62,18 +45,16 @@ export default function CtaForm({
   data?: CtaContact | null;
   contact?: Contact | null;
 }) {
-  const content: CtaContact = {
-    badgeLabel: data?.badgeLabel ?? DEFAULT_DATA.badgeLabel,
-    sectionTitle: data?.sectionTitle ?? DEFAULT_DATA.sectionTitle,
-    sectionTitleAccent: data?.sectionTitleAccent ?? DEFAULT_DATA.sectionTitleAccent,
-    subtitle: data?.subtitle ?? DEFAULT_DATA.subtitle,
-  };
+  const content = data;
+  const hasAddress =
+    contact &&
+    (contact.companyName || contact.address || contact.email || contact.contact1 || contact.contact2);
 
-  const companyName = contact?.companyName ?? DEFAULT_CONTACT.companyName;
-  const address = contact?.address ?? DEFAULT_CONTACT.address;
-  const email = contact?.email ?? DEFAULT_CONTACT.email;
-  const phone1 = contact?.contact1 ?? DEFAULT_CONTACT.contact1;
-  const phone2 = contact?.contact2 ?? DEFAULT_CONTACT.contact2;
+  const companyName = contact?.companyName ?? null;
+  const address = contact?.address ?? null;
+  const email = contact?.email ?? null;
+  const phone1 = contact?.contact1 ?? null;
+  const phone2 = contact?.contact2 ?? null;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -111,24 +92,30 @@ export default function CtaForm({
           <div className="lg:col-span-6 space-y-6 flex flex-col justify-start text-left">
 
             {/* Header Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#f3f4f6] rounded-full border border-zinc-300 w-fit">
-              <SvgDice size="sm" interactive={false} />
-              <span className="text-sm sm:text-base font-semibold text-black tracking-wide">
-                {content.badgeLabel}
-              </span>
-            </div>
+            {content?.badgeLabel && (
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-[#f3f4f6] rounded-full border border-zinc-300 w-fit">
+                <SvgDice size="sm" interactive={false} />
+                <span className="text-sm sm:text-base font-semibold text-black tracking-wide">
+                  {content.badgeLabel}
+                </span>
+              </div>
+            )}
 
             {/* Headline */}
-            <div className="space-y-3">
-              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-black leading-[1.1]">
-                {content.sectionTitle} <br />
-                <span className="text-[#526E07]">{content.sectionTitleAccent}</span>
-              </h2>
+            {(content?.sectionTitle || content?.sectionTitleAccent) && (
+              <div className="space-y-3">
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-black leading-[1.1]">
+                  {content?.sectionTitle} <br />
+                  <span className="text-[#526E07]">{content?.sectionTitleAccent}</span>
+                </h2>
 
-              <p className="text-base sm:text-lg text-zinc-900 font-medium leading-relaxed max-w-lg">
-                {content.subtitle}
-              </p>
-            </div>
+                {content?.subtitle && (
+                  <p className="text-base sm:text-lg text-zinc-900 font-medium leading-relaxed max-w-lg">
+                    {content.subtitle}
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* 3D Dice Landing Slot directly below header copy */}
             <div
@@ -148,21 +135,27 @@ export default function CtaForm({
             <CardBottomGradient />
 
             {/* Exact Official Registered Address & Contact Details Box */}
-            <div className="relative z-10 bg-zinc-50 rounded-xl p-4 sm:p-5 border border-zinc-200/90 space-y-2 shadow-xs">
-              <div className="flex items-center gap-2 text-black font-bold text-xs sm:text-sm uppercase tracking-wider">
-                <MapPin className="w-4 h-4 text-[#526E07] shrink-0" />
-                {companyName}
-              </div>
-              <div className="text-xs text-zinc-700 font-mono leading-relaxed space-y-1 pl-6 font-medium">
-                <div>{address}</div>
-                <div className="pt-1 flex flex-wrap gap-x-4 gap-y-1 font-sans text-xs">
-                  {email && (
-                    <span><strong>Email:</strong> <a href={`mailto:${email}`} className="text-[#526E07] hover:underline">{email}</a></span>
+            {hasAddress && (
+              <div className="relative z-10 bg-zinc-50 rounded-xl p-4 sm:p-5 border border-zinc-200/90 space-y-2 shadow-xs">
+                <div className="flex items-center gap-2 text-black font-bold text-xs sm:text-sm uppercase tracking-wider">
+                  <MapPin className="w-4 h-4 text-[#526E07] shrink-0" />
+                  {companyName}
+                </div>
+                <div className="text-xs text-zinc-700 font-mono leading-relaxed space-y-1 pl-6 font-medium">
+                  {address && <div>{address}</div>}
+                  {(email || phone1 || phone2) && (
+                    <div className="pt-1 flex flex-wrap gap-x-4 gap-y-1 font-sans text-xs">
+                      {email && (
+                        <span><strong>Email:</strong> <a href={`mailto:${email}`} className="text-[#526E07] hover:underline">{email}</a></span>
+                      )}
+                      {(phone1 || phone2) && (
+                        <span><strong>Mob:</strong> {phone1 && <a href={`tel:${phone1}`} className="text-black hover:underline">{phone1}</a>}{phone1 && phone2 && ", "}{phone2 && <a href={`tel:${phone2}`} className="text-black hover:underline">{phone2}</a>}</span>
+                      )}
+                    </div>
                   )}
-                  <span><strong>Mob:</strong> <a href={`tel:${phone1}`} className="text-black hover:underline">{phone1}</a>, <a href={`tel:${phone2}`} className="text-black hover:underline">{phone2}</a></span>
                 </div>
               </div>
-            </div>
+            )}
 
             <form onSubmit={handleSubmit} className="relative z-10 space-y-4 text-left">
 

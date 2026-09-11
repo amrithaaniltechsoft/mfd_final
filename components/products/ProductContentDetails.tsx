@@ -23,12 +23,15 @@ export default function ProductContentDetails({ product }: { product: Product })
 
       {/* Header Info */}
       <div className="space-y-3 sm:space-y-4">
-        <div className="inline-block px-3 py-1 bg-[#526E07]/15 text-[#526E07] text-[11px] sm:text-xs font-extrabold tracking-wider rounded-md border border-[#526E07]/30">
-          {product.tag}
-        </div>
         <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-black leading-[1.15]">
           {product.title}
         </h1>
+        {product.price != null && product.price !== "" && Number(product.price) > 0 && (
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#526E07] text-white text-base sm:text-lg font-extrabold rounded-md">
+            <span className="text-white/80 font-bold">Price:</span>
+            ₹{Number(product.price).toLocaleString("en-IN")}
+          </div>
+        )}
       </div>
 
       {/* Descriptions */}

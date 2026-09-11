@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import SvgDice from "../global/SvgDice";
 import Button from "../ui/Button";
 import { ArrowRight } from "lucide-react";
-import { products as staticProducts, Product } from "@/data/products";
+import { type Product } from "@/data/products";
 import { getProducts } from "@/lib/api";
 
 // Full-Width Organic Vector Wave Background Component (Light Theme Version)
@@ -44,12 +44,12 @@ const CardBottomGradient = () => (
 
 export default function ProductsSection() {
   const router = useRouter();
-  const [products, setProducts] = useState<Product[]>(staticProducts);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     let active = true;
     getProducts().then((data) => {
-      if (active && data.length > 0) setProducts(data);
+      if (active) setProducts(data);
     });
     return () => {
       active = false;
@@ -87,7 +87,8 @@ export default function ProductsSection() {
         </div>
 
         {/* Product Cards Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        {products.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {products.map((item, idx) => (
             <div key={idx} className="group relative bg-white rounded-2xl overflow-hidden flex flex-col justify-between h-full border border-zinc-200/90 hover:border-zinc-300 transition-all duration-500 shadow-md hover:shadow-xl text-black">
 
@@ -117,12 +118,7 @@ export default function ProductsSection() {
                     }}
                   />
 
-                  {/* Category Tag Badge */}
-                  <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 px-2 py-0.5 sm:px-2.5 sm:py-0.5 bg-white/95 backdrop-blur-md rounded-md text-[10px] sm:text-[11px] font-bold text-[#526E07] tracking-wider z-20 border border-zinc-200 shadow-xs">
-                    {item.tag}
                   </div>
-
-                </div>
 
                 {/* Card Content Details */}
                 <div className="p-4 sm:p-5 space-y-2 sm:space-y-2.5 relative z-20 text-left">
@@ -151,6 +147,7 @@ export default function ProductsSection() {
             </div>
           ))}
         </div>
+        )}
 
         {/* View All Button */}
         <div className="flex items-center justify-center pt-8">

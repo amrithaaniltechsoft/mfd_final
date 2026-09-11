@@ -8,26 +8,6 @@ import { getContact, getFooterAbout, getProducts, type Contact } from "@/lib/api
 import type { Product } from "@/data/products";
 import { MapPin, ChevronRight } from "lucide-react";
 
-const DEFAULT_ABOUT =
-  "Specializing in delivering high-precision engineering solutions, high-grade die manufacturing, and custom tooling designed to meet the rigorous demands of modern manufacturing.";
-
-const DEFAULT_CONTACT: Contact = {
-  companyName: "MASTER FORM DIES MANUFACTURING COMPANY PVT LTD",
-  address: "2/284, MANNATHOOR P.O., NEAR GOVERNMENT AYURVEDA HOSPITAL, ERNAKULAM-686667, KERALA, INDIA",
-  email: "info@masterformdies.com",
-  contact1: "+917025839776",
-  contact2: "+966536897613",
-  whatsapp: null,
-  hours: null,
-};
-
-const DEFAULT_PRODUCTS: { slug: string; label: string }[] = [
-  { slug: "multi-cavity-stamping-die-block", label: "Stamping Die Blocks" },
-  { slug: "high-tolerance-progressive-mould", label: "Progressive Moulds" },
-  { slug: "tungsten-carbide-insert-die", label: "Tungsten Carbide Tools" },
-  { slug: "precision-plastic-injection-mould", label: "Injection Mould Cores" },
-];
-
 export default function Footer() {
   const [mapModalOpen, setMapModalOpen] = useState(false);
   const [contact, setContact] = useState<Contact | null>(null);
@@ -52,17 +32,18 @@ export default function Footer() {
     };
   }, []);
 
-  const companyName = contact?.companyName ?? DEFAULT_CONTACT.companyName;
-  const address = contact?.address ?? DEFAULT_CONTACT.address;
-  const email = contact?.email ?? DEFAULT_CONTACT.email;
-  const phone1 = contact?.contact1 ?? DEFAULT_CONTACT.contact1;
-  const phone2 = contact?.contact2 ?? DEFAULT_CONTACT.contact2;
-  const about = aboutText ?? DEFAULT_ABOUT;
+  const companyName = contact?.companyName ?? null;
+  const address = contact?.address ?? null;
+  const email = contact?.email ?? null;
+  const phone1 = contact?.contact1 ?? null;
+  const phone2 = contact?.contact2 ?? null;
+  const about = aboutText ?? null;
 
   const footerProducts =
-    products && products.length > 0
-      ? products.slice(0, 4).map((p) => ({ slug: p.slug, label: p.title }))
-      : DEFAULT_PRODUCTS;
+    products && products.length > 0 ? products.slice(0, 4).map((p) => ({ slug: p.slug, label: p.title })) : [];
+
+  const hasContact =
+    Boolean(companyName || address || email || phone1 || phone2);
 
   const scrollToSection = (id: string) => {
     if (id === "about-us") {
@@ -149,60 +130,70 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 items-start pb-12 border-b border-[#1f1f1f]">
 
           {/* Column 1: Exact Registered Address & Contact Info */}
-          <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2 h-6">
-              <MapPin className="w-4 h-4 text-[#A3E635]" />
-              <span>Registered Address</span>
-            </h4>
+          {hasContact && (
+            <div className="space-y-3">
+              <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2 h-6">
+                <MapPin className="w-4 h-4 text-[#A3E635]" />
+                <span>Registered Address</span>
+              </h4>
 
-            <div className="text-xs text-zinc-300 space-y-2 leading-relaxed font-mono">
-              <div className="font-bold text-white uppercase">{companyName}</div>
-              <div>{address}</div>
-              <div className="pt-1 font-sans space-y-1 text-xs">
-                <div><strong>Email:</strong> <a href={`mailto:${email}`} className="text-[#A3E635] hover:underline">{email}</a></div>
-                <div><strong>Mob:</strong> <a href={`tel:${phone1}`} className="hover:text-white transition-colors">{phone1}</a>, <a href={`tel:${phone2}`} className="hover:text-white transition-colors">{phone2}</a></div>
+              <div className="text-xs text-zinc-300 space-y-2 leading-relaxed font-mono">
+                {companyName && <div className="font-bold text-white uppercase">{companyName}</div>}
+                {address && <div>{address}</div>}
+                {(email || phone1 || phone2) && (
+                  <div className="pt-1 font-sans space-y-1 text-xs">
+                    {email && <div><strong>Email:</strong> <a href={`mailto:${email}`} className="text-[#A3E635] hover:underline">{email}</a></div>}
+                    {(phone1 || phone2) && (
+                      <div><strong>Mob:</strong> {phone1 && <a href={`tel:${phone1}`} className="hover:text-white transition-colors">{phone1}</a>}{phone1 && phone2 && ", "}{phone2 && <a href={`tel:${phone2}`} className="hover:text-white transition-colors">{phone2}</a>}</div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          )}
 
           {/* Column 2: About Us Summary */}
-          <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">About Us</h4>
-            <p className="text-xs sm:text-sm text-zinc-200 font-normal leading-relaxed">
-              {about}
-            </p>
-            <button
-              onClick={() => scrollToSection("about-us")}
-              className="inline-block text-xs sm:text-sm font-semibold text-white hover:text-[#A3E635] transition-colors pt-1 cursor-pointer"
-            >
-              Read About Us &rarr;
-            </button>
-          </div>
+          {about && (
+            <div className="space-y-3">
+              <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">About Us</h4>
+              <p className="text-xs sm:text-sm text-zinc-200 font-normal leading-relaxed">
+                {about}
+              </p>
+              <button
+                onClick={() => scrollToSection("about-us")}
+                className="inline-block text-xs sm:text-sm font-semibold text-white hover:text-[#A3E635] transition-colors pt-1 cursor-pointer"
+              >
+                Read About Us &rarr;
+              </button>
+            </div>
+          )}
 
           {/* 2-Column Row on Mobile View for Products & Quick Links */}
           <div className="grid grid-cols-2 gap-6 sm:gap-10 col-span-1 md:col-span-2 lg:col-span-2">
             {/* Column 3: Products */}
-            <div className="space-y-3">
-              <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Products</h4>
-              <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
-                {footerProducts.map((p) => (
-                  <li key={p.slug}>
-                    <button
-                      onClick={() => router.push(`/products/${p.slug}`)}
-                      className="hover:text-white transition-colors cursor-pointer text-left"
-                    >
-                      {p.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={() => router.push("/products")}
-                className="inline-block text-xs sm:text-sm font-semibold text-[#A3E635] hover:text-white transition-colors pt-2 cursor-pointer"
-              >
-                View All Products &rarr;
-              </button>
-            </div>
+            {footerProducts.length > 0 && (
+              <div className="space-y-3">
+                <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-white h-6 flex items-center">Products</h4>
+                <ul className="space-y-2.5 text-xs sm:text-sm text-zinc-200 font-medium">
+                  {footerProducts.map((p) => (
+                    <li key={p.slug}>
+                      <button
+                        onClick={() => router.push(`/products/${p.slug}`)}
+                        className="hover:text-white transition-colors cursor-pointer text-left"
+                      >
+                        {p.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={() => router.push("/products")}
+                  className="inline-block text-xs sm:text-sm font-semibold text-[#A3E635] hover:text-white transition-colors pt-2 cursor-pointer"
+                >
+                  View All Products &rarr;
+                </button>
+              </div>
+            )}
 
             {/* Column 4: Quick Navigation & Location */}
             <div className="space-y-3">

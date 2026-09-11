@@ -11,6 +11,7 @@ export interface Product {
   title: string;
   desc: string;
   fullDesc: string;
+  price?: string | number | null;
   features: string[];
   benefits?: string[];
   faqs?: ProductFaq[];

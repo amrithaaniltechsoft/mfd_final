@@ -72,69 +72,13 @@ const ICON_MAP: Record<string, LucideIcon> = {
   cog: Cog,
 };
 
-const DEFAULT_DATA: AboutSectionData = {
-  badgeLabel: "About Master Form Dies",
-  sectionTitle: "High-Precision Engineering &",
-  sectionTitleAccent: "Custom Tooling Solutions",
-  overviewLabel: "SPECIALIZATION OVERVIEW",
-  overviewText:
-    "At Master Form Dies Manufacturing Company Pvt Ltd, we specialize in delivering high-precision engineering solutions, high-grade die manufacturing, and custom tooling designed to meet the rigorous demands of modern manufacturing. Situated in Ernakulam, Kerala, our facility combines technical expertise, advanced fabrication practices, and quality craftsmanship to supply reliable components for industrial applications.",
-  overviewFooter: "Mannathoor, Ernakulam, Kerala • Industrial Tooling & Die Manufacturing",
-  overviewImage: null,
-  cards: [
-    {
-      icon: "shield",
-      title: "Strict Quality Control",
-      desc: "Total dimensional quality assurance and rigorous testing standards.",
-      footer: "QUALITY ASSURANCE PROTOCOL",
-    },
-    {
-      icon: "target",
-      title: "Robust Component Design",
-      desc: "Durable tooling engineered for high accuracy and long operational endurance.",
-      footer: "HIGH ACCURACY & ENDURANCE",
-    },
-    {
-      icon: null,
-      title: "CONCEPT TO PRODUCTION",
-      desc: "From initial concept and tool design to final production and quality assurance, we partner with clients across various sectors to provide durable, cost-effective, and dimensionally accurate manufacturing solutions.",
-      footer: "FULL LIFECYCLE TOOLING PARTNER",
-    },
-    {
-      icon: "factory",
-      title: "Ernakulam Facility",
-      desc: "Mannathoor North P.O., Near Government Ayurveda Hospital, Kerala, India.",
-      footer: null,
-    },
-  ],
-  carouselImages: [
-    { image: "/machines/m1.jpg", alt: "Master Form Dies Machinery 1" },
-    { image: "/machines/m2.jpg", alt: "Master Form Dies Machinery 2" },
-    { image: "/machines/m3.jpg", alt: "Master Form Dies Machinery 3" },
-    { image: "/machines/m4.jpg", alt: "Master Form Dies Machinery 4" },
-    { image: "/machines/m5.jpg", alt: "Master Form Dies Machinery 5" },
-    { image: "/machines/m6.jpg", alt: "Master Form Dies Machinery 6" },
-  ],
-};
-
 export default function AboutSection({ data }: { data?: AboutSectionData | null }) {
-  const content: AboutSectionData = {
-    badgeLabel: data?.badgeLabel ?? DEFAULT_DATA.badgeLabel,
-    sectionTitle: data?.sectionTitle ?? DEFAULT_DATA.sectionTitle,
-    sectionTitleAccent: data?.sectionTitleAccent ?? DEFAULT_DATA.sectionTitleAccent,
-    overviewLabel: data?.overviewLabel ?? DEFAULT_DATA.overviewLabel,
-    overviewText: data?.overviewText ?? DEFAULT_DATA.overviewText,
-    overviewFooter: data?.overviewFooter ?? DEFAULT_DATA.overviewFooter,
-    overviewImage: data?.overviewImage ?? DEFAULT_DATA.overviewImage,
-    cards: data?.cards?.length ? data.cards : DEFAULT_DATA.cards,
-    carouselImages: data?.carouselImages?.some((img) => img.image)
-      ? data.carouselImages.filter((img) => img.image)
-      : DEFAULT_DATA.carouselImages,
-  };
+  if (!data) return null;
 
-  const cards = content.cards;
+  const content = data;
+  const cards = content.cards ?? [];
   const overviewBg = content.overviewImage ?? "/about-home/card-bg2.png";
-  const machineImages = content.carouselImages;
+  const machineImages = (content.carouselImages ?? []).filter((img) => img.image);
 
   return (
     <section id="about-us" className="w-full bg-white text-black py-20 lg:py-24 relative">

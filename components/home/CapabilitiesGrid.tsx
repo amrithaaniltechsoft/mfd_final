@@ -13,43 +13,6 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   cog: Cog,
 };
 
-const DEFAULT_DATA: HomeCapabilities = {
-  badgeLabel: "Core Expertise",
-  sectionTitle: "Our Engineering",
-  sectionTitleAccent: "& Manufacturing Capabilities",
-  cards: [
-    {
-      icon: "tools",
-      tag: "CORE CAPABILITY 01",
-      title: "Precision Die Manufacturing",
-      desc: "Custom high-standard dies designed and built to withstand intense press operations and repetitive production cycles.",
-      bullets: ["High-Grade Die Steels", "Tolerances within ±0.005mm", "Custom Stamping & Form Dies"],
-    },
-    {
-      icon: "layers",
-      tag: "CORE CAPABILITY 02",
-      title: "Tooling & Mold Design",
-      desc: "Advanced tool paths, mold assemblies, and fixture designs developed for maximum efficiency and material longevity.",
-      bullets: ["3D Tool CAD Modeling", "Multi-Stage Progressive Dies", "Fixture & Gauge Assemblies"],
-    },
-    {
-      icon: "tech",
-      tag: "CORE CAPABILITY 03",
-      title: "Component Fabrication",
-      desc: "Comprehensive CNC machining, wire EDM, and grinding services tailored for industrial components.",
-      bullets: ["Precision Wire EDM", "High-Speed CNC Milling", "Surface & Profile Grinding"],
-    },
-    {
-      icon: "quality",
-      tag: "CORE CAPABILITY 04",
-      title: "Engineering & Quality Audit",
-      desc: "Thorough dimensional verification, CMM inspection, and engineering consultation for reliable production runs.",
-      bullets: ["100% CMM Inspection", "First-Article Inspection", "Quality Audit Certification"],
-    },
-  ],
-};
-
-// Full-Width Organic Vector Wave Background Component
 const WaveCardPattern = () => (
   <svg
     className="absolute inset-0 w-full h-full pointer-events-none text-[#526E07] opacity-[0.10] group-hover:opacity-20 transition-opacity duration-500 overflow-hidden"
@@ -82,7 +45,8 @@ const CardBottomGradient = () => (
 );
 
 export default function CapabilitiesGrid({ data }: { data?: HomeCapabilities | null }) {
-  const section = data ?? DEFAULT_DATA;
+  if (!data) return null;
+  const section = data;
   const capabilities = section.cards ?? [];
 
   return (
