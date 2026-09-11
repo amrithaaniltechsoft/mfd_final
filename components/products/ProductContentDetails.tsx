@@ -36,7 +36,7 @@ export default function ProductContentDetails({ product }: { product: Product })
 
       {/* Descriptions */}
       <div className="space-y-6 text-base sm:text-lg text-black font-semibold leading-relaxed">
-        <p className="font-semibold text-black text-[15px] leading-relaxed">
+        <p className="font-semibold text-black text-[16px] leading-relaxed">
           {product.desc}
         </p>
         <p className="text-black font-medium text-base sm:text-lg">
