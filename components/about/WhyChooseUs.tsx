@@ -16,39 +16,6 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   clock: Timer,
 };
 
-const DEFAULT_DATA: WhyChoose = {
-  badgeLabel: "Why Choose Us",
-  sectionTitle: "Why Choose",
-  sectionTitleAccent: "Master Form Dies?",
-  subtitle: "Built on a legacy of precision craftsmanship, cutting-edge technology, and unyielding quality assurance.",
-  cards: [
-    {
-      icon: "quality",
-      title: "Uncompromised Quality & Engineering Precision",
-      desc: "Every die and component undergoes thorough quality checks to ensure exact dimensional accuracy, tight tolerances, and long operational life.",
-      tag: "Quality Control",
-    },
-    {
-      icon: "zap",
-      title: "Technical Proficiency & Tooling Design",
-      desc: "Skilled engineering practices aligned with standard industrial specifications, advanced precision techniques, and specialized mold design.",
-      tag: "Technical Spec",
-    },
-    {
-      icon: "users",
-      title: "Client-Centric & Custom Manufacturing",
-      desc: "Flexible production runs, competitive lead times, and tailored component solutions designed to seamlessly fit specific manufacturing workflows.",
-      tag: "Client Focus",
-    },
-    {
-      icon: "map",
-      title: "Strategic Location in Ernakulam",
-      desc: "Conveniently accessible facility near Ernakulam, Kerala, strategically supporting local and regional industrial requirements with reliable delivery.",
-      tag: "Location",
-    },
-  ],
-};
-
 // Full-Width Organic Vector Wave Background Component (Dark Theme Version)
 const WaveCardPattern = () => (
   <svg
@@ -84,7 +51,8 @@ const CardBottomGradient = () => (
 export default function WhyChooseUs({ data }: { data?: WhyChoose | null }) {
   const [activeCard, setActiveCard] = useState(0);
 
-  const section = data ?? DEFAULT_DATA;
+  if (!data) return null;
+  const section = data;
   const whyChooseUs = section.cards ?? [];
 
   return (

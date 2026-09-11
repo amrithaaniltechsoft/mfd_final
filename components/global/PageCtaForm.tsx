@@ -39,20 +39,8 @@ const CardBottomGradient = () => (
   <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-[#6B910C]/25 via-transparent to-transparent pointer-events-none rounded-xl group-hover:from-[#6B910C]/40 transition-all duration-500" />
 );
 
-const DEFAULT_DATA: CtaContact = {
-  badgeLabel: "Contact Information",
-  sectionTitle: "Inquiries &",
-  sectionTitleAccent: "Design Consultations",
-  subtitle: "Contact our technical team for custom project quotes, design consultations, or site visits.",
-};
-
 export default function InnerCtaForm({ data }: { data?: CtaContact | null }) {
-  const content: CtaContact = {
-    badgeLabel: data?.badgeLabel ?? DEFAULT_DATA.badgeLabel,
-    sectionTitle: data?.sectionTitle ?? DEFAULT_DATA.sectionTitle,
-    sectionTitleAccent: data?.sectionTitleAccent ?? DEFAULT_DATA.sectionTitleAccent,
-    subtitle: data?.subtitle ?? DEFAULT_DATA.subtitle,
-  };
+  const content = data ?? null;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -100,6 +88,7 @@ export default function InnerCtaForm({ data }: { data?: CtaContact | null }) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/70 pointer-events-none" />
 
             {/* Top Badge */}
+            {content?.badgeLabel && (
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2.5 px-4 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-zinc-700/60 w-fit">
                 <SvgDice size="sm" interactive={false} />
@@ -108,8 +97,10 @@ export default function InnerCtaForm({ data }: { data?: CtaContact | null }) {
                 </span>
               </div>
             </div>
+            )}
 
             {/* Bottom Content / Headline & Subtitle */}
+            {(content?.sectionTitle || content?.subtitle) && (
             <div className="relative z-10 space-y-3 sm:space-y-4 text-left pt-8 sm:pt-0">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
                 {content.sectionTitle} <br />
@@ -120,6 +111,7 @@ export default function InnerCtaForm({ data }: { data?: CtaContact | null }) {
                 {content.subtitle}
               </p>
             </div>
+            )}
           </div>
 
           {/* Right Column: White Form Section */}

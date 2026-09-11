@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Search, X, ArrowRight, Sparkles } from "lucide-react";
-import { products as staticProducts, Product } from "@/data/products";
+import { type Product } from "@/data/products";
 import { getProducts } from "@/lib/api";
 
 interface SearchModalProps {
@@ -15,14 +15,14 @@ interface SearchModalProps {
 
 export default function SearchModal({ isOpen, onClose, initialQuery = "" }: SearchModalProps) {
   const [query, setQuery] = useState(initialQuery);
-  const [products, setProducts] = useState<Product[]>(staticProducts);
+  const [products, setProducts] = useState<Product[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   useEffect(() => {
     let active = true;
     getProducts().then((data) => {
-      if (active && data.length > 0) setProducts(data);
+      if (active) setProducts(data);
     });
     return () => {
       active = false;

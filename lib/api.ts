@@ -1,5 +1,5 @@
-import { products as staticProducts, type Product } from "@/data/products";
-import { services as staticServices, type Service } from "@/data/services";
+import { type Product } from "@/data/products";
+import { type Service } from "@/data/services";
 
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api";
@@ -323,7 +323,7 @@ export async function getProduct(slug: string, options?: { fresh?: boolean }): P
     const json = await cachedFetch<{ data: Product }>(`product:${slug}`, `${API_URL}/products/${slug}`, options);
     return json.data;
   } catch {
-    return staticProducts.find((p) => p.slug === slug) ?? null;
+    return null;
   }
 }
 
@@ -332,7 +332,7 @@ export async function getServices(options?: { fresh?: boolean }): Promise<Servic
     const json = await cachedFetch<{ data: Service[] }>("services", `${API_URL}/services`, options);
     return json.data;
   } catch {
-    return staticServices;
+    return [];
   }
 }
 
@@ -341,7 +341,7 @@ export async function getService(slug: string, options?: { fresh?: boolean }): P
     const json = await cachedFetch<{ data: Service }>(`service:${slug}`, `${API_URL}/services/${slug}`, options);
     return json.data;
   } catch {
-    return staticServices.find((s) => s.slug === slug) ?? null;
+    return null;
   }
 }
 

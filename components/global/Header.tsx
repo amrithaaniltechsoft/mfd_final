@@ -6,18 +6,18 @@ import { usePathname, useRouter } from "next/navigation";
 import Button from "../ui/Button";
 import SearchModal from "./SearchModal";
 import { Menu, X, ArrowUpRight, ChevronDown, Search, CornerDownRight } from "lucide-react";
-import { products as staticProducts } from "@/data/products";
 import { getProducts } from "@/lib/api";
+import type { Product } from "@/data/products";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [products, setProducts] = useState(staticProducts);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     let active = true;
     getProducts().then((data) => {
-      if (active && data.length > 0) setProducts(data);
+      if (active) setProducts(data);
     });
     return () => {
       active = false;

@@ -60,53 +60,10 @@ const ICON_MAP: Record<string, LucideIcon> = {
   tools: Wrench,
 };
 
-const DEFAULT_DATA: CoreExpertiseData = {
-  badgeLabel: "Engineering Capabilities",
-  sectionTitle: "Core",
-  sectionTitleAccent: "Expertise & Services",
-  subtitle: "Specialized engineering disciplines tailored for robust industrial production.",
-  cards: [
-    {
-      icon: "hammer",
-      tag: "CAPABILITY 01",
-      title: "Precision Die Manufacturing",
-      desc: "Engineering custom dies built for durability, exact tolerances, and high-volume production efficiency.",
-      footer: "ENGINEERING SPEC",
-    },
-    {
-      icon: "target",
-      tag: "CAPABILITY 02",
-      title: "Tooling & Mold Design",
-      desc: "Developing specialized tools and molds tailored to complex component geometries and specific industry requirements.",
-      footer: "ENGINEERING SPEC",
-    },
-    {
-      icon: "wrench",
-      tag: "CAPABILITY 03",
-      title: "Custom Metal Working & Machining",
-      desc: "Precision machining and metal component fabrication delivered with strict quality controls.",
-      footer: "ENGINEERING SPEC",
-    },
-    {
-      icon: "factory",
-      tag: "CAPABILITY 04",
-      title: "Component Prototyping",
-      desc: "Rapid translation of technical drawings into functional prototypes for testing and validation.",
-      footer: "ENGINEERING SPEC",
-    },
-  ],
-};
-
 export default function CoreExpertise({ data }: { data?: CoreExpertiseData | null }) {
-  const content: CoreExpertiseData = {
-    badgeLabel: data?.badgeLabel ?? DEFAULT_DATA.badgeLabel,
-    sectionTitle: data?.sectionTitle ?? DEFAULT_DATA.sectionTitle,
-    sectionTitleAccent: data?.sectionTitleAccent ?? DEFAULT_DATA.sectionTitleAccent,
-    subtitle: data?.subtitle ?? DEFAULT_DATA.subtitle,
-    cards: data?.cards?.length ? data.cards : DEFAULT_DATA.cards,
-  };
-
-  const coreExpertise = content.cards;
+  if (!data) return null;
+  const content = data;
+  const coreExpertise = content.cards ?? [];
 
   return (
     <section id="expertise" className="w-full bg-[#050505] text-white py-20 lg:py-24 relative overflow-hidden">
