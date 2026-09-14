@@ -51,7 +51,7 @@ export default function AdvantagesGrid({ advantages }: { advantages?: HomeAdvant
   return (
     <section id="advantages" className="w-full bg-[#050505] py-20 lg:py-24 relative overflow-hidden">
       {/* 3D Dice Zig-Zag Waypoint Slot (Right Side Anchor) */}
-      <div id="advantages-dice-slot" className="absolute top-1/2 right-8 sm:right-16 -translate-y-1/2 w-24 h-24 pointer-events-none opacity-0" />
+      <div id="advantages-dice-slot" className="absolute top-1/2 left-8 sm:left-auto sm:right-16 -translate-y-1/2 w-24 h-24 pointer-events-none opacity-0" />
 
       <div className="max-w-7xl mx-auto px-6 space-y-16 relative z-10">
         {/* Standardized Bolder High-Contrast Section Header (Centered) */}

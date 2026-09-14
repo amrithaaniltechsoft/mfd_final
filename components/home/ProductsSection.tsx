@@ -67,7 +67,7 @@ export default function ProductsSection() {
       {/* 3D Rotating Dice Slot in Background of Products Section */}
       <div
         id="products-dice-slot"
-        className="absolute top-1/2 right-6 sm:right-16 -translate-y-1/2 w-32 h-32 pointer-events-none opacity-0 z-0"
+        className="absolute top-1/2 left-6 sm:left-auto sm:right-16 -translate-y-1/2 w-32 h-32 pointer-events-none opacity-0 z-0"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10 sm:space-y-14 relative z-10">

@@ -92,7 +92,7 @@ export default function Hero() {
           {/* Right Column: Grand 3D Rotating Dice Canvas */}
           <div
             id="hero-dice-slot"
-            className="lg:col-span-6 flex items-center justify-center lg:justify-end relative z-40 min-h-[280px] sm:min-h-[380px] lg:min-h-[460px] w-full"
+            className="lg:col-span-6 flex items-center justify-start lg:justify-end relative z-40 min-h-[280px] sm:min-h-[380px] lg:min-h-[460px] w-full"
           >
             <ThreeDiceCanvas />
           </div>

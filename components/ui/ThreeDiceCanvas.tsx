@@ -357,7 +357,7 @@ export default function ThreeDiceCanvas() {
     <div
       ref={containerRef}
       style={transformStyle}
-      className="w-full max-w-[900px] h-[440px] sm:h-[520px] lg:h-[580px] flex items-center justify-center relative cursor-grab active:cursor-grabbing"
+      className="w-full max-w-[280px] sm:max-w-[420px] lg:max-w-[900px] h-[320px] sm:h-[480px] lg:h-[580px] flex items-center justify-start lg:justify-center relative cursor-grab active:cursor-grabbing"
     />
   );
 }
